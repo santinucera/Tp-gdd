@@ -1,0 +1,54 @@
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+IF OBJECT_ID('CONGESTION.usuarios', 'U') IS NULL
+CREATE TABLE CONGESTION.usuarios (
+	id INT PRIMARY KEY IDENTITY,
+	username VARCHAR(120) UNIQUE,
+	password CHAR(64),
+	habilitado BIT DEFAULT 0
+);
+
+GO
+
+-- SP_login
+CREATE PROCEDURE [CONGESTION].sp_login(@usuario VARCHAR(120), @password CHAR(64))
+AS
+	BEGIN
+		DECLARE @pass_encriptada CHAR(64), @id INT;
+		SET @pass_encriptada = HASHBYTES('SHA2_256', @password);
+		SELECT @id = id FROM CONGESTION.usuarios
+			WHERE username = @usuario AND password = @pass_encriptada;
+		IF(@id IS NOT NULL) SELECT @id AS 'NRO';
+		ELSE SELECT 0 AS 'NRO';
+	END	
+--Test SP_login (si el login es correcto devuelve 1, caso contrario 0)
+EXEC CONGESTION.sp_login 'admin', 'w23es'
+
+GO
+
+-- Trigger para encriptar pass al registrar un nuevo usuario
+CREATE TRIGGER CONGESTION.trigger_encriptar_usuario ON CONGESTION.usuarios
+INSTEAD OF INSERT
+AS
+	BEGIN
+		DECLARE @username VARCHAR(120), @password CHAR(64), @pass_encriptada CHAR(64), @habilitado BIT;
+		DECLARE usuarios_cursor CURSOR FOR
+			SELECT username, password, habilitado FROM inserted i;
+		OPEN usuarios_cursor
+
+		FETCH NEXT FROM usuarios_cursor INTO @username, @password, @habilitado
+		WHILE @@FETCH_STATUS = 0
+			BEGIN
+				SET @pass_encriptada = HASHBYTES('SHA2_256', @password);
+				INSERT INTO CONGESTION.usuarios (username, password, habilitado) VALUES
+					(@username, @pass_encriptada, @habilitado);
+				FETCH NEXT FROM usuarios_cursor INTO @username, @password, @habilitado
+			END
+		CLOSE usuarios_cursor;
+		DEALLOCATE usuarios_cursor;
+	END
+
+-- Inserto usuario admin a tabla usuarios
+INSERT INTO CONGESTION.usuarios (username, password, habilitado) VALUES ('admin', 'w23e', 1);
