@@ -15,3 +15,7 @@ DROP TABLE gd_esquema.MedioPago
 DROP TABLE gd_esquema.Empresa
 DROP TABLE gd_esquema.Cliente
 DROP TABLE gd_esquema.Devolucion
+
+DROP PROCEDURE gd_esquema.MigrarSucursal;
+DROP PROCEDURE gd_esquema.MigrarClientes;
+DROP PROCEDURE gd_esquema.MigrarRubros;
