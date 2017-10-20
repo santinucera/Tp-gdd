@@ -1,17 +1,29 @@
-DROP TABLE gd_esquema.RegistroFactura
-DROP TABLE gd_esquema.Registro
-DROP TABLE gd_esquema.FuncionalidadRol
-DROP TABLE gd_esquema.UsuarioRol
-DROP TABLE gd_esquema.Rol
-DROP TABLE gd_esquema.Funcionalidad
-DROP TABLE gd_esquema.UsuarioSucursal
-DROP TABLE gd_esquema.Usuario
-DROP TABLE gd_esquema.ItemFactura
-DROP TABLE gd_esquema.Factura
-DROP TABLE gd_esquema.Rubro
-DROP TABLE gd_esquema.Rendicion
-DROP TABLE gd_esquema.Sucursal
-DROP TABLE gd_esquema.MedioPago
-DROP TABLE gd_esquema.Empresa
-DROP TABLE gd_esquema.Cliente
-DROP TABLE gd_esquema.Devolucion
+EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'
+GO
+
+ALTER TABLE CONGESTION.Factura
+DROP CONSTRAINT FK_fact_rendicion
+
+DROP TABLE CONGESTION.Empresa_Rubro
+DROP TABLE CONGESTION.Factura_Registro
+DROP TABLE CONGESTION.Funcionalidad_Rol
+DROP TABLE CONGESTION.Rol_Usuario
+DROP TABLE CONGESTION.Usuario_Sucursal
+
+DROP TABLE CONGESTION.Cliente
+DROP TABLE CONGESTION.Devolucion
+DROP TABLE CONGESTION.Empresa
+DROP TABLE CONGESTION.Factura
+DROP TABLE CONGESTION.Funcionalidad
+DROP TABLE CONGESTION.Item_factura
+DROP TABLE CONGESTION.Medio_Pago
+DROP TABLE CONGESTION.Registro
+DROP TABLE CONGESTION.Rendicion
+DROP TABLE CONGESTION.Rol
+DROP TABLE CONGESTION.Rubro
+DROP TABLE CONGESTION.Sucursal
+DROP TABLE CONGESTION.Usuario
+
+
+EXEC sp_MSForEachTable 'ALTER TABLE ? CHECK CONSTRAINT ALL'
+GO
