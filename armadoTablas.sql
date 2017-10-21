@@ -1,6 +1,6 @@
 use GD2C2017
-use GD2C2017
 
+GO
 create table CONGESTION.Funcionalidad(
 	func_id int identity PRIMARY KEY,
 	func_descripcion char(100) NULL
@@ -64,14 +64,14 @@ create table CONGESTION.Empresa_Rubro(
 
 create table CONGESTION.Cliente(
 	clie_id int identity PRIMARY KEY,
-	clie_nombre char(30) NOT NULL,
-	clie_apellido char(30) NOT NULL,
-	clie_dni char(9) NOT NULL,
-	clie_direccion char(30) NULL,
+	clie_nombre nvarchar(255) NOT NULL,
+	clie_apellido nvarchar(255) NOT NULL,
+	clie_dni numeric(18,0) NOT NULL,
+	clie_direccion nvarchar(255) NULL,
 	clie_telefono char(30) NULL,
-	clie_mail char(30) NULL,
-	clie_codPostal char(30) NULL,
-	clie_fecNac smalldatetime NULL,
+	clie_mail nvarchar(255) NULL,
+	clie_codPostal nvarchar(255) NULL,
+	clie_fecNac datetime NULL,
 	clie_habilitado bit NOT NULL
 )
 
@@ -135,3 +135,26 @@ create table CONGESTION.Devolucion(
 
 alter table CONGESTION.Factura
 add constraint FK_fact_rendicion FOREIGN KEY (fact_rendicion) references CONGESTION.Rendicion(rend_id)
+
+----------/CREACION DE TABLAS
+
+
+----------CREACION DE OBJETOS DE BASE DE DATOS
+
+INSERT INTO CONGESTION.Sucursal(suc_nombre, suc_direccion, suc_codPostal,suc_habilitado)
+	SELECT Sucursal_Nombre, Sucursal_Dirección, Sucursal_Codigo_Postal,1
+	FROM gd_esquema.Maestra
+	WHERE Sucursal_Nombre IS NOT NULL and Sucursal_Dirección IS NOT NULL and Sucursal_Codigo_Postal IS NOT NULL
+	GROUP BY Sucursal_Nombre, Sucursal_Dirección, Sucursal_Codigo_Postal
+
+INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac, clie_habilitado)
+	SELECT [Cliente-Nombre], [Cliente-Apellido], [Cliente-Dni], [Cliente_Direccion], NULL, [Cliente_Mail], Cliente_Codigo_Postal, [Cliente-Fecha_Nac], 1
+	FROM gd_esquema.Maestra
+	WHERE [Cliente-Dni] IS NOT NULL
+	GROUP BY [Cliente-Nombre], [Cliente-Apellido], [Cliente-Dni], [Cliente_Direccion], [Cliente_Mail], Cliente_Codigo_Postal, [Cliente-Fecha_Nac]
+
+INSERT INTO CONGESTION.Rubro (rub_descripcion)
+	SELECT Rubro_Descripcion
+	FROM gd_esquema.Maestra
+	WHERE Rubro_Descripcion IS NOT NULL
+	GROUP BY Rubro_Descripcion
