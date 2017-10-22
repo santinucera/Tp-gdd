@@ -108,8 +108,7 @@ create table CONGESTION.Medio_Pago(
 )
 
 create table CONGESTION.Registro(
-	reg_id int identity PRIMARY KEY,
-	reg_fact int FOREIGN KEY references CONGESTION.Factura(fact_num),
+	reg_id int PRIMARY KEY,
 	reg_cliente int FOREIGN KEY references CONGESTION.Cliente(clie_id),
 	reg_sucursal int FOREIGN KEY references CONGESTION.Sucursal(suc_id),
 	reg_medio_pago int FOREIGN KEY references CONGESTION.Medio_Pago(med_id),
@@ -180,7 +179,7 @@ BEGIN
 
 	  WHILE (@@FETCH_STATUS = 0)
 		BEGIN	
-			SELECT @id = (SELECT empr_id FROM CONGESTION.Empresa WHERE empr_cuit= @cuit);
+			SELECT @id = (SELECT DISTINCT  empr_id FROM CONGESTION.Empresa WHERE empr_cuit= @cuit);
 			INSERT INTO CONGESTION.Empresa_Rubro(er_rubro,er_empresa) VALUES (@rubro,@id);
 			FETCH NEXT FROM empresas INTO @cuit,@rubro;
 		END 
@@ -202,9 +201,9 @@ BEGIN
 	 DECLARE @fecha_venc datetime;
 	 DECLARE @total numeric(18,2);
 	 DECLARE @dni numeric(18,0);
-	 DECLARE @cuit numeric(18,0);
+	 DECLARE @cuit nvarchar(50);
 	 DECLARE @rendicion numeric(18,0);
-	 DECLARE @cliente nvarchar(50);
+	 DECLARE @cliente int;
 	 DECLARE @empresa int;
 
 
@@ -213,8 +212,8 @@ BEGIN
 
 	  WHILE (@@FETCH_STATUS = 0)
 		BEGIN	
-			SELECT @cliente = (SELECT clie_id FROM CONGESTION.Cliente WHERE clie_dni = @dni);
-			SELECT @empresa = (SELECT empr_id FROM CONGESTION.Empresa WHERE empr_cuit = @cuit);
+			SELECT @cliente = (SELECT DISTINCT clie_id FROM CONGESTION.Cliente WHERE clie_dni = @dni);
+			SELECT @empresa = (SELECT DISTINCT empr_id FROM CONGESTION.Empresa WHERE empr_cuit = @cuit);
 			INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_rendicion,fact_fecha_alta,fact_fecha_venc,fact_total)
 				 VALUES (@numero,@cliente,@empresa,@rendicion,@fecha,@fecha_venc,@total);
 			FETCH NEXT FROM facturas INTO @numero,@fecha,@fecha_venc,@total,@dni,@cuit,@rendicion;
@@ -225,6 +224,53 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE CONGESTION.Migrar_Pagos
+AS
+BEGIN 
+	 DECLARE pagos CURSOR FOR 
+	 SELECT DISTINCT Pago_nro,Pago_Fecha,[Cliente-Dni],Nro_Factura,Sucursal_Dirección,FormaPagoDescripcion,Total
+	 FROM gd_esquema.Maestra
+     	 
+	 DECLARE @numero numeric(18,0);
+	 DECLARE @fecha datetime;
+	 DECLARE @dni numeric(18,0);
+	 DECLARE @fact numeric(18,0);
+	 DECLARE @suc nvarchar(50);
+	 DECLARE @medio nvarchar(255);
+	 DECLARE @total numeric(18,2);
+
+	 DECLARE @cliente int;
+	 DECLARE @medioId int;
+	 DECLARE @sucId int;
+	 DECLARE @pagoId int;
+
+
+	 OPEN pagos;
+	 FETCH NEXT FROM pagos INTO @numero,@fecha,@dni,@fact,@suc,@medio,@total;
+
+	  WHILE (@@FETCH_STATUS = 0)
+		BEGIN	
+			SELECT @cliente = (SELECT DISTINCT clie_id FROM CONGESTION.Cliente WHERE clie_dni = @dni);
+			SELECT @medioId = (SELECT DISTINCT med_id FROM CONGESTION.Medio_Pago WHERE med_descripcion= @medio);
+			SELECT @sucId = (SELECT DISTINCT suc_id FROM CONGESTION.Sucursal WHERE suc_direccion = @suc);
+			
+			INSERT INTO CONGESTION.Registro(reg_id,reg_cliente,reg_fecha_cobro,reg_medio_pago,reg_sucursal,reg_total)
+				 VALUES (@numero,@cliente,@fecha,@medioId,@sucId,@total);
+
+			SELECT @pagoId = (SELECT DISTINCT reg_id FROM CONGESTION.Registro 
+			     WHERE reg_cliente=@cliente and reg_fecha_cobro=@fecha and reg_medio_pago=@medioId and reg_sucursal= @sucId and reg_total= @total);
+			
+			INSERT INTO CONGESTION.Factura_Registro(freg_factura,freg_registro)
+				 VALUES (@fact,@pagoId);
+
+			FETCH NEXT FROM pagos INTO @numero,@fecha,@dni,@fact,@suc,@medio,@total;
+		END 
+
+	 CLOSE pagos;
+	 DEALLOCATE pagos;
+END
+GO
+
 INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
 	SELECT DISTINCT Nro_Factura,ItemFactura_Monto,ItemFactura_Cantidad
 	FROM gd_esquema.Maestra
@@ -232,3 +278,4 @@ INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
 
 EXEC CONGESTION.Migrar_Empresas_Rubros;
 EXEC CONGESTION.Migrar_Facturas;
+EXEC CONGESTION.Migrar_Pagos;
