@@ -34,7 +34,7 @@ create table CONGESTION.Sucursal(
 	suc_nombre char(30) NOT NULL,
 	suc_direccion char(30) NOT NULL,
 	suc_codPostal char(4) NOT NULL,
-	suc_habilitado bit NOT NULL
+	suc_habilitado bit DEFAULT 1 NOT NULL
 )
 
 create table CONGESTION.Usuario_Sucursal(
@@ -44,16 +44,16 @@ create table CONGESTION.Usuario_Sucursal(
 
 
 create table CONGESTION.Rubro(
-	rub_id int identity PRIMARY KEY,
-	rub_descripcion char(100) NULL
+	rub_id int PRIMARY KEY,
+	rub_descripcion nvarchar(50) NULL
 )
 
 create table CONGESTION.Empresa(
 	empr_id int identity PRIMARY KEY,
-	empr_cuit char(15) NOT NULL,
-	empr_direccion char(30) NOT NULL,
-	empr_nombre char(30) NOT NULL,
-	empr_habilitado bit NOT NULL
+	empr_cuit nvarchar(50) NOT NULL,
+	empr_direccion nvarchar(255)  NOT NULL,
+	empr_nombre nvarchar(255)  NOT NULL,
+	empr_habilitado bit DEFAULT 1 NOT NULL
 )
 
 create table CONGESTION.Empresa_Rubro(
@@ -72,31 +72,39 @@ create table CONGESTION.Cliente(
 	clie_mail nvarchar(255) NULL,
 	clie_codPostal nvarchar(255) NULL,
 	clie_fecNac datetime NULL,
-	clie_habilitado bit NOT NULL
+	clie_habilitado bit DEFAULT 1 NOT NULL
+)
+
+create table CONGESTION.Rendicion(
+	rend_numero int identity(1,1) PRIMARY KEY,
+	rend_fecha smallint NOT NULL,
+	rend_cantidad_facturas int NOT NULL,
+	rend_comision int NOT NULL,
+	rend_total int NOT NULL,
+	rend_porcentaje_comision numeric(5,2) NOT NULL
 )
 
 create table CONGESTION.Factura(
 	fact_num int PRIMARY KEY,
 	fact_cliente int FOREIGN KEY references CONGESTION.Cliente(clie_id),
 	fact_empresa int FOREIGN KEY references CONGESTION.Empresa(empr_id),
-	fact_rendicion int NOT NULL,
-	fact_dni char(9) NOT NULL,
+	fact_rendicion int FOREIGN KEY references CONGESTION.Rendicion(rend_numero),
 	fact_fecha_alta smalldatetime NOT NULL,
 	fact_fecha_venc smalldatetime NOT NULL,
 	fact_total int NOT NULL
 )
 
-create table CONGESTION.Item_factura(
-	item_id int identity PRIMARY KEY,
+create table CONGESTION.Item_Factura(
+	item_id int identity(1,1) PRIMARY KEY,
 	item_fact int FOREIGN KEY references CONGESTION.Factura(fact_num),
-	item_monto int NOT NULL,
-	item_cantidad int NOT NULL,
-	item_concepto char(50) NOT NULL
+	item_monto numeric(18,2) NOT NULL,
+	item_cantidad numeric(18,0) NOT NULL,
+	item_concepto char(50) 
 )
 
 create table CONGESTION.Medio_Pago(
-	med_id int PRIMARY KEY,
-	med_descripcion char(50)
+	med_id int identity(1,1) PRIMARY KEY,
+	med_descripcion nvarchar(255)
 )
 
 create table CONGESTION.Registro(
@@ -115,46 +123,112 @@ create table CONGESTION.Factura_Registro(
 )
 
 
-create table CONGESTION.Rendicion(
-	rend_id int identity PRIMARY KEY,
-	rend_empresa int FOREIGN KEY references CONGESTION.Factura(fact_num) NOT NULL,
-	rend_fecha smallint NOT NULL,
-	rend_cantidad_facturas int NOT NULL,
-	rend_comision int NOT NULL,
-	rend_total int NOT NULL,
-	rend_porcentaje_comision numeric(5,2) NOT NULL
-)
-
 create table CONGESTION.Devolucion(
 	devo_id int identity PRIMARY KEY,
-	devo_rendicion int FOREIGN KEY references CONGESTION.Rendicion(rend_id) NULL,
+	devo_rendicion int FOREIGN KEY references CONGESTION.Rendicion(rend_numero) NULL,
 	devo_registro int FOREIGN KEY references CONGESTION.Registro(reg_id) NULL,
 	devo_fecha smallint NOT NULL,
 	devo_motivo char(50) NOT NULL
 )
 
-alter table CONGESTION.Factura
-add constraint FK_fact_rendicion FOREIGN KEY (fact_rendicion) references CONGESTION.Rendicion(rend_id)
 
 ----------/CREACION DE TABLAS
 
 
 ----------CREACION DE OBJETOS DE BASE DE DATOS
 
-INSERT INTO CONGESTION.Sucursal(suc_nombre, suc_direccion, suc_codPostal,suc_habilitado)
-	SELECT Sucursal_Nombre, Sucursal_Dirección, Sucursal_Codigo_Postal,1
+INSERT INTO CONGESTION.Sucursal(suc_nombre, suc_direccion, suc_codPostal)
+	SELECT DISTINCT Sucursal_Nombre, Sucursal_Dirección, Sucursal_Codigo_Postal
 	FROM gd_esquema.Maestra
 	WHERE Sucursal_Nombre IS NOT NULL and Sucursal_Dirección IS NOT NULL and Sucursal_Codigo_Postal IS NOT NULL
-	GROUP BY Sucursal_Nombre, Sucursal_Dirección, Sucursal_Codigo_Postal
-
-INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac, clie_habilitado)
-	SELECT [Cliente-Nombre], [Cliente-Apellido], [Cliente-Dni], [Cliente_Direccion], NULL, [Cliente_Mail], Cliente_Codigo_Postal, [Cliente-Fecha_Nac], 1
+	
+INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac)
+	SELECT DISTINCT [Cliente-Nombre], [Cliente-Apellido], [Cliente-Dni], [Cliente_Direccion], NULL, [Cliente_Mail], Cliente_Codigo_Postal, [Cliente-Fecha_Nac]
 	FROM gd_esquema.Maestra
-	WHERE [Cliente-Dni] IS NOT NULL
-	GROUP BY [Cliente-Nombre], [Cliente-Apellido], [Cliente-Dni], [Cliente_Direccion], [Cliente_Mail], Cliente_Codigo_Postal, [Cliente-Fecha_Nac]
-
-INSERT INTO CONGESTION.Rubro (rub_descripcion)
-	SELECT Rubro_Descripcion
+	
+INSERT INTO CONGESTION.Rubro (rub_id,rub_descripcion)
+	SELECT DISTINCT Empresa_Rubro,Rubro_Descripcion
 	FROM gd_esquema.Maestra
-	WHERE Rubro_Descripcion IS NOT NULL
-	GROUP BY Rubro_Descripcion
+	
+INSERT INTO CONGESTION.Empresa(empr_cuit,empr_direccion,empr_nombre)
+	SELECT DISTINCT Empresa_Cuit,Empresa_Direccion,Empresa_Nombre
+	FROM gd_esquema.Maestra
+
+INSERT INTO CONGESTION.Medio_Pago(med_descripcion)
+	SELECT DISTINCT FormaPagoDescripcion
+	FROM gd_esquema.Maestra
+	
+INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
+	SELECT DISTINCT Nro_Factura,ItemFactura_Monto,ItemFactura_Cantidad
+	FROM gd_esquema.Maestra
+
+
+GO
+CREATE PROCEDURE CONGESTION.Migrar_Empresas_Rubros
+AS
+BEGIN 
+	 DECLARE empresas CURSOR FOR 
+	 SELECT DISTINCT Empresa_Cuit,Empresa_Rubro 
+	 FROM gd_esquema.Maestra
+     	 
+	 DECLARE @cuit nvarchar(50);
+	 DECLARE @rubro numeric(18,0);
+	 DECLARE @id int;
+
+	 OPEN empresas;
+	 FETCH NEXT FROM empresas INTO @cuit,@rubro;
+
+	  WHILE (@@FETCH_STATUS = 0)
+		BEGIN	
+			SELECT @id = (SELECT empr_id FROM CONGESTION.Empresa WHERE empr_cuit= @cuit);
+			INSERT INTO CONGESTION.Empresa_Rubro(er_rubro,er_empresa) VALUES (@rubro,@id);
+			FETCH NEXT FROM empresas INTO @cuit,@rubro;
+		END 
+
+	 CLOSE empresas;
+	 DEALLOCATE empresas;
+END
+
+GO
+CREATE PROCEDURE CONGESTION.Migrar_Facturas
+AS
+BEGIN 
+	 DECLARE facturas CURSOR FOR 
+	 SELECT DISTINCT Nro_Factura,Factura_Fecha,Factura_Fecha_Vencimiento,Factura_Total,[Cliente-Dni],Empresa_Cuit,Rendicion_Nro
+	 FROM gd_esquema.Maestra
+     	 
+	 DECLARE @numero numeric(18,0);
+	 DECLARE @fecha datetime;
+	 DECLARE @fecha_venc datetime;
+	 DECLARE @total numeric(18,2);
+	 DECLARE @dni numeric(18,0);
+	 DECLARE @cuit numeric(18,0);
+	 DECLARE @rendicion numeric(18,0);
+	 DECLARE @cliente nvarchar(50);
+	 DECLARE @empresa int;
+
+
+	 OPEN facturas;
+	 FETCH NEXT FROM facturas INTO @numero,@fecha,@fecha_venc,@total,@dni,@cuit,@rendicion;
+
+	  WHILE (@@FETCH_STATUS = 0)
+		BEGIN	
+			SELECT @cliente = (SELECT clie_id FROM CONGESTION.Cliente WHERE clie_dni = @dni);
+			SELECT @empresa = (SELECT empr_id FROM CONGESTION.Empresa WHERE empr_cuit = @cuit);
+			INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_rendicion,fact_fecha_alta,fact_fecha_venc,fact_total)
+				 VALUES (@numero,@cliente,@empresa,@rendicion,@fecha,@fecha_venc,@total);
+			FETCH NEXT FROM facturas INTO @numero,@fecha,@fecha_venc,@total,@dni,@cuit,@rendicion;
+		END 
+
+	 CLOSE facturas;
+	 DEALLOCATE facturas;
+END
+GO
+
+INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
+	SELECT DISTINCT Nro_Factura,ItemFactura_Monto,ItemFactura_Cantidad
+	FROM gd_esquema.Maestra
+
+
+EXEC CONGESTION.Migrar_Empresas_Rubros;
+EXEC CONGESTION.Migrar_Facturas;
