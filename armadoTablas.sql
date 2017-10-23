@@ -157,59 +157,17 @@ INSERT INTO CONGESTION.Medio_Pago(med_descripcion)
 	SELECT DISTINCT FormaPagoDescripcion
 	FROM gd_esquema.Maestra
 	
-GO
-CREATE PROCEDURE CONGESTION.Migrar_Empresas_Rubros
-AS
-BEGIN 
-	print 'rubros'
-	 DECLARE empresas CURSOR FOR 
-	 SELECT DISTINCT Empresa_Cuit,Empresa_Rubro 
-	 FROM gd_esquema.Maestra
-     	 
-	 DECLARE @cuit nvarchar(50);
-	 DECLARE @rubro numeric(18,0);
-	 DECLARE @id int;
+INSERT INTO CONGESTION.Empresa_Rubro(er_rubro,er_empresa)
+	SELECT DISTINCT Empresa_Rubro, (SELECT DISTINCT  empr_id FROM CONGESTION.Empresa WHERE empr_cuit= [Empresa_Cuit])
+	FROM gd_esquema.Maestra
+	GROUP BY Empresa_Rubro, [Empresa_Cuit]
 
-	 OPEN empresas;
-	 FETCH NEXT FROM empresas INTO @cuit,@rubro;
+INSERT INTO CONGESTION.Rendicion(rend_numero,rend_fecha,rend_total)
+	SELECT DISTINCT Rendicion_Nro,Rendicion_Fecha, sum(ItemRendicion_Importe) 
+	FROM gd_esquema.Maestra
+	WHERE Rendicion_Nro is not null
+	GROUP BY Rendicion_Nro,Rendicion_Fecha
 
-	  WHILE (@@FETCH_STATUS = 0)
-		BEGIN	
-			SELECT @id = (SELECT DISTINCT  empr_id FROM CONGESTION.Empresa WHERE empr_cuit= @cuit);
-			INSERT INTO CONGESTION.Empresa_Rubro(er_rubro,er_empresa) VALUES (@rubro,@id);
-			FETCH NEXT FROM empresas INTO @cuit,@rubro;
-		END 
-
-	 CLOSE empresas;
-	 DEALLOCATE empresas;
-END
-
-GO
-CREATE PROCEDURE CONGESTION.Migrar_Rendicion
-AS
-BEGIN 
-	print 'rendicion'
-	 DECLARE rendiciones CURSOR FOR 
-	 SELECT DISTINCT Rendicion_Nro,Rendicion_Fecha
-	 FROM gd_esquema.Maestra
-     	 
-	 DECLARE @numero numeric(18,0);
-	 DECLARE @fecha datetime;
-	 DECLARE @importe numeric(18,2);
-
-	 OPEN rendiciones;
-	 FETCH NEXT FROM rendiciones INTO @numero,@fecha;
-
-	  WHILE (@@FETCH_STATUS = 0)
-		BEGIN	
-			SELECT @importe = (select sum(ItemRendicion_Importe) from gd_esquema.Maestra WHERE Rendicion_Nro = @numero);
-			INSERT INTO CONGESTION.Rendicion(rend_numero,rend_fecha,rend_total) VALUES (@numero,@fecha,@importe);
-			FETCH NEXT FROM rendiciones INTO @numero,@fecha;
-		END 
-
-	 CLOSE rendiciones;
-	 DEALLOCATE rendiciones;
-END
 
 GO
 CREATE PROCEDURE CONGESTION.Migrar_Facturas
@@ -256,53 +214,18 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE CONGESTION.Migrar_Pagos
-AS
-BEGIN 
-	DECLARE pagos CURSOR FOR 
-	SELECT DISTINCT Pago_nro,Pago_Fecha,[Cliente-Dni],Nro_Factura,Sucursal_Dirección,FormaPagoDescripcion,Total
-	FROM gd_esquema.Maestra
-	WHERE Pago_nro is not null
-     
-		 
-	DECLARE @numero numeric(18,0);
-	DECLARE @fecha datetime;
-	DECLARE @dni numeric(18,0);
-	DECLARE @fact numeric(18,0);
-	DECLARE @suc nvarchar(50);
-	DECLARE @medio nvarchar(255);
-	DECLARE @total numeric(18,2);
-
-	DECLARE @cliente int;
-	DECLARE @medioId int;
-	DECLARE @sucId int;
-	 
-
-	OPEN pagos;
-	FETCH NEXT FROM pagos INTO @numero,@fecha,@dni,@fact,@suc,@medio,@total;
-
-	WHILE (@@FETCH_STATUS = 0)
-	BEGIN	
-		SELECT @cliente = (SELECT DISTINCT clie_id FROM CONGESTION.Cliente WHERE clie_dni = @dni);
-		SELECT @medioId = (SELECT DISTINCT med_id FROM CONGESTION.Medio_Pago WHERE med_descripcion= @medio);
-		SELECT @sucId = (SELECT DISTINCT suc_id FROM CONGESTION.Sucursal WHERE suc_direccion = @suc);
-			
-		INSERT INTO CONGESTION.Registro(reg_id,reg_cliente,reg_fecha_cobro,reg_medio_pago,reg_sucursal,reg_total)
-			VALUES (@numero,@cliente,@fecha,@medioId,@sucId,@total);
-
-		FETCH NEXT FROM pagos INTO @numero,@fecha,@dni,@fact,@suc,@medio,@total;
-	END 
-	
-	CLOSE pagos;
-	DEALLOCATE pagos;
-END
-GO
-
-EXEC CONGESTION.Migrar_Empresas_Rubros;
-EXEC CONGESTION.Migrar_Rendicion;
 EXEC CONGESTION.Migrar_Facturas;
-EXEC CONGESTION.Migrar_Pagos;
 
+
+INSERT INTO CONGESTION.Registro(reg_id,reg_cliente,reg_fecha_cobro,reg_medio_pago,reg_sucursal,reg_total)
+	SELECT DISTINCT Pago_nro,
+	(SELECT DISTINCT clie_id FROM CONGESTION.Cliente WHERE clie_dni= [Cliente-Dni]),
+	Pago_Fecha,
+	(SELECT DISTINCT med_id FROM CONGESTION.Medio_Pago WHERE med_descripcion = FormaPagoDescripcion),
+	(SELECT DISTINCT suc_id FROM CONGESTION.Sucursal WHERE suc_codPostal= Sucursal_Codigo_Postal),
+	Total
+	FROM gd_esquema.Maestra
+	GROUP BY Pago_nro,[Cliente-Dni],Pago_Fecha,FormaPagoDescripcion,Sucursal_Codigo_Postal,Total
 
 INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
 	SELECT DISTINCT Nro_Factura,ItemFactura_Monto,ItemFactura_Cantidad
