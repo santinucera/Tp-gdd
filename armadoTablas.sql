@@ -139,10 +139,10 @@ create table CONGESTION.Devolucion(
 INSERT INTO CONGESTION.Sucursal(suc_nombre, suc_direccion, suc_codPostal)
 	SELECT DISTINCT Sucursal_Nombre, Sucursal_Dirección, Sucursal_Codigo_Postal
 	FROM gd_esquema.Maestra
-	WHERE Sucursal_Nombre IS NOT NULL and Sucursal_Dirección IS NOT NULL and Sucursal_Codigo_Postal IS NOT NULL
+	WHERE Sucursal_Codigo_Postal IS NOT NULL
 	
-INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac)
-	SELECT DISTINCT [Cliente-Nombre], [Cliente-Apellido], [Cliente-Dni], [Cliente_Direccion], NULL, [Cliente_Mail], Cliente_Codigo_Postal, [Cliente-Fecha_Nac]
+INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_mail, clie_codPostal, clie_fecNac)
+	SELECT DISTINCT [Cliente-Nombre], [Cliente-Apellido], [Cliente-Dni], [Cliente_Direccion], [Cliente_Mail], Cliente_Codigo_Postal, [Cliente-Fecha_Nac]
 	FROM gd_esquema.Maestra
 	
 INSERT INTO CONGESTION.Rubro (rub_id,rub_descripcion)
@@ -173,7 +173,6 @@ GO
 CREATE PROCEDURE CONGESTION.Migrar_Facturas
 AS
 BEGIN 
-	print 'facturas'
 	 DECLARE facturas CURSOR FOR 
 	 SELECT DISTINCT Nro_Factura,Factura_Fecha,Factura_Fecha_Vencimiento,Factura_Total,[Cliente-Dni],Empresa_Cuit,Rendicion_Nro
 	 FROM gd_esquema.Maestra
@@ -225,6 +224,7 @@ INSERT INTO CONGESTION.Registro(reg_id,reg_cliente,reg_fecha_cobro,reg_medio_pag
 	(SELECT DISTINCT suc_id FROM CONGESTION.Sucursal WHERE suc_codPostal= Sucursal_Codigo_Postal),
 	Total
 	FROM gd_esquema.Maestra
+	WHERE Pago_nro is not null
 	GROUP BY Pago_nro,[Cliente-Dni],Pago_Fecha,FormaPagoDescripcion,Sucursal_Codigo_Postal,Total
 
 INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
@@ -234,6 +234,7 @@ INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
 INSERT INTO CONGESTION.Factura_Registro(freg_factura,freg_registro)
 	SELECT DISTINCT Nro_Factura,Pago_nro
 	FROM gd_esquema.Maestra
+	WHERE Pago_nro is not null
 
 INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
 	SELECT DISTINCT Nro_Factura,ItemFactura_Monto,ItemFactura_Cantidad
