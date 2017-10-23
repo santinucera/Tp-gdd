@@ -9,7 +9,7 @@ create table CONGESTION.Funcionalidad(
 create table CONGESTION.Rol(
 	rol_id int identity PRIMARY KEY,
 	rol_descripcion char(100) NULL,
-	rol_habilitado bit NOT NULL
+	rol_habilitado bit DEFAULT 1 NOT NULL
 )
 
 create table CONGESTION.Funcionalidad_Rol(
@@ -21,7 +21,7 @@ create table CONGESTION.Usuario(
 	usua_id int identity PRIMARY KEY,
 	usua_username char(30) NOT NULL,
 	usua_password char(30) NOT NULL,
-	usua_habilitado bit NOT NULL
+	usua_habilitado bit DEFAULT 1 NOT NULL
 )
 
 create table CONGESTION.Rol_Usuario(
@@ -241,4 +241,25 @@ INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
 	FROM gd_esquema.Maestra
 
 
+INSERT INTO CONGESTION.Rol (rol_descripcion) VALUES ('Administrador');
+INSERT INTO CONGESTION.Rol (rol_descripcion) VALUES ('Cobrador');
 
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('ABM de Rol');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Login y Seguridad');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Registro de Usuario');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('ABM de Cliente');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('ABM de Empresa');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('ABM de Sucursal');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('ABM de Facturas');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Registro de Pago de Facturas');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Rendicion de Facturas Cobradas');
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Listado Estadistico');
+
+
+INSERT INTO CONGESTION.Usuario
+	(usua_username, usua_password) VALUES ('admin', 'w23e')
+
+INSERT INTO CONGESTION.Rol_Usuario
+	(ru_rol, ru_usuario) VALUES(
+	(SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Administrador'),
+	(SELECT DISTINCT usua_id FROM CONGESTION.Usuario WHERE usua_username = 'admin'))

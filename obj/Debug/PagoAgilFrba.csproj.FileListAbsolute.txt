@@ -8,3 +8,14 @@ C:\Users\Tuca\Desktop\Facu\Facu 2017\GDD\2doCuatri\TP\Aplicacion Desktop\PagoAgi
 C:\Users\Tuca\Desktop\Facu\Facu 2017\GDD\2doCuatri\TP\Aplicacion Desktop\PagoAgilFrba\obj\Debug\PagoAgilFrba.exe
 C:\Users\Tuca\Desktop\Facu\Facu 2017\GDD\2doCuatri\TP\Aplicacion Desktop\PagoAgilFrba\obj\Debug\PagoAgilFrba.pdb
 C:\Users\Tuca\Desktop\Facu\Facu 2017\GDD\2doCuatri\TP\Aplicacion Desktop\PagoAgilFrba\obj\Debug\PagoAgilFrba.Form1.resources
+C:\Users\Santi\Utn\GDD\TpGestion\bin\Debug\PagoAgilFrba.exe.config
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.exe
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.pdb
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.csprojResolveAssemblyReference.cache
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Form1.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Properties.Resources.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.csproj.GenerateResource.Cache
+C:\Users\Santi\Utn\GDD\TpGestion\bin\Debug\PagoAgilFrba.exe
+C:\Users\Santi\Utn\GDD\TpGestion\bin\Debug\PagoAgilFrba.pdb
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Menu.ElegirRol.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Menu.MenuFuncionalidades.resources
