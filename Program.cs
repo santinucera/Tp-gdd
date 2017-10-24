@@ -19,6 +19,7 @@ namespace PagoAgilFrba
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            ClaseConexion.Conectar();
             Application.Run(new Form1());
         }
     }

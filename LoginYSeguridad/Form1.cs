@@ -20,67 +20,50 @@ namespace PagoAgilFrba
         public Form1()
         {
             InitializeComponent();
-            ClaseConexion.Conectar();
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
+            SqlDataReader reader,readerLogIn;
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_login",ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@usuario",txtUsuario.Text);
+            cmd.Parameters.AddWithValue("@password", txtPassword.Text);
 
-            try
+            readerLogIn = cmd.ExecuteReader();
+            readerLogIn.Read();
+            int id = readerLogIn.GetInt32(readerLogIn.GetOrdinal("NRO"));
+            readerLogIn.Close();
+
+            if (id != 0)
             {
-                SqlDataReader reader;
-                reader = ClaseConexion.ResolverConsulta("SELECT usua_username, usua_password, usua_habilitado FROM [CONGESTION].[Usuario] WHERE usua_username = '" + txtUsuario.Text + "'");
+                reader = ClaseConexion.ResolverConsulta("SELECT usua_habilitado FROM [CONGESTION].[Usuario] WHERE usua_id = " + id);
                 reader.Read();
-                String password = reader.GetString(1);
-                bool habilitado = reader.GetBoolean(2);
+                bool habilitado = reader.GetBoolean(0);
                 reader.Close();
 
                 if (!habilitado)
-                    throw new UsuarioDeshabilitadoException("El usuario no esta habilitado");
-                if (false)//!this.ValidarPassword(txtPassword.Text))
                 {
-                    intentosFallidos.Add(txtUsuario.Text);
-                    if (intentosFallidos.Count(user => user == txtUsuario.Text) == 3)
-                    {
-                        ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Usuario SET usua_habilitado = 0 WHERE usua_username = '" + txtUsuario.Text + "'");
-                        MessageBox.Show("Has sobrepasado la cantidad de intentos posibles, el usuario " + txtUsuario.Text + "ha sido deshabilitado");
-                    }
-                    else
-                    {
-                        throw new PasswordInvalidaException("Password incorrecta");
-                    }
+                    MessageBox.Show("El usuario no esta habilitado");
                 }
                 else
                 {
-                    ElegirRol form= new ElegirRol(txtUsuario.Text);
+                    ElegirRol form = new ElegirRol(txtUsuario.Text);
                     form.Show();
                     this.Hide();
                 }
 
             }
-            catch (PasswordInvalidaException t)
+            else
             {
-                MessageBox.Show(t.Message);
-
+                MessageBox.Show("Contraseña incorrecta");
+                intentosFallidos.Add(txtUsuario.Text);
+                if (intentosFallidos.Count(user => user == txtUsuario.Text) == 3)
+                {
+                    ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Usuario SET usua_habilitado = 0 WHERE usua_username = '" + txtUsuario.Text + "'");
+                    MessageBox.Show("Has sobrepasado la cantidad de intentos posibles, el usuario " + txtUsuario.Text + "ha sido deshabilitado");
+                }
             }
-            catch (UsuarioDeshabilitadoException ud)
-            {
-                MessageBox.Show(ud.Message);
-            }
-            catch (SqlException sqle)
-            {
-                MessageBox.Show("No se pudo deshabilitar el usuario");
-            }
-            catch (Exception m)
-            {
-                MessageBox.Show("No existe un usuario con ese nombre");
-            }
-        }
-
-        private bool ValidarPassword(String password)
-        {
-            String s = (String)ClaseConexion.ResolverFuncion("SELECT CONGESTION.Hashear_Password('" + password+ "')");
-            return s.Equals(password);
         }
     }
 }

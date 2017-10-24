@@ -21,3 +21,4 @@ C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Menu.ElegirRol.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Menu.MenuFuncionalidades.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Alta.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Menu.ABM.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Baja.resources

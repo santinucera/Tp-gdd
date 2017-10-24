@@ -26,6 +26,7 @@ namespace PagoAgilFrba
             }
         }
 
+       
         public static SqlDataReader ResolverConsulta(String query)
         {
             SqlCommand cmd = new SqlCommand(query, conexion);
@@ -57,7 +58,6 @@ namespace PagoAgilFrba
 
             return resultado;
         }
-
 
     }
 }

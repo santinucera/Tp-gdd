@@ -19,8 +19,8 @@ create table CONGESTION.Funcionalidad_Rol(
 
 create table CONGESTION.Usuario(
 	usua_id int identity PRIMARY KEY,
-	usua_username char(30) NOT NULL,
-	usua_password char(30) NOT NULL,
+	usua_username VARCHAR(64) NOT NULL,
+	usua_password CHAR(64) NOT NULL,
 	usua_habilitado bit DEFAULT 1 NOT NULL
 )
 
@@ -229,9 +229,52 @@ INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Registro de Pag
 INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Rendicion de Facturas Cobradas');
 INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Listado Estadistico');
 
+GO
+CREATE FUNCTION CONGESTION.Hashear_Password
+(@password CHAR(64))
+RETURNS CHAR(64)
+BEGIN
+  RETURN CONVERT(CHAR(64), HASHBYTES('SHA2_256', @password), 2)  
+END
+GO
+
+GO
+CREATE PROCEDURE CONGESTION.sp_login(@usuario VARCHAR(64), @password CHAR(64))
+AS
+	BEGIN
+		DECLARE @pass_encriptada CHAR(64), @id INT;
+		SET @pass_encriptada = CONGESTION.Hashear_Password(@password);
+		SELECT @id = usua_id FROM CONGESTION.Usuario
+			WHERE usua_username = @usuario AND usua_password = @pass_encriptada;
+		IF(@id IS NOT NULL) SELECT @id AS 'NRO';
+		ELSE SELECT 0 AS 'NRO';
+	END	
+
+GO
+-- Trigger para encriptar pass al registrar un nuevo usuario
+CREATE TRIGGER CONGESTION.Encriptar_Password
+ON CONGESTION.Usuario
+INSTEAD OF INSERT
+AS 
+BEGIN    
+	DECLARE @password VARCHAR(64)
+	DECLARE @username VARCHAR(64)
+
+	SELECT @username = usua_username, @password = usua_password FROM inserted
+
+	INSERT INTO CONGESTION.Usuario (usua_username, usua_password) VALUES ( @username, CONGESTION.Hashear_Password(@password)) 
+END 
+GO
 
 INSERT INTO CONGESTION.Usuario
 	(usua_username, usua_password) VALUES ('admin', 'w23e')
+
+INSERT INTO CONGESTION.Funcionalidad_Rol
+	(fr_funcionalidad,fr_rol) 
+	SELECT  func_id, (SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Administrador')
+	FROM CONGESTION.Funcionalidad 
+
+	
 
 INSERT INTO CONGESTION.Rol_Usuario
 	(ru_rol, ru_usuario) VALUES(
