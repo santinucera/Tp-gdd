@@ -31,7 +31,6 @@
             this.btnAlta = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBaja = new System.Windows.Forms.Button();
-            this.btnModificacion = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnAlta
@@ -59,19 +58,9 @@
             this.btnBaja.Name = "btnBaja";
             this.btnBaja.Size = new System.Drawing.Size(95, 35);
             this.btnBaja.TabIndex = 0;
-            this.btnBaja.Text = "Baja";
+            this.btnBaja.Text = "Listado";
             this.btnBaja.UseVisualStyleBackColor = true;
             this.btnBaja.Click += new System.EventHandler(this.btnBaja_Click);
-            // 
-            // btnModificacion
-            // 
-            this.btnModificacion.Location = new System.Drawing.Point(179, 174);
-            this.btnModificacion.Name = "btnModificacion";
-            this.btnModificacion.Size = new System.Drawing.Size(95, 35);
-            this.btnModificacion.TabIndex = 0;
-            this.btnModificacion.Text = "Modificacion";
-            this.btnModificacion.UseVisualStyleBackColor = true;
-            this.btnModificacion.Click += new System.EventHandler(this.btnModificacion_Click);
             // 
             // ABM
             // 
@@ -79,7 +68,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(338, 262);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnModificacion);
             this.Controls.Add(this.btnBaja);
             this.Controls.Add(this.btnAlta);
             this.Name = "ABM";
@@ -95,6 +83,5 @@
         private System.Windows.Forms.Button btnAlta;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnBaja;
-        private System.Windows.Forms.Button btnModificacion;
     }
 }

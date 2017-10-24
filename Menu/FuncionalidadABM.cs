@@ -10,29 +10,24 @@ namespace PagoAgilFrba.Menu
     public class FuncionalidadABM
     {
         private Form ventanaAlta;
-        private Form ventanaBaja;
-        private Form ventanaModificacion;
+        private Form ventanaListado;
 
-        public FuncionalidadABM(Form ventanaAlta, Form ventanaBaja, Form ventanaModificacion)
+        public FuncionalidadABM(Form ventanaAlta,Form ventanaListado)
         {
             this.ventanaAlta = ventanaAlta;
-            this.ventanaBaja = ventanaBaja;
-            this.ventanaModificacion = ventanaModificacion;
+            this.ventanaListado= ventanaListado;
         }
 
-        public void abrirVentanaModificar()
-        {
-            this.ventanaModificacion.Show();
-        }
-
-        public void abrirVentanaBaja()
-        {
-            this.ventanaBaja.Show();
-        }
-
+       
         public void abrirVentanaAlta()
         {
-            this.ventanaAlta.Show();
+            Form alta = this.ventanaAlta;
+            alta.Show();
+        }
+        public void abrirVentanaListado()
+        {
+            Form listado = this.ventanaListado.;
+            listado.Show();
         }
     }
 }

@@ -80,6 +80,12 @@
     <Compile Include="AbmSucursal\Baja.Designer.cs">
       <DependentUpon>Baja.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmSucursal\Listado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmSucursal\Listado.Designer.cs">
+      <DependentUpon>Listado.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmSucursal\Modificacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmSucursal\Baja.resx">
       <DependentUpon>Baja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmSucursal\Listado.resx">
+      <DependentUpon>Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmSucursal\Modificacion.resx">
+      <DependentUpon>Modificacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

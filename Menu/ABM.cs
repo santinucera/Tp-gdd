@@ -32,12 +32,9 @@ namespace PagoAgilFrba.Menu
 
         private void btnBaja_Click(object sender, EventArgs e)
         {
-            this.funcionalidad.abrirVentanaBaja();
+            this.funcionalidad.abrirVentanaListado();
         }
 
-        private void btnModificacion_Click(object sender, EventArgs e)
-        {
-            this.funcionalidad.abrirVentanaModificar();
-        }
+
     }
 }

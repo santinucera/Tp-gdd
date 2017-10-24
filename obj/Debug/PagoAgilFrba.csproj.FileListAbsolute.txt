@@ -22,3 +22,5 @@ C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Menu.MenuFuncionalidades
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Alta.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.Menu.ABM.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Baja.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Listado.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Modificacion.resources

@@ -12,9 +12,17 @@ namespace PagoAgilFrba.AbmSucursal
 {
     public partial class Modificacion : Form
     {
-        public Modificacion()
+        public Modificacion(String codigo)
         {
             InitializeComponent();
+            this.codigo = codigo;
+        }
+
+        private String codigo;
+
+        private void Modificacion_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

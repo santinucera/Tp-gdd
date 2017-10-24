@@ -42,11 +42,12 @@ namespace PagoAgilFrba
             return reader;
         }
 
-        public static void ResolverNonQuery(String nonQuery)
+        public static int ResolverNonQuery(String nonQuery)
         {
             SqlCommand sqlcom = new SqlCommand(nonQuery, conexion);
 
-            sqlcom.ExecuteNonQuery();
+            return sqlcom.ExecuteNonQuery();
+
 
         }
 
