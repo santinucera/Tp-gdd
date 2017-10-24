@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblSeguro = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -48,14 +48,14 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label1
+            // lblSeguro
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(70, 38);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(141, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "¿Seguro desea dar de baja?";
+            this.lblSeguro.AutoSize = true;
+            this.lblSeguro.Location = new System.Drawing.Point(70, 38);
+            this.lblSeguro.Name = "lblSeguro";
+            this.lblSeguro.Size = new System.Drawing.Size(124, 13);
+            this.lblSeguro.TabIndex = 1;
+            this.lblSeguro.Text = "¿Seguro desea habilitar?";
             // 
             // label2
             // 
@@ -122,7 +122,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblSeguro);
             this.Controls.Add(this.button1);
             this.Name = "Baja";
             this.Text = "Baja";
@@ -135,7 +135,7 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblSeguro;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.Label label4;

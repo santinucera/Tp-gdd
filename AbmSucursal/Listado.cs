@@ -20,13 +20,11 @@ namespace PagoAgilFrba.AbmSucursal
 
         private void Listado_Load(object sender, EventArgs e)
         {
-            cargarSucursales();
+            cargarSucursales(this.leerSucursales());
         }
 
-        private void cargarSucursales()
+        private void cargarSucursales(SqlDataReader reader)
         {
-            SqlDataReader reader = this.leerSucursales();
-
             while (reader.Read())
             {
                 String bajaMod;
@@ -74,18 +72,21 @@ namespace PagoAgilFrba.AbmSucursal
                 else if (columnIndex == 5){//columna baja
                     String direccion = dgvSucursales.Rows[rowIndex].Cells[1].Value.ToString();
                     String nombre = dgvSucursales.Rows[rowIndex].Cells[0].Value.ToString();
-                    Boolean baja= dgvSucursales.Rows[rowIndex].Cells[3].Selected;
+                    Boolean baja= (Boolean)dgvSucursales.Rows[rowIndex].Cells[3].Value;
 
                     AbmSucursal.Baja form = new Baja(codigo, direccion, nombre,baja);
                     form.Show();
-                    
-
-
-                    
+                    this.Hide();
                 }
-
-
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            String consulta = "select suc_nombre,suc_direccion,suc_codPostal,suc_habilitado from CONGESTION.Sucursal "
+                                +"WHERE suc_nombre LIKE '"+txtNombre.Text+"%' and suc_codPostal LIKE '"+txtCodigo.Text+"%' and suc_direccion LIKE '"+txtDireccion.Text+"%'";
+            
+            cargarSucursales(ClaseConexion.ResolverConsulta(consulta));
         }
     }
 }

@@ -21,10 +21,12 @@ namespace PagoAgilFrba.AbmSucursal
             if (baja)
             {
                 button1.Text = "Bajar";
+                lblSeguro.Text = "¿Seguro que desea dar de baja esta sucursal?";
             }
             else
             {
                 button1.Text = "Habilitar";
+                lblSeguro.Text = "¿Seguro que desea habilitar esta sucursal?";
             }
             this.baja = baja;
         }
@@ -44,6 +46,8 @@ namespace PagoAgilFrba.AbmSucursal
                 MessageBox.Show("No se pudo "+button1.Text);
             }
             this.Hide();
+            Listado form = new Listado();
+            form.Show();
         }
 
         private void Baja_Load(object sender, EventArgs e)

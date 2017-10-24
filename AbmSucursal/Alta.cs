@@ -30,7 +30,7 @@ namespace PagoAgilFrba.AbmSucursal
         private void btnIngresar_Click(object sender, EventArgs e)
         {
             ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Sucursal(suc_nombre, suc_direccion, suc_codPostal)"
-                    + " VALUES('"+ txtNombre.Text +"','"+txtDireccion.Text +"','"+ Int32.Parse(txtCodigo.Text)+"')");
+                    + " VALUES('"+ txtNombre.Text +"','"+txtDireccion.Text +"','"+ txtCodigo.Text+"')");
             this.Hide();
             
         }

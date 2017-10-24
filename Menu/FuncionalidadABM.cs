@@ -26,7 +26,7 @@ namespace PagoAgilFrba.Menu
         }
         public void abrirVentanaListado()
         {
-            Form listado = this.ventanaListado.;
+            Form listado = this.ventanaListado;
             listado.Show();
         }
     }
