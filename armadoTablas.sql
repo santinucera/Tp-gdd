@@ -169,51 +169,25 @@ INSERT INTO CONGESTION.Rendicion(rend_numero,rend_fecha,rend_total)
 	GROUP BY Rendicion_Nro,Rendicion_Fecha
 
 
-GO
-CREATE PROCEDURE CONGESTION.Migrar_Facturas
-AS
-BEGIN 
-	 DECLARE facturas CURSOR FOR 
-	 SELECT DISTINCT Nro_Factura,Factura_Fecha,Factura_Fecha_Vencimiento,Factura_Total,[Cliente-Dni],Empresa_Cuit,Rendicion_Nro
-	 FROM gd_esquema.Maestra
-	      	 
-	 DECLARE @numero numeric(18,0);
-	 DECLARE @fecha datetime;
-	 DECLARE @fecha_venc datetime;
-	 DECLARE @total numeric(18,2);
-	 DECLARE @dni numeric(18,0);
-	 DECLARE @cuit nvarchar(50);
-	 DECLARE @rendicion numeric(18,0);
-	 DECLARE @cliente int;
-	 DECLARE @empresa int;
-	 
-	 OPEN facturas;
-	 FETCH NEXT FROM facturas INTO @numero,@fecha,@fecha_venc,@total,@dni,@cuit,@rendicion;
-	 
-	 WHILE (@@FETCH_STATUS = 0)
-		BEGIN	
-
-			SELECT @cliente = (SELECT DISTINCT clie_id FROM CONGESTION.Cliente WHERE clie_dni = @dni);
-			SELECT @empresa = (SELECT DISTINCT empr_id FROM CONGESTION.Empresa WHERE empr_cuit = @cuit);
-
-			if exists (Select fact_num from CONGESTION.Factura WHERE fact_num= @numero group by fact_num)
-			begin
-				DELETE FROM CONGESTION.Factura WHERE fact_num = @numero;
-			end
-			
-
-			INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_rendicion,fact_fecha_alta,fact_fecha_venc,fact_total)
-				VALUES (@numero,@cliente,@empresa,@rendicion,@fecha,@fecha_venc,@total);
-			
-			FETCH NEXT FROM facturas INTO @numero,@fecha,@fecha_venc,@total,@dni,@cuit,@rendicion;
-		END 
-
-	 CLOSE facturas;
-	 DEALLOCATE facturas;
-END
-GO
-
-EXEC CONGESTION.Migrar_Facturas;
+INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_rendicion,fact_fecha_alta,fact_fecha_venc,fact_total)
+	SELECT	Nro_Factura, 
+			(SELECT DISTINCT clie_id 
+				FROM CONGESTION.Cliente 
+				WHERE clie_dni = m.[Cliente-Dni]),
+			(SELECT DISTINCT empr_id 
+				FROM CONGESTION.Empresa 
+				WHERE empr_cuit = m.Empresa_Cuit),
+			(SELECT TOP 1 aux.Rendicion_Nro
+				FROM gd_esquema.Maestra aux
+				WHERE aux.Nro_Factura = m.Nro_Factura
+				GROUP BY Rendicion_Nro
+				ORDER BY Rendicion_Nro DESC),
+			Factura_Fecha,
+			Factura_Fecha_Vencimiento,
+			Factura_Total
+	FROM gd_esquema.Maestra m
+	GROUP BY Nro_Factura,m.[Cliente-Dni],m.Empresa_Cuit,Factura_Fecha,Factura_Fecha_Vencimiento,Factura_Total
+	ORDER BY Nro_Factura ASC
 
 
 INSERT INTO CONGESTION.Registro(reg_id,reg_cliente,reg_fecha_cobro,reg_medio_pago,reg_sucursal,reg_total)
