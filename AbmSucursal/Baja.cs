@@ -16,5 +16,11 @@ namespace PagoAgilFrba.AbmSucursal
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Sucursal SET usua_habilitado = 0 WHERE usua_username = '" + txtUsuario.Text + "'");
+            this.Hide();
+        }
     }
 }

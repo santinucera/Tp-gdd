@@ -78,6 +78,7 @@
             this.btnABMSucursal.Text = "ABM de Sucursal";
             this.btnABMSucursal.UseVisualStyleBackColor = true;
             this.btnABMSucursal.Visible = false;
+            this.btnABMSucursal.Click += new System.EventHandler(this.btnABMSucursal_Click);
             // 
             // btnABMFactura
             // 

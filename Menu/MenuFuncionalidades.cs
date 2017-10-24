@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using PagoAgilFrba.Menu;
 
 namespace PagoAgilFrba.Menu
 {
@@ -54,8 +55,7 @@ namespace PagoAgilFrba.Menu
             {
                 foreach (Control control in this.Controls)
                 {
-                    MessageBox.Show(control.Text);
-                    if (control.Text == nombre)
+                    if (nombre.StartsWith(control.Text))
                     {
                         control.Visible = true;
                     }
@@ -66,6 +66,14 @@ namespace PagoAgilFrba.Menu
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void btnABMSucursal_Click(object sender, EventArgs e)
+        {
+            FuncionalidadABM func = new FuncionalidadABM(new AbmSucursal.Alta(), new AbmSucursal.Baja(), new AbmSucursal.Modificacion());
+            this.Hide();
+            ABM form = new ABM(func);
+            form.Show();
         }
     }
 }

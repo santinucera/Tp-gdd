@@ -101,12 +101,19 @@
     </Compile>
     <Compile Include="LoginYSeguridad\PasswordInvalidaException.cs" />
     <Compile Include="LoginYSeguridad\UsuarioDeshabilitadoException.cs" />
+    <Compile Include="Menu\ABM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Menu\ABM.Designer.cs">
+      <DependentUpon>ABM.cs</DependentUpon>
+    </Compile>
     <Compile Include="Menu\ElegirRol.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Menu\ElegirRol.Designer.cs">
       <DependentUpon>ElegirRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Menu\FuncionalidadABM.cs" />
     <Compile Include="Menu\MenuFuncionalidades.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,8 +134,17 @@
     <Compile Include="Rendicion\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AbmSucursal\Alta.resx">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmSucursal\Baja.resx">
+      <DependentUpon>Baja.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu\ABM.resx">
+      <DependentUpon>ABM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menu\ElegirRol.resx">
       <DependentUpon>ElegirRol.cs</DependentUpon>

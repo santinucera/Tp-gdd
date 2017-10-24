@@ -35,6 +35,8 @@
             // 
             // selectorRol
             // 
+            this.selectorRol.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.selectorRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectorRol.FormattingEnabled = true;
             this.selectorRol.Location = new System.Drawing.Point(143, 62);
             this.selectorRol.Name = "selectorRol";
