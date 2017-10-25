@@ -14,6 +14,9 @@ namespace PagoAgilFrba
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>
+        public static String username;
+        public static String rol;
+        
         [STAThread]
         static void Main()
         {

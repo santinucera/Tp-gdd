@@ -13,14 +13,10 @@ namespace PagoAgilFrba.Menu
 {
     public partial class ElegirRol : Form
     {
-        public ElegirRol(String username)
+        public ElegirRol()
         {
             InitializeComponent();
-            this.username = username;
         }
-
-        private String username;
-              
 
         private void ElegirRol_Load(object sender, EventArgs e)
         {
@@ -40,7 +36,7 @@ namespace PagoAgilFrba.Menu
         private SqlDataReader leerRoles()
         {
             return ClaseConexion.ResolverConsulta("SELECT rol_descripcion FROM CONGESTION.Rol_Usuario JOIN CONGESTION.Rol on (ru_rol = rol_id)"
-	                       + "JOIN CONGESTION.Usuario  on (ru_usuario=usua_id) where usua_username = '"+username+"'");
+	                       + "JOIN CONGESTION.Usuario  on (ru_usuario=usua_id) where usua_username = '"+Program.username+"'");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -51,7 +47,8 @@ namespace PagoAgilFrba.Menu
             }
             else
             {
-                MenuFuncionalidades form = new MenuFuncionalidades(username, selectorRol.SelectedItem.ToString());
+                Program.rol = selectorRol.SelectedItem.ToString();
+                MenuFuncionalidades form = new MenuFuncionalidades();
                 form.Show();
                 this.Hide();
             }

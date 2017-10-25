@@ -25,3 +25,7 @@ C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Baja.resourc
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Listado.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Modificacion.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Menu.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Listado.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Menu.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Items.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Alta.resources

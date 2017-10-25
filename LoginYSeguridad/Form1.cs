@@ -48,7 +48,8 @@ namespace PagoAgilFrba
                 }
                 else
                 {
-                    ElegirRol form = new ElegirRol(txtUsuario.Text);
+                    Program.username = txtUsuario.Text;
+                    ElegirRol form = new ElegirRol();
                     form.Show();
                     this.Hide();
                 }

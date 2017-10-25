@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagoAgilFrba.Menu;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,9 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PagoAgilFrba.Menu;
 
-namespace PagoAgilFrba.AbmSucursal
+namespace PagoAgilFrba.AbmFactura
 {
     public partial class Menu : Form
     {
@@ -20,16 +20,21 @@ namespace PagoAgilFrba.AbmSucursal
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            Alta form = new Alta();
             this.Hide();
+            AbmFactura.Alta form = new Alta();
             form.Show();
         }
 
         private void btnBaja_Click(object sender, EventArgs e)
         {
-            Listado form = new Listado();
             this.Hide();
+            AbmFactura.Listado form = new Listado();
             form.Show();
+        }
+
+        private void Menu_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -37,11 +42,6 @@ namespace PagoAgilFrba.AbmSucursal
             this.Hide();
             MenuFuncionalidades form = new MenuFuncionalidades();
             form.Show();
-        }
-
-        private void Menu_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

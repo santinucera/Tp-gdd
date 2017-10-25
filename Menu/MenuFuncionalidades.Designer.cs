@@ -90,6 +90,7 @@
             this.btnABMFactura.Text = "ABM de Facturas";
             this.btnABMFactura.UseVisualStyleBackColor = true;
             this.btnABMFactura.Visible = false;
+            this.btnABMFactura.Click += new System.EventHandler(this.btnABMFactura_Click);
             // 
             // btnRegistroFactura
             // 

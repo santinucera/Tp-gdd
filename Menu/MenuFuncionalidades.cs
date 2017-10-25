@@ -14,14 +14,9 @@ namespace PagoAgilFrba.Menu
 {
     public partial class MenuFuncionalidades : Form
     {
-        private String username;
-        private String rol;
-        
-        public MenuFuncionalidades(String user, String roll)
+        public MenuFuncionalidades()
         {
             InitializeComponent();
-            this.username = user;
-            this.rol = roll;
         }
         
 
@@ -46,7 +41,7 @@ namespace PagoAgilFrba.Menu
         private SqlDataReader leerFuncionalidades()
         {
             return ClaseConexion.ResolverConsulta("select DISTINCT func_descripcion from CONGESTION.Funcionalidad JOIN CONGESTION.Funcionalidad_Rol on (func_id = fr_funcionalidad)"
-	                                                +"JOIN CONGESTION.Rol on (fr_rol= rol_id) WHERE rol_descripcion = '"+rol +"'");
+	                                                +"JOIN CONGESTION.Rol on (fr_rol= rol_id) WHERE rol_descripcion = '"+Program.rol +"'");
         }
 
         private void habilitarBotones(String nombre)
@@ -71,6 +66,13 @@ namespace PagoAgilFrba.Menu
         private void btnABMSucursal_Click(object sender, EventArgs e)
         {
             AbmSucursal.Menu form = new AbmSucursal.Menu();
+            this.Hide();
+            form.Show();
+        }
+
+        private void btnABMFactura_Click(object sender, EventArgs e)
+        {
+            AbmFactura.Menu form = new AbmFactura.Menu();
             this.Hide();
             form.Show();
         }

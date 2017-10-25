@@ -1,4 +1,4 @@
-﻿namespace PagoAgilFrba.AbmSucursal
+﻿namespace PagoAgilFrba.AbmFactura
 {
     partial class Menu
     {
@@ -37,38 +37,38 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 55);
+            this.label1.Location = new System.Drawing.Point(17, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 13);
-            this.label1.TabIndex = 4;
+            this.label1.TabIndex = 7;
             this.label1.Text = "Seleccione opcion:";
             // 
             // btnBaja
             // 
-            this.btnBaja.Location = new System.Drawing.Point(163, 122);
+            this.btnBaja.Location = new System.Drawing.Point(164, 134);
             this.btnBaja.Name = "btnBaja";
             this.btnBaja.Size = new System.Drawing.Size(95, 35);
-            this.btnBaja.TabIndex = 2;
+            this.btnBaja.TabIndex = 5;
             this.btnBaja.Text = "Listado";
             this.btnBaja.UseVisualStyleBackColor = true;
             this.btnBaja.Click += new System.EventHandler(this.btnBaja_Click);
             // 
             // btnAlta
             // 
-            this.btnAlta.Location = new System.Drawing.Point(163, 55);
+            this.btnAlta.Location = new System.Drawing.Point(164, 67);
             this.btnAlta.Name = "btnAlta";
             this.btnAlta.Size = new System.Drawing.Size(95, 35);
-            this.btnAlta.TabIndex = 3;
+            this.btnAlta.TabIndex = 6;
             this.btnAlta.Text = "Alta";
             this.btnAlta.UseVisualStyleBackColor = true;
             this.btnAlta.Click += new System.EventHandler(this.btnAlta_Click);
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(85, 197);
+            this.btnVolver.Location = new System.Drawing.Point(83, 195);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(110, 43);
-            this.btnVolver.TabIndex = 5;
+            this.btnVolver.TabIndex = 8;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
