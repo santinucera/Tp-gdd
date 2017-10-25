@@ -76,5 +76,13 @@ namespace PagoAgilFrba.Menu
             this.Hide();
             form.Show();
         }
+
+        private void btnABMEmpresa_Click_1(object sender, EventArgs e)
+        {
+            AbmEmpresa.MenuEmpresas form = new AbmEmpresa.MenuEmpresas();
+            this.Hide();
+            form.Show();
+        }
+        
     }
 }

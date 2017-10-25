@@ -68,6 +68,7 @@
             this.btnABMEmpresa.Text = "ABM de Empresa";
             this.btnABMEmpresa.UseVisualStyleBackColor = true;
             this.btnABMEmpresa.Visible = false;
+            this.btnABMEmpresa.Click += new System.EventHandler(this.btnABMEmpresa_Click_1);
             // 
             // btnABMSucursal
             // 
