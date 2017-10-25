@@ -287,9 +287,48 @@ ON CONGESTION.Sucursal
 INSTEAD OF INSERT,UPDATE
 AS 
 BEGIN    
-	INSERT INTO CONGESTION.Sucursal(suc_nombre,suc_codPostal,suc_direccion)
-	SELECT i1.suc_nombre, i1.suc_codPostal,i1.suc_direccion FROM inserted i1
-	WHERE (SELECT suc_id from CONGESTION.Sucursal WHERE suc_codPostal = i1.suc_codPostal) is null
+	if exists (SELECT * from deleted)
+	BEGIN
+		DECLARE sucursalesInsertadas CURSOR FOR
+		SELECT suc_nombre,suc_direccion,suc_codPostal,suc_habilitado FROM inserted
+		
+		DECLARE sucursalesEliminadas CURSOR FOR
+		SELECT suc_codPostal FROM deleted
+
+		DECLARE @nombre CHAR(30)
+		DECLARE @direccion CHAR(30)
+		DECLARE @codigoIns CHAR(4)
+		DECLARE @habilitado BIT
+		DECLARE @codigoDel CHAR(4)
+
+		OPEN sucursalesInsertadas
+		OPEN sucursalesEliminadas
+		FETCH sucursalesInsertadas INTO @nombre, @direccion, @codigoIns, @habilitado
+		FETCH sucursalesEliminadas INTO @codigoDel
+
+		WHILE(@@FETCH_STATUS = 0)
+		BEGIN
+			if @codigoDel = @codigoIns or not exists (SELECT * from CONGESTION.Sucursal s1 WHERE s1.suc_codPostal = @codigoIns)
+			BEGIN
+				UPDATE CONGESTION.Sucursal SET suc_direccion = @direccion ,suc_codPostal = @codigoIns, suc_nombre = @nombre,suc_habilitado =@habilitado WHERE suc_codPostal = @codigoDel
+			END
+
+			FETCH sucursalesInsertadas INTO @nombre, @direccion, @codigoIns, @habilitado
+			FETCH sucursalesEliminadas INTO @codigoDel
+		END
+
+		CLOSE sucursalesInsertadas
+		DEALLOCATE sucursalesInsertadas
+		CLOSE sucursalesEliminadas
+		DEALLOCATE sucursalesEliminadas
+
+	END
+	ELSE
+	BEGIN
+		INSERT INTO CONGESTION.Sucursal(suc_nombre,suc_codPostal,suc_direccion)
+		SELECT i1.suc_nombre, i1.suc_codPostal,i1.suc_direccion FROM inserted i1
+		WHERE (SELECT suc_id from CONGESTION.Sucursal WHERE suc_codPostal = i1.suc_codPostal) is null
+	END
 END 
 GO
 
