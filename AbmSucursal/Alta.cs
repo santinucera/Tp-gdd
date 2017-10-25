@@ -29,10 +29,16 @@ namespace PagoAgilFrba.AbmSucursal
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Sucursal(suc_nombre, suc_direccion, suc_codPostal)"
+            int numRegs = ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Sucursal(suc_nombre, suc_direccion, suc_codPostal)"
                     + " VALUES('"+ txtNombre.Text +"','"+txtDireccion.Text +"','"+ txtCodigo.Text+"')");
+
+            if (numRegs == 0)
+            {
+                MessageBox.Show("No se pudo agregar la sucurusal");
+            }
             this.Hide();
-            
+            Listado form = new Listado();
+            form.Show();
         }
     }
 }

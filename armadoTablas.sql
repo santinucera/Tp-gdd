@@ -280,3 +280,16 @@ INSERT INTO CONGESTION.Rol_Usuario
 	(ru_rol, ru_usuario) VALUES(
 	(SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Administrador'),
 	(SELECT DISTINCT usua_id FROM CONGESTION.Usuario WHERE usua_username = 'admin'))
+
+GO
+CREATE TRIGGER CONGESTION.ValidarCodigoPostalSucursal
+ON CONGESTION.Sucursal
+INSTEAD OF INSERT,UPDATE
+AS 
+BEGIN    
+	INSERT INTO CONGESTION.Sucursal(suc_nombre,suc_codPostal,suc_direccion)
+	SELECT i1.suc_nombre, i1.suc_codPostal,i1.suc_direccion FROM inserted i1
+	WHERE (SELECT suc_id from CONGESTION.Sucursal WHERE suc_codPostal = i1.suc_codPostal) is null
+END 
+GO
+

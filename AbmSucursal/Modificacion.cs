@@ -12,9 +12,12 @@ namespace PagoAgilFrba.AbmSucursal
 {
     public partial class Modificacion : Form
     {
-        public Modificacion(String codigo)
+        public Modificacion(String codigo,String direccion,String nombre)
         {
             InitializeComponent();
+            txtCodigo.Text = codigo;
+            txtDireccion.Text = direccion;
+            txtNombre.Text = nombre;
             this.codigo = codigo;
         }
 
@@ -23,6 +26,20 @@ namespace PagoAgilFrba.AbmSucursal
         private void Modificacion_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Sucursal SET suc_direccion = '" + txtDireccion.Text + "' ,suc_codPostal = '" + txtCodigo.Text + "', suc_nombre = '" + txtNombre.Text + "'"
+                            + "WHERE suc_codPostal = '" + codigo + "'");
+
+            if (numRegs == 0)
+            {
+                MessageBox.Show("No se pudo guardar los cambios");
+            }
+            Listado form = new Listado();
+            form.Show();
+            this.Hide();
         }
     }
 }

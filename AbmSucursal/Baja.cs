@@ -35,13 +35,13 @@ namespace PagoAgilFrba.AbmSucursal
         
         private void button1_Click(object sender, EventArgs e)
         {
-            int habiltacion = 1;
+            int habilitacion = 1;
             if(baja)
             {
-                habiltacion = 0;
+                habilitacion = 0;
             }
                         
-            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Sucursal SET  suc_habilitado= "+habiltacion.ToString()+" WHERE suc_codPostal ='"+lblCodigo.Text +"'" );
+            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Sucursal SET  suc_habilitado= "+habilitacion.ToString()+" WHERE suc_codPostal ='"+lblCodigo.Text +"'" );
             if(numRegs==0){
                 MessageBox.Show("No se pudo "+button1.Text);
             }

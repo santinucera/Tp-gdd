@@ -70,9 +70,8 @@ namespace PagoAgilFrba.Menu
 
         private void btnABMSucursal_Click(object sender, EventArgs e)
         {
-            FuncionalidadABM func = new FuncionalidadABM(new AbmSucursal.Alta(), new AbmSucursal.Listado());
+            AbmSucursal.Menu form = new AbmSucursal.Menu();
             this.Hide();
-            ABM form = new ABM(func);
             form.Show();
         }
     }
