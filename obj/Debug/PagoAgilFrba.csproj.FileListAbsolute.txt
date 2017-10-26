@@ -59,3 +59,4 @@ C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.Baja.resource
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.Listado.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.MenuEmpresas.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.Modificacion.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Baja.resources

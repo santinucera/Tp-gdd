@@ -40,7 +40,7 @@ namespace PagoAgilFrba.AbmFactura
             while (reader.Read())
             {
                 dgvFacturas.Rows.Add(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2).Trim() + " " + reader.GetString(8).Trim(),
-                    reader.GetString(3).Trim() , reader.GetDateTime(4), reader.GetDateTime(5), "Items", reader.GetInt32(6) != 0, reader.GetInt32(7) != 0, "Modificar");
+                    reader.GetString(3).Trim() , reader.GetDateTime(4), reader.GetDateTime(5), "Items", reader.GetInt32(6) != 0, reader.GetInt32(7) != 0, "Modificar","Baja");
             }
 
             reader.Close();
@@ -67,19 +67,25 @@ namespace PagoAgilFrba.AbmFactura
             if (dgvFacturas.RowCount > 1)
             {
                 int numero = (int)dgvFacturas.Rows[rowIndex].Cells[0].Value;
+                Boolean estaPagaORendida = dgvFacturas.Rows[rowIndex].Cells[6].Selected || (Boolean)dgvFacturas.Rows[rowIndex].Cells[7].Selected;
                 
                 if (columnIndex == 6)
                 {//columna items
                     AbmFactura.Items form= new Items(numero);
                     form.Show();
                 }
-                else if (columnIndex == 5)
+                else if (columnIndex == 9 && !estaPagaORendida)
                 {//columna baja
-
-                    Boolean baja = (Boolean)dgvFacturas.Rows[rowIndex].Cells[3].Value;
 
                     //AbmFactura.Baja form = new Baja(codigo, direccion, nombre, baja);
                     //form.Show();
+                    this.Hide();
+                }
+                else if (columnIndex == 10 && !estaPagaORendida)
+                {//columna baja
+
+                    AbmFactura.Baja form = new Baja(numero);
+                    form.Show();
                     this.Hide();
                 }
             }

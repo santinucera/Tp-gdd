@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.AbmFactura
 {
@@ -36,6 +37,60 @@ namespace PagoAgilFrba.AbmFactura
             listaItems.Clear();
             listBox1.Items.Clear();
         }
+
+        private void Alta_Load(object sender, EventArgs e)
+        {
+            cargarEmpresas(this.leerEmpresas());
+            calendar.MinDate= DateTime.Now;
+        }
+
+        private void cargarEmpresas(SqlDataReader reader)
+        {
+            while (reader.Read())
+                selectorEmpresa.Items.Add(reader.GetString(0) + ", " + reader.GetString(1));
+
+            reader.Close();
+
+        }
+
+        private SqlDataReader leerEmpresas()
+        {
+            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_cuit from CONGESTION.Empresa");
+        }
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+            int total=0;
+
+            foreach (Item element in listaItems)
+            {
+                total =total+ (element.cantidad * element.monto);
+            }
+
+            String[] stringSeparators = new String[] {","};
+            String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators,StringSplitOptions.RemoveEmptyEntries);
+            int dni = Int32.Parse(txtCliente.Text);
+            int numRegs = ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Factura(fact_num,fact_fecha_alta,fact_fecha_venc,fact_total,fact_empresa,fact_cliente)"
+                                                            +" Values("+txtNumero.Text+",'"+DateTime.Now.ToString()+"','"+calendar.Value.ToString()+"',"+total.ToString()+","
+                                                            + "(SELECT empr_id from CONGESTION.Empresa WHERE empr_cuit = '" + cuit[1].Trim() + "'),"
+                                                            + "(SELECT clie_id from CONGESTION.Cliente WHERE clie_dni = " + dni.ToString() + "))");
+
+            foreach (Item element in listaItems)
+            {
+                ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Item_Factura (item_fact,item_concepto,item_cantidad,item_monto)"
+                                                +"VALUES("+txtNumero.Text+",'"+element.concepto+"',"+element.cantidad.ToString()+","+element.monto.ToString()+")");
+            }
+            
+            
+            if (numRegs == 0)
+            {
+                MessageBox.Show("No se pudo agregar la empresa");
+            }
+            this.Hide();
+            Listado form = new Listado();
+            form.Show();
+        }
+
     }
     public class Item
     {

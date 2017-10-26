@@ -53,6 +53,7 @@
             this.Paga = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Rendicion = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Baja = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFacturas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,10 +81,11 @@
             this.Items,
             this.Paga,
             this.Rendicion,
-            this.Modificar});
-            this.dgvFacturas.Location = new System.Drawing.Point(27, 175);
+            this.Modificar,
+            this.Baja});
+            this.dgvFacturas.Location = new System.Drawing.Point(12, 175);
             this.dgvFacturas.Name = "dgvFacturas";
-            this.dgvFacturas.Size = new System.Drawing.Size(818, 185);
+            this.dgvFacturas.Size = new System.Drawing.Size(890, 185);
             this.dgvFacturas.TabIndex = 66;
             this.dgvFacturas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFacturas_CellContentClick);
             // 
@@ -271,11 +273,18 @@
             this.Modificar.Name = "Modificar";
             this.Modificar.Width = 70;
             // 
+            // Baja
+            // 
+            this.Baja.HeaderText = "Baja";
+            this.Baja.Name = "Baja";
+            this.Baja.ReadOnly = true;
+            this.Baja.Width = 70;
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(870, 401);
+            this.ClientSize = new System.Drawing.Size(914, 401);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.dateTimePicker2);
@@ -327,5 +336,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Paga;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Rendicion;
         private System.Windows.Forms.DataGridViewButtonColumn Modificar;
+        private System.Windows.Forms.DataGridViewButtonColumn Baja;
     }
 }
