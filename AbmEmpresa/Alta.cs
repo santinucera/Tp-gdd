@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.AbmEmpresa
 {
@@ -19,7 +20,7 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void Alta_Load(object sender, EventArgs e)
         {
-
+            this.cargarRubros();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -29,16 +30,51 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            int numRegs = ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Empresa(empr_cuit, empr_direccion, empr_nombre, empr_habilitado)"
-                    + " VALUES('" + txtCuit.Text + "','" + txtDireccion.Text + "','" + txtNombre.Text + "','" + 1 + "')");
-
-            if (numRegs == 0)
+            if (selectorRubros.SelectedItem == null)
             {
-                MessageBox.Show("No se pudo agregar la empresa");
+                MessageBox.Show("Debe elegir un rubro","Error");
             }
+            else
+            {
+                try
+                {
+                    this.guardarEmpresa();
+                    MessageBox.Show("Empresa guardada correctamente","Ok");
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message,"Error");
+                }
+            }
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            AbmEmpresa.MenuEmpresas form = new MenuEmpresas();
             this.Hide();
-            Listado form = new Listado();
             form.Show();
+        }
+
+        private void cargarRubros()
+        {
+            SqlDataReader rubros = ClaseConexion.ResolverConsulta("SELECT rub_descripcion FROM CONGESTION.Rubro");
+
+            while (rubros.Read())
+                selectorRubros.Items.Add(rubros.GetString(0));
+
+            rubros.Close();
+        }
+
+        private void guardarEmpresa()
+        {
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarEmpresa", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@cuit", txtCuit.Text);
+            cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
+            cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+            cmd.Parameters.AddWithValue("@descripcionRubro", selectorRubros.SelectedItem.ToString());
+
+            cmd.ExecuteReader().Close();
         }
     }
 }

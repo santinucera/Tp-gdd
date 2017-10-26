@@ -83,6 +83,13 @@ namespace PagoAgilFrba.Menu
             this.Hide();
             form.Show();
         }
+
+        private void btnABMRol_Click(object sender, EventArgs e)
+        {
+            AbmRol.MenuRol form = new AbmRol.MenuRol();
+            this.Hide();
+            form.Show();
+        }
         
     }
 }

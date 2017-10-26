@@ -36,15 +36,18 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnVolver = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.selectorRubros = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btnIngresar
             // 
-            this.btnIngresar.Location = new System.Drawing.Point(162, 218);
+            this.btnIngresar.Location = new System.Drawing.Point(51, 196);
             this.btnIngresar.Name = "btnIngresar";
-            this.btnIngresar.Size = new System.Drawing.Size(75, 23);
+            this.btnIngresar.Size = new System.Drawing.Size(186, 23);
             this.btnIngresar.TabIndex = 0;
-            this.btnIngresar.Text = "Ingresar";
+            this.btnIngresar.Text = "Guardar";
             this.btnIngresar.UseVisualStyleBackColor = true;
             this.btnIngresar.Click += new System.EventHandler(this.btnIngresar_Click);
             // 
@@ -60,21 +63,21 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(137, 66);
+            this.txtNombre.Location = new System.Drawing.Point(137, 69);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(100, 20);
             this.txtNombre.TabIndex = 2;
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(137, 115);
+            this.txtDireccion.Location = new System.Drawing.Point(137, 100);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(100, 20);
             this.txtDireccion.TabIndex = 2;
             // 
             // txtCuit
             // 
-            this.txtCuit.Location = new System.Drawing.Point(137, 159);
+            this.txtCuit.Location = new System.Drawing.Point(137, 131);
             this.txtCuit.Name = "txtCuit";
             this.txtCuit.Size = new System.Drawing.Size(100, 20);
             this.txtCuit.TabIndex = 2;
@@ -92,7 +95,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(48, 162);
+            this.label3.Location = new System.Drawing.Point(48, 131);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 1;
@@ -102,18 +105,48 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(48, 118);
+            this.label4.Location = new System.Drawing.Point(48, 100);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 1;
             this.label4.Text = "Direccion";
             this.label4.Click += new System.EventHandler(this.label1_Click);
             // 
+            // btnVolver
+            // 
+            this.btnVolver.Location = new System.Drawing.Point(100, 236);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(75, 23);
+            this.btnVolver.TabIndex = 3;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(48, 161);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(60, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Elegir rubro";
+            // 
+            // selectorRubros
+            // 
+            this.selectorRubros.FormattingEnabled = true;
+            this.selectorRubros.Location = new System.Drawing.Point(137, 161);
+            this.selectorRubros.Name = "selectorRubros";
+            this.selectorRubros.Size = new System.Drawing.Size(100, 21);
+            this.selectorRubros.TabIndex = 5;
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.selectorRubros);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.txtCuit);
             this.Controls.Add(this.txtDireccion);
             this.Controls.Add(this.txtNombre);
@@ -123,7 +156,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnIngresar);
             this.Name = "Alta";
-            this.Text = "Alta";
+            this.Text = "Alta de Empresa";
             this.Load += new System.EventHandler(this.Alta_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -140,5 +173,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox selectorRubros;
     }
 }
