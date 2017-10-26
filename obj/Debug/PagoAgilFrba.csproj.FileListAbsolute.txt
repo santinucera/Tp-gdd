@@ -63,3 +63,33 @@ C:\Users\franco\Documents\github\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Alt
 C:\Users\franco\Documents\github\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Items.resources
 C:\Users\franco\Documents\github\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Listado.resources
 C:\Users\franco\Documents\github\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Menu.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\bin\Debug\PagoAgilFrba.exe.config
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.exe
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.pdb
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\bin\Debug\PagoAgilFrba.exe
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\bin\Debug\PagoAgilFrba.pdb
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.csprojResolveAssemblyReference.cache
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Alta.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Items.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Listado.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Menu.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.Alta.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.Baja.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.Listado.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.MenuEmpresas.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmEmpresa.Modificacion.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmRol.Alta.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmRol.Listado.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmRol.MenuRol.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmRol.Modificacion.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Alta.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Baja.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Listado.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Menu.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.AbmSucursal.Modificacion.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.Form1.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.Menu.ABM.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.Menu.ElegirRol.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.Menu.MenuFuncionalidades.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.Properties.Resources.resources
+C:\Users\Juan Cruz\Documents\GitHub\TpGestion\obj\Debug\PagoAgilFrba.csproj.GenerateResource.Cache

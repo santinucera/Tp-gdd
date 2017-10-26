@@ -48,6 +48,7 @@
             this.btnABMRol.Text = "ABM de Rol";
             this.btnABMRol.UseVisualStyleBackColor = true;
             this.btnABMRol.Visible = false;
+            this.btnABMRol.Click += new System.EventHandler(this.btnABMRol_Click);
             // 
             // btnABMCliente
             // 
