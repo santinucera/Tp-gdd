@@ -30,20 +30,16 @@ namespace PagoAgilFrba.AbmEmpresa
             while (reader.Read())
             {
                 String bajaMod;
-                if (reader.GetBoolean(3))
-                {
-                    bajaMod = "Baja";
-                }
-                else
-                {
-                    bajaMod = "Habilitar";
-                }
 
+                if (reader.GetBoolean(3))
+                    bajaMod = "Baja";
+                else
+                    bajaMod = "Habilitar";
+               
                 dgvSucursales.Rows.Add(reader.GetString(0).Trim(), reader.GetString(1).Trim(), reader.GetString(2).Trim(), reader.GetString(4).Trim(), reader.GetBoolean(3), "Modificar", bajaMod);
             }
 
             reader.Close();
-
         }
 
         private SqlDataReader leerEmpresas()
@@ -71,48 +67,46 @@ namespace PagoAgilFrba.AbmEmpresa
             int columnIndex = dgvSucursales.CurrentCell.ColumnIndex;
             int rowIndex = dgvSucursales.CurrentCell.RowIndex;
 
-            if (dgvSucursales.RowCount > 1)
-            {
-                String cuit = dgvSucursales.Rows[rowIndex].Cells[2].Value.ToString();
-                String direccion = dgvSucursales.Rows[rowIndex].Cells[1].Value.ToString();
-                String nombre = dgvSucursales.Rows[rowIndex].Cells[0].Value.ToString();
-                
-                if(columnIndex == 4){//columna modificar
-                    AbmEmpresa.Modificacion form = new Modificacion(cuit,direccion,nombre);
-                    form.Show();
-                    this.Hide();
-                }
-                else if (columnIndex == 5){//columna baja
-                    
-                    Boolean baja= (Boolean)dgvSucursales.Rows[rowIndex].Cells[3].Value;
+            String cuit = dgvSucursales.Rows[rowIndex].Cells[2].Value.ToString();
 
-                    AbmEmpresa.Baja form = new Baja(cuit, direccion, nombre,baja);
-                    form.Show();
-                    this.Hide();
-                }
+            if (columnIndex == 5)       //si modifica
+            {
+                this.Close();
+                new Modificacion(cuit).Show();
             }
+            else if (columnIndex == 6)      //si da de baja
+            {
+
+                Boolean baja = (Boolean)dgvSucursales.Rows[rowIndex].Cells[3].Value;
+
+                //  AbmEmpresa.Baja form = new Baja(cuit, direccion, nombre,baja);
+                // form.Show();
+               // this.Close();
+            }
+
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            SqlDataReader dr;
+            
             dgvSucursales.Rows.Clear();
 
             String consulta = "SELECT * FROM CONGESTION.listado_empresas " +
                                     "WHERE empr_nombre LIKE '%" + txtNombre.Text + "%' and empr_cuit LIKE '%" + txtCuit.Text + "%'";
 
             if (selectorRubros.SelectedItem != null)    
-            {
-                consulta += " and rub_descripcion LIKE '%" + selectorRubros.SelectedItem.ToString() + "%'";
-            }
-
-            cargarEmpresas(ClaseConexion.ResolverConsulta(consulta));
+                consulta += " and rub_descripcion LIKE '%" + selectorRubros.SelectedItem.ToString() + "%'";  //para evitar un NullPointerExc
+            
+            dr = ClaseConexion.ResolverConsulta(consulta);
+            cargarEmpresas(dr);
+            dr.Close();
         }
 
         private void volver_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            AbmEmpresa.MenuEmpresas form = new MenuEmpresas();
-            form.Show();
+            this.Close();
+            new MenuEmpresas().Show();
         }
 
         private void limpiarCampos()

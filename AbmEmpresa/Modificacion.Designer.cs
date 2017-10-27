@@ -36,18 +36,21 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnIngresar = new System.Windows.Forms.Button();
+            this.rubro = new System.Windows.Forms.Label();
+            this.selectorRubros = new System.Windows.Forms.ComboBox();
+            this.volver = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtCuit
             // 
-            this.txtCuit.Location = new System.Drawing.Point(147, 158);
+            this.txtCuit.Location = new System.Drawing.Point(147, 131);
             this.txtCuit.Name = "txtCuit";
             this.txtCuit.Size = new System.Drawing.Size(100, 20);
             this.txtCuit.TabIndex = 8;
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(147, 114);
+            this.txtDireccion.Location = new System.Drawing.Point(147, 99);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(100, 20);
             this.txtDireccion.TabIndex = 9;
@@ -62,7 +65,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(58, 117);
+            this.label4.Location = new System.Drawing.Point(58, 99);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 4;
@@ -71,7 +74,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(58, 161);
+            this.label3.Location = new System.Drawing.Point(58, 131);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 5;
@@ -97,19 +100,49 @@
             // 
             // btnIngresar
             // 
-            this.btnIngresar.Location = new System.Drawing.Point(172, 217);
+            this.btnIngresar.Location = new System.Drawing.Point(40, 198);
             this.btnIngresar.Name = "btnIngresar";
-            this.btnIngresar.Size = new System.Drawing.Size(75, 23);
+            this.btnIngresar.Size = new System.Drawing.Size(207, 23);
             this.btnIngresar.TabIndex = 3;
-            this.btnIngresar.Text = "Ingresar";
+            this.btnIngresar.Text = "Guardar";
             this.btnIngresar.UseVisualStyleBackColor = true;
             this.btnIngresar.Click += new System.EventHandler(this.btnIngresar_Click);
+            // 
+            // rubro
+            // 
+            this.rubro.AutoSize = true;
+            this.rubro.Location = new System.Drawing.Point(58, 161);
+            this.rubro.Name = "rubro";
+            this.rubro.Size = new System.Drawing.Size(36, 13);
+            this.rubro.TabIndex = 11;
+            this.rubro.Text = "Rubro";
+            // 
+            // selectorRubros
+            // 
+            this.selectorRubros.FormattingEnabled = true;
+            this.selectorRubros.Location = new System.Drawing.Point(147, 161);
+            this.selectorRubros.Name = "selectorRubros";
+            this.selectorRubros.Size = new System.Drawing.Size(100, 21);
+            this.selectorRubros.TabIndex = 12;
+            // 
+            // volver
+            // 
+            this.volver.Location = new System.Drawing.Point(101, 235);
+            this.volver.Name = "volver";
+            this.volver.Size = new System.Drawing.Size(75, 23);
+            this.volver.TabIndex = 13;
+            this.volver.Text = "Volver";
+            this.volver.UseVisualStyleBackColor = true;
+            this.volver.Click += new System.EventHandler(this.volver_Click);
             // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(284, 270);
+            this.Controls.Add(this.volver);
+            this.Controls.Add(this.selectorRubros);
+            this.Controls.Add(this.rubro);
             this.Controls.Add(this.txtCuit);
             this.Controls.Add(this.txtDireccion);
             this.Controls.Add(this.txtNombre);
@@ -136,5 +169,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnIngresar;
+        private System.Windows.Forms.Label rubro;
+        private System.Windows.Forms.ComboBox selectorRubros;
+        private System.Windows.Forms.Button volver;
     }
 }

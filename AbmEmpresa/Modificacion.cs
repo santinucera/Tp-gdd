@@ -7,39 +7,92 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.AbmEmpresa
 {
     public partial class Modificacion : Form
     {
-        public Modificacion(String cuit,String direccion,String nombre)
+        private String cuitViejo;
+
+        public Modificacion(String cuit)
         {
             InitializeComponent();
-            txtCuit.Text = cuit;
-            txtDireccion.Text = direccion;
-            txtNombre.Text = nombre;
-            this.cuit = cuit;
-        }
 
-        private String cuit;
+            this.cuitViejo = cuit;
+        }
 
         private void Modificacion_Load(object sender, EventArgs e)
         {
-
+            this.cargarRubros();
+            this.mostrarEmpresaCon(cuitViejo);
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Empresa SET empr_direccion = '" + txtDireccion.Text + "' ,empr_cuit = '" + txtCuit.Text + "', empr_nombre = '" + txtNombre.Text + "'"
-                            + "WHERE empr_cuit = '" + cuit + "'");
-
-            if (numRegs == 0)
+            if (selectorRubros.SelectedItem == null)
+                MessageBox.Show("Debe elegir un rubro", "Error");
+            else
             {
-                MessageBox.Show("No se pudo guardar los cambios");
-            }
+                try
+                {
+                    this.guardarEmpresa();
+                    MessageBox.Show("Empresa guardada correctamente", "Ok");
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            } 
+            
             Listado form = new Listado();
             form.Show();
-            this.Hide();
+            this.Close();
+        }
+
+        private void mostrarEmpresaCon(String cuit)
+        {
+            SqlDataReader empresaConRubro = 
+                ClaseConexion.ResolverConsulta("SELECT * FROM CONGESTION.listado_empresas WHERE empr_cuit = '" + cuit + "'");
+
+            empresaConRubro.Read();
+
+            txtNombre.Text = empresaConRubro.GetString(0);
+            txtDireccion.Text = empresaConRubro.GetString(1);
+            txtCuit.Text = empresaConRubro.GetString(2);
+            selectorRubros.SelectedItem = empresaConRubro.GetString(4);
+
+            empresaConRubro.Close();
+        }
+
+        private void cargarRubros()
+        {
+            SqlDataReader rubros = ClaseConexion.ResolverConsulta("SELECT rub_descripcion FROM CONGESTION.Rubro");
+
+            while (rubros.Read())
+                selectorRubros.Items.Add(rubros.GetString(0));
+
+            rubros.Close();
+        }
+
+        private void volver_Click(object sender, EventArgs e)
+        {
+            Listado form = new Listado();
+            form.Show();
+            this.Close();
+        }
+
+        private void guardarEmpresa()
+        {
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_modificarEmpresa", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@cuitViejo", cuitViejo);
+            cmd.Parameters.AddWithValue("@cuit", txtCuit.Text);
+            cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
+            cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+            cmd.Parameters.AddWithValue("@descripcionRubro", selectorRubros.SelectedItem.ToString());
+
+            cmd.ExecuteReader().Close();
         }
     }
 }

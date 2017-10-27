@@ -12,8 +12,8 @@ namespace PagoAgilFrba
     {
        
         // declaro una variable de conexion global
-        public static SqlConnection conexion = new SqlConnection("Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2017;Persist Security Info=True;User ID=gd;Password=gd2017");
-
+        public static SqlConnection conexion = new SqlConnection("Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2017;Persist Security Info=True;User ID=gd;Password=gd2017;MultipleActiveResultSets=True");
+        
         public static void Conectar()
         {
             try
@@ -22,36 +22,24 @@ namespace PagoAgilFrba
             }
             catch (SqlException e)
             {
-                MessageBox.Show("No se pudo establecer la conexion a la base de datos");
+                MessageBox.Show("No se pudo establecer la conexion a la base de datos." + e.Message);
             }
         }
 
        
         public static SqlDataReader ResolverConsulta(String query)
         {
-            SqlCommand cmd = new SqlCommand(query, conexion);
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            return reader;
+            return new SqlCommand(query, conexion).ExecuteReader();
         }
 
         public static int ResolverNonQuery(String nonQuery)
         {
-            SqlCommand sqlcom = new SqlCommand(nonQuery, conexion);
-
-            return sqlcom.ExecuteNonQuery();
-
-
+            return new SqlCommand(nonQuery, conexion).ExecuteNonQuery();
         }
 
         public static object ResolverFuncion(String query)
         {
-            SqlCommand cmd = new SqlCommand(query, conexion);
-
-            object resultado = cmd.ExecuteScalar();
-
-            return resultado;
+            return new SqlCommand(query, conexion).ExecuteScalar();
         }
 
     }

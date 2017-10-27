@@ -367,9 +367,47 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
+CREATE PROCEDURE CONGESTION.sp_modificarEmpresa(@cuitViejo NVARCHAR(50), @cuit NVARCHAR(50),@direccion NVARCHAR(255), @nombre NVARCHAR(255), @descripcionRubro VARCHAR(255))
+AS
+	BEGIN TRANSACTION tr	--abro transaccion, asi modifica una empresa, y su vinculo con el rubro
+
+	BEGIN TRY
+		UPDATE CONGESTION.Empresa
+			SET empr_cuit = @cuit, empr_direccion = @direccion, empr_nombre = @nombre
+			WHERE (empr_cuit = @cuitViejo)	--tiene un trigger que lanza una excepcion
+
+		UPDATE CONGESTION.Empresa_Rubro
+			SET er_rubro = (SELECT TOP 1 rub_id
+								FROM CONGESTION.Rubro
+								WHERE Rubro.rub_descripcion = @descripcionRubro
+							)
+			WHERE er_empresa = (SELECT TOP 1 empr_id
+									FROM CONGESTION.Empresa
+									WHERE empr_cuit = @cuit
+								)
+				   
+		IF @@ROWCOUNT = 0
+			BEGIN
+				RAISERROR('Error al vincular la empresa con el rubro',11,0)	--verifico que haya guardado el registro, sino lanza error
+			END
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+
+
+----------CREACION DE TRIGGERS
+
 CREATE TRIGGER CONGESTION.validar_unica_empresa
 ON CONGESTION.Empresa
-INSTEAD OF INSERT
+INSTEAD OF INSERT, UPDATE
 AS 
 BEGIN    
 	DECLARE @cuit NVARCHAR(50)
@@ -383,7 +421,13 @@ BEGIN
 		RAISERROR('Ya existe una empresa con el mismo cuit',11,0)
 	END
 
-	INSERT INTO CONGESTION.Empresa (empr_cuit, empr_direccion, empr_nombre) VALUES (@cuit, @direccion, @nombre) 
+	INSERT INTO CONGESTION.Empresa (empr_cuit, empr_direccion, empr_nombre) VALUES (@cuit, @direccion, @nombre)
+
+	IF (SELECT count(*) FROM deleted) > 1		--por si hace un update, borra el registro anterior
+	BEGIN
+		SELECT @cuit = empr_cuit, @direccion = empr_direccion, @nombre = empr_nombre FROM deleted
+		DELETE FROM CONGESTION.Empresa WHERE empr_cuit = @cuit
+	END
 END 
 GO
 
