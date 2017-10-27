@@ -37,14 +37,15 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.selectorRubros = new System.Windows.Forms.ComboBox();
             this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CUITColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnaRubro = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Habilitada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.BajaOModificacion = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.selectorRubros = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSucursales)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,6 +67,7 @@
             this.Nombre,
             this.Direccion,
             this.CUITColumn,
+            this.columnaRubro,
             this.Habilitada,
             this.Modificar,
             this.BajaOModificacion});
@@ -77,7 +79,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(518, 131);
+            this.button4.Location = new System.Drawing.Point(555, 74);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(101, 25);
             this.button4.TabIndex = 54;
@@ -87,7 +89,7 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(75, 131);
+            this.btnLimpiar.Location = new System.Drawing.Point(38, 116);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(101, 25);
             this.btnLimpiar.TabIndex = 53;
@@ -136,40 +138,6 @@
             this.label4.TabIndex = 44;
             this.label4.Text = "Ingrese los campos por los que quiera filtrar :";
             // 
-            // Nombre
-            // 
-            this.Nombre.HeaderText = "Nombre";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            // 
-            // Direccion
-            // 
-            this.Direccion.HeaderText = "Direccion";
-            this.Direccion.Name = "Direccion";
-            this.Direccion.ReadOnly = true;
-            // 
-            // CUITColumn
-            // 
-            this.CUITColumn.HeaderText = "CUIT";
-            this.CUITColumn.Name = "CUITColumn";
-            this.CUITColumn.ReadOnly = true;
-            // 
-            // Habilitada
-            // 
-            this.Habilitada.HeaderText = "Habilitada";
-            this.Habilitada.Name = "Habilitada";
-            this.Habilitada.ReadOnly = true;
-            // 
-            // Modificar
-            // 
-            this.Modificar.HeaderText = "Modificar";
-            this.Modificar.Name = "Modificar";
-            // 
-            // BajaOModificacion
-            // 
-            this.BajaOModificacion.HeaderText = "BajaOModificacion";
-            this.BajaOModificacion.Name = "BajaOModificacion";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -186,6 +154,52 @@
             this.selectorRubros.Name = "selectorRubros";
             this.selectorRubros.Size = new System.Drawing.Size(121, 21);
             this.selectorRubros.TabIndex = 58;
+            // 
+            // Nombre
+            // 
+            this.Nombre.HeaderText = "Nombre";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            this.Nombre.Width = 110;
+            // 
+            // Direccion
+            // 
+            this.Direccion.HeaderText = "Direccion";
+            this.Direccion.Name = "Direccion";
+            this.Direccion.ReadOnly = true;
+            this.Direccion.Width = 80;
+            // 
+            // CUITColumn
+            // 
+            this.CUITColumn.HeaderText = "CUIT";
+            this.CUITColumn.Name = "CUITColumn";
+            this.CUITColumn.ReadOnly = true;
+            this.CUITColumn.Width = 80;
+            // 
+            // columnaRubro
+            // 
+            this.columnaRubro.HeaderText = "Rubro";
+            this.columnaRubro.Name = "columnaRubro";
+            this.columnaRubro.ReadOnly = true;
+            this.columnaRubro.Width = 70;
+            // 
+            // Habilitada
+            // 
+            this.Habilitada.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Habilitada.HeaderText = "Habilitada";
+            this.Habilitada.Name = "Habilitada";
+            this.Habilitada.ReadOnly = true;
+            this.Habilitada.Width = 60;
+            // 
+            // Modificar
+            // 
+            this.Modificar.HeaderText = "Modificar";
+            this.Modificar.Name = "Modificar";
+            // 
+            // BajaOModificacion
+            // 
+            this.BajaOModificacion.HeaderText = "BajaOModificacion";
+            this.BajaOModificacion.Name = "BajaOModificacion";
             // 
             // Listado
             // 
@@ -204,7 +218,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
             this.Name = "Listado";
-            this.Text = "Listado";
+            this.Text = "Listado de Empresas";
             this.Load += new System.EventHandler(this.Listado_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSucursales)).EndInit();
             this.ResumeLayout(false);
@@ -223,13 +237,14 @@
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox selectorRubros;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn CUITColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnaRubro;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Habilitada;
         private System.Windows.Forms.DataGridViewButtonColumn Modificar;
         private System.Windows.Forms.DataGridViewButtonColumn BajaOModificacion;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox selectorRubros;
     }
 }

@@ -386,3 +386,10 @@ BEGIN
 	INSERT INTO CONGESTION.Empresa (empr_cuit, empr_direccion, empr_nombre) VALUES (@cuit, @direccion, @nombre) 
 END 
 GO
+
+CREATE VIEW CONGESTION.listado_empresas
+AS
+	SELECT e.empr_nombre, e.empr_direccion, e.empr_cuit, e.empr_habilitado, r.rub_descripcion
+	FROM CONGESTION.Empresa e	JOIN CONGESTION.Empresa_Rubro er on (e.empr_id = er.er_empresa)
+								JOIN CONGESTION.Rubro r on (er.er_rubro = r.rub_id)
+GO

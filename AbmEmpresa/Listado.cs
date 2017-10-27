@@ -20,7 +20,9 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void Listado_Load(object sender, EventArgs e)
         {
-            cargarEmpresas(this.leerEmpresas());
+            this.limpiarCampos();
+            this.cargarRubros();
+            this.cargarEmpresas(this.leerEmpresas());
         }
 
         private void cargarEmpresas(SqlDataReader reader)
@@ -37,7 +39,7 @@ namespace PagoAgilFrba.AbmEmpresa
                     bajaMod = "Habilitar";
                 }
 
-                dgvSucursales.Rows.Add(reader.GetString(0).Trim(), reader.GetString(1).Trim(), reader.GetString(2).Trim(), reader.GetBoolean(3), "Modificar", bajaMod);
+                dgvSucursales.Rows.Add(reader.GetString(0).Trim(), reader.GetString(1).Trim(), reader.GetString(2).Trim(), reader.GetString(4).Trim(), reader.GetBoolean(3), "Modificar", bajaMod);
             }
 
             reader.Close();
@@ -46,14 +48,22 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private SqlDataReader leerEmpresas()
         {
-            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_direccion,empr_cuit,empr_habilitado from CONGESTION.Empresa");
+            return ClaseConexion.ResolverConsulta("SELECT * FROM CONGESTION.listado_empresas");
+        }
+
+        private void cargarRubros()
+        {
+            SqlDataReader rubros = ClaseConexion.ResolverConsulta("SELECT rub_descripcion FROM CONGESTION.Rubro");
+
+            while (rubros.Read())
+                selectorRubros.Items.Add(rubros.GetString(0));
+
+            rubros.Close();
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            txtCuit.Text = "";
-            txtDireccion.Text = "";
-            txtNombre.Text = "";
+            this.limpiarCampos();
         }
 
         private void dgvSucursales_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -87,9 +97,14 @@ namespace PagoAgilFrba.AbmEmpresa
         {
             dgvSucursales.Rows.Clear();
 
-            String consulta = "select empr_nombre,empr_direccion,empr_cuit,empr_habilitado from CONGESTION.Empresa "
-                                +"WHERE empr_nombre LIKE '%"+txtNombre.Text+"%' and empr_cuit LIKE '%"+txtCuit.Text+"%' and empr_direccion LIKE '%"+txtDireccion.Text+"%'";
-            
+            String consulta = "SELECT * FROM CONGESTION.listado_empresas " +
+                                    "WHERE empr_nombre LIKE '%" + txtNombre.Text + "%' and empr_cuit LIKE '%" + txtCuit.Text + "%'";
+
+            if (selectorRubros.SelectedItem != null)    
+            {
+                consulta += " and rub_descripcion LIKE '%" + selectorRubros.SelectedItem.ToString() + "%'";
+            }
+
             cargarEmpresas(ClaseConexion.ResolverConsulta(consulta));
         }
 
@@ -98,6 +113,13 @@ namespace PagoAgilFrba.AbmEmpresa
             this.Hide();
             AbmEmpresa.MenuEmpresas form = new MenuEmpresas();
             form.Show();
+        }
+
+        private void limpiarCampos()
+        {
+            txtCuit.Text = "";
+            txtNombre.Text = "";
+            selectorRubros.SelectedItem = null;
         }
     }
 }
