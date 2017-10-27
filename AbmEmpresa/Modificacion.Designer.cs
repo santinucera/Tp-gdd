@@ -152,6 +152,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnIngresar);
             this.Name = "Modificacion";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modificacion";
             this.Load += new System.EventHandler(this.Modificacion_Load);
             this.ResumeLayout(false);

@@ -40,6 +40,8 @@ namespace PagoAgilFrba.AbmEmpresa
                 {
                     this.guardarEmpresa();
                     MessageBox.Show("Empresa guardada correctamente","Ok");
+                    this.Close();
+                    new MenuEmpresas().Show();
                 }
                 catch (SqlException ex)
                 {
@@ -50,9 +52,8 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            AbmEmpresa.MenuEmpresas form = new MenuEmpresas();
-            this.Hide();
-            form.Show();
+            this.Close();
+            new MenuEmpresas().Show();
         }
 
         private void cargarRubros()

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PagoAgilFrba.Menu;
 
 namespace PagoAgilFrba.AbmEmpresa
 {
@@ -19,21 +20,24 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            Alta form = new Alta();
-            this.Hide();
-            form.Show();
+            this.Close();
+            new Alta().Show();
         }
 
         private void btnBaja_Click(object sender, EventArgs e)
         {
-            Listado form = new Listado();
-            this.Hide();
-            form.Show();
+            this.Close();
+            new Listado().Show();
         }
 
         private void MenuEmpresas_Load(object sender, EventArgs e)
         {
+        }
 
+        private void volver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            new MenuFuncionalidades().Show();
         }
 
     }

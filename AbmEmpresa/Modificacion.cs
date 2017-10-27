@@ -38,16 +38,14 @@ namespace PagoAgilFrba.AbmEmpresa
                 {
                     this.guardarEmpresa();
                     MessageBox.Show("Empresa guardada correctamente", "Ok");
+                    this.Close();
+                    new Listado().Show();
                 }
                 catch (SqlException ex)
                 {
                     MessageBox.Show(ex.Message, "Error");
                 }
-            } 
-            
-            Listado form = new Listado();
-            form.Show();
-            this.Close();
+            }
         }
 
         private void mostrarEmpresaCon(String cuit)

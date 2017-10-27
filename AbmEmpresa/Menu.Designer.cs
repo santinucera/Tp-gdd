@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnBaja = new System.Windows.Forms.Button();
             this.btnAlta = new System.Windows.Forms.Button();
+            this.volver = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -62,15 +63,27 @@
             this.btnAlta.UseVisualStyleBackColor = true;
             this.btnAlta.Click += new System.EventHandler(this.btnAlta_Click);
             // 
-            // Menu
+            // volver
+            // 
+            this.volver.Location = new System.Drawing.Point(91, 215);
+            this.volver.Name = "volver";
+            this.volver.Size = new System.Drawing.Size(95, 35);
+            this.volver.TabIndex = 5;
+            this.volver.Text = "Volver";
+            this.volver.UseVisualStyleBackColor = true;
+            this.volver.Click += new System.EventHandler(this.volver_Click);
+            // 
+            // MenuEmpresas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.volver);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBaja);
             this.Controls.Add(this.btnAlta);
-            this.Name = "Menu";
+            this.Name = "MenuEmpresas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -82,5 +95,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnBaja;
         private System.Windows.Forms.Button btnAlta;
+        private System.Windows.Forms.Button volver;
     }
 }

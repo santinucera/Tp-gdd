@@ -156,6 +156,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnIngresar);
             this.Name = "Alta";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alta de Empresa";
             this.Load += new System.EventHandler(this.Alta_Load);
             this.ResumeLayout(false);

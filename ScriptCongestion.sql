@@ -372,6 +372,12 @@ AS
 	BEGIN TRANSACTION tr	--abro transaccion, asi modifica una empresa, y su vinculo con el rubro
 
 	BEGIN TRY
+
+		IF (@cuit IN	(SELECT empr_cuit FROM CONGESTION.Empresa) and @cuit <> @cuitViejo)
+		BEGIN
+			RAISERROR('Ya existe una empresa con el mismo cuit',11,0)
+		END
+
 		UPDATE CONGESTION.Empresa
 			SET empr_cuit = @cuit, empr_direccion = @direccion, empr_nombre = @nombre
 			WHERE (empr_cuit = @cuitViejo)	--tiene un trigger que lanza una excepcion
@@ -385,11 +391,6 @@ AS
 									FROM CONGESTION.Empresa
 									WHERE empr_cuit = @cuit
 								)
-				   
-		IF @@ROWCOUNT = 0
-			BEGIN
-				RAISERROR('Error al vincular la empresa con el rubro',11,0)	--verifico que haya guardado el registro, sino lanza error
-			END
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRANSACTION tr
@@ -407,7 +408,7 @@ GO
 
 CREATE TRIGGER CONGESTION.validar_unica_empresa
 ON CONGESTION.Empresa
-INSTEAD OF INSERT, UPDATE
+INSTEAD OF INSERT
 AS 
 BEGIN    
 	DECLARE @cuit NVARCHAR(50)
@@ -422,14 +423,11 @@ BEGIN
 	END
 
 	INSERT INTO CONGESTION.Empresa (empr_cuit, empr_direccion, empr_nombre) VALUES (@cuit, @direccion, @nombre)
-
-	IF (SELECT count(*) FROM deleted) > 1		--por si hace un update, borra el registro anterior
-	BEGIN
-		SELECT @cuit = empr_cuit, @direccion = empr_direccion, @nombre = empr_nombre FROM deleted
-		DELETE FROM CONGESTION.Empresa WHERE empr_cuit = @cuit
-	END
 END 
 GO
+
+
+----------CREACION DE VISTAS
 
 CREATE VIEW CONGESTION.listado_empresas
 AS

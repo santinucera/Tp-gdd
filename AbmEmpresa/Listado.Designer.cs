@@ -30,6 +30,13 @@
         {
             this.volver = new System.Windows.Forms.Button();
             this.dgvSucursales = new System.Windows.Forms.DataGridView();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CUITColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnaRubro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Habilitada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.BajaOModificacion = new System.Windows.Forms.DataGridViewButtonColumn();
             this.button4 = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.txtCuit = new System.Windows.Forms.TextBox();
@@ -39,13 +46,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.selectorRubros = new System.Windows.Forms.ComboBox();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CUITColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnaRubro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Habilitada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.BajaOModificacion = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSucursales)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,6 +76,52 @@
             this.dgvSucursales.Size = new System.Drawing.Size(648, 149);
             this.dgvSucursales.TabIndex = 55;
             this.dgvSucursales.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSucursales_CellContentClick);
+            // 
+            // Nombre
+            // 
+            this.Nombre.HeaderText = "Nombre";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            this.Nombre.Width = 110;
+            // 
+            // Direccion
+            // 
+            this.Direccion.HeaderText = "Direccion";
+            this.Direccion.Name = "Direccion";
+            this.Direccion.ReadOnly = true;
+            this.Direccion.Width = 80;
+            // 
+            // CUITColumn
+            // 
+            this.CUITColumn.HeaderText = "CUIT";
+            this.CUITColumn.Name = "CUITColumn";
+            this.CUITColumn.ReadOnly = true;
+            this.CUITColumn.Width = 80;
+            // 
+            // columnaRubro
+            // 
+            this.columnaRubro.HeaderText = "Rubro";
+            this.columnaRubro.Name = "columnaRubro";
+            this.columnaRubro.ReadOnly = true;
+            this.columnaRubro.Width = 70;
+            // 
+            // Habilitada
+            // 
+            this.Habilitada.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Habilitada.HeaderText = "Habilitada";
+            this.Habilitada.Name = "Habilitada";
+            this.Habilitada.ReadOnly = true;
+            this.Habilitada.Width = 60;
+            // 
+            // Modificar
+            // 
+            this.Modificar.HeaderText = "Modificar";
+            this.Modificar.Name = "Modificar";
+            // 
+            // BajaOModificacion
+            // 
+            this.BajaOModificacion.HeaderText = "BajaOModificacion";
+            this.BajaOModificacion.Name = "BajaOModificacion";
             // 
             // button4
             // 
@@ -155,52 +201,6 @@
             this.selectorRubros.Size = new System.Drawing.Size(121, 21);
             this.selectorRubros.TabIndex = 58;
             // 
-            // Nombre
-            // 
-            this.Nombre.HeaderText = "Nombre";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            this.Nombre.Width = 110;
-            // 
-            // Direccion
-            // 
-            this.Direccion.HeaderText = "Direccion";
-            this.Direccion.Name = "Direccion";
-            this.Direccion.ReadOnly = true;
-            this.Direccion.Width = 80;
-            // 
-            // CUITColumn
-            // 
-            this.CUITColumn.HeaderText = "CUIT";
-            this.CUITColumn.Name = "CUITColumn";
-            this.CUITColumn.ReadOnly = true;
-            this.CUITColumn.Width = 80;
-            // 
-            // columnaRubro
-            // 
-            this.columnaRubro.HeaderText = "Rubro";
-            this.columnaRubro.Name = "columnaRubro";
-            this.columnaRubro.ReadOnly = true;
-            this.columnaRubro.Width = 70;
-            // 
-            // Habilitada
-            // 
-            this.Habilitada.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Habilitada.HeaderText = "Habilitada";
-            this.Habilitada.Name = "Habilitada";
-            this.Habilitada.ReadOnly = true;
-            this.Habilitada.Width = 60;
-            // 
-            // Modificar
-            // 
-            this.Modificar.HeaderText = "Modificar";
-            this.Modificar.Name = "Modificar";
-            // 
-            // BajaOModificacion
-            // 
-            this.BajaOModificacion.HeaderText = "BajaOModificacion";
-            this.BajaOModificacion.Name = "BajaOModificacion";
-            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,6 +218,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
             this.Name = "Listado";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Listado de Empresas";
             this.Load += new System.EventHandler(this.Listado_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSucursales)).EndInit();
