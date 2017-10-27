@@ -33,6 +33,7 @@ namespace PagoAgilFrba.AbmFactura
         private void Listado_Load(object sender, EventArgs e)
         {
             cargarFacturas(this.leerFacturas());
+            cargarEmpresas(this.leerEmpresas());
         }
 
         private void cargarFacturas(SqlDataReader reader)
@@ -59,6 +60,20 @@ namespace PagoAgilFrba.AbmFactura
                                                     +" from CONGESTION.Factura");
         }
 
+        private void cargarEmpresas(SqlDataReader reader)
+        {
+            while (reader.Read())
+                selectorEmpresa.Items.Add(reader.GetString(0) + ", " + reader.GetString(1));
+
+            reader.Close();
+
+        }
+
+        private SqlDataReader leerEmpresas()
+        {
+            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_cuit from CONGESTION.Empresa");
+        }
+
         private void dgvFacturas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int columnIndex = dgvFacturas.CurrentCell.ColumnIndex;
@@ -67,7 +82,7 @@ namespace PagoAgilFrba.AbmFactura
             if (dgvFacturas.RowCount > 1)
             {
                 int numero = (int)dgvFacturas.Rows[rowIndex].Cells[0].Value;
-                Boolean estaPagaORendida = dgvFacturas.Rows[rowIndex].Cells[6].Selected || (Boolean)dgvFacturas.Rows[rowIndex].Cells[7].Selected;
+                Boolean estaPagaORendida = (Boolean)dgvFacturas.Rows[rowIndex].Cells[7].Value || (Boolean)dgvFacturas.Rows[rowIndex].Cells[8].Value;
                 
                 if (columnIndex == 6)
                 {//columna items
@@ -76,9 +91,8 @@ namespace PagoAgilFrba.AbmFactura
                 }
                 else if (columnIndex == 9 && !estaPagaORendida)
                 {//columna baja
-
-                    //AbmFactura.Baja form = new Baja(codigo, direccion, nombre, baja);
-                    //form.Show();
+                    AbmFactura.Modificacion form = new Modificacion(numero);
+                    form.Show();
                     this.Hide();
                 }
                 else if (columnIndex == 10 && !estaPagaORendida)
@@ -93,7 +107,12 @@ namespace PagoAgilFrba.AbmFactura
 
         private void btnLimpiar_Click_1(object sender, EventArgs e)
         {
-            txtNombre.Text = "";
+            txtNumero.Text = "";
+            txtCliente.Text = "";
+            selectorEmpresa.Text = "";
+            dtpAlta.Value = DateTime.Now;
+            dtpVencimiento.Value = DateTime.Now;
+
         }
 
         private void button4_Click_1(object sender, EventArgs e)
@@ -104,6 +123,11 @@ namespace PagoAgilFrba.AbmFactura
                                 //+ "WHERE suc_nombre LIKE '%" + txtNombre.Text + "%' and suc_codPostal LIKE '%" + txtCodigo.Text + "%' and suc_direccion LIKE '%" + txtDireccion.Text + "%'";
 
             //cargarFacturas(ClaseConexion.ResolverConsulta(consulta));
+        }
+
+        private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

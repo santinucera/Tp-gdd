@@ -99,3 +99,4 @@ C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmRol.Alta.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmRol.Listado.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmRol.MenuRol.resources
 C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmRol.Modificacion.resources
+C:\Users\Santi\Utn\GDD\TpGestion\obj\Debug\PagoAgilFrba.AbmFactura.Modificacion.resources
