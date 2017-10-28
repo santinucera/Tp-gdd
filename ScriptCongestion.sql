@@ -403,6 +403,28 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
+CREATE PROCEDURE CONGESTION.sp_cambiarHabilitacionDe(@cuit NVARCHAR(50),@habilitacion BIT)
+AS
+	BEGIN TRANSACTION tr	--abro transaccion, asi modifica una empresa, y su vinculo con el rubro
+
+	BEGIN TRY
+
+		UPDATE CONGESTION.Empresa
+			SET empr_habilitado = @habilitacion
+			WHERE (empr_cuit = @cuit)	--tiene un trigger que lanza una excepcion
+
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+
 
 ----------CREACION DE TRIGGERS
 

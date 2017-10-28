@@ -76,20 +76,13 @@ namespace PagoAgilFrba.AbmEmpresa
             }
             else if (columnIndex == 6)      //si da de baja
             {
-
-                Boolean baja = (Boolean)dgvSucursales.Rows[rowIndex].Cells[3].Value;
-
-                //  AbmEmpresa.Baja form = new Baja(cuit, direccion, nombre,baja);
-                // form.Show();
-               // this.Close();
+                this.Close();
+                new Baja(cuit).Show();
             }
-
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            SqlDataReader dr;
-            
             dgvSucursales.Rows.Clear();
 
             String consulta = "SELECT * FROM CONGESTION.listado_empresas " +
@@ -98,9 +91,7 @@ namespace PagoAgilFrba.AbmEmpresa
             if (selectorRubros.SelectedItem != null)    
                 consulta += " and rub_descripcion LIKE '%" + selectorRubros.SelectedItem.ToString() + "%'";  //para evitar un NullPointerExc
             
-            dr = ClaseConexion.ResolverConsulta(consulta);
-            cargarEmpresas(dr);
-            dr.Close();
+            cargarEmpresas(ClaseConexion.ResolverConsulta(consulta));
         }
 
         private void volver_Click(object sender, EventArgs e)

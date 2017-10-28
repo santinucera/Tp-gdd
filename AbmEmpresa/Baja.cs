@@ -7,52 +7,86 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.AbmEmpresa
 {
     public partial class Baja : Form
     {
-        public Baja(String cuit,String direccion,String nombre,Boolean baja)
+        private String cuit;
+        private Boolean estaHabilitada;
+
+        public Baja(String cuit)
         {
             InitializeComponent();
-            lblCuit.Text= cuit;
-            lblDireccion.Text = direccion;
-            lblNombre.Text = nombre;
-            if (baja)
-            {
-                button1.Text = "Bajar";
-                lblSeguro.Text = "¿Seguro que desea dar de baja esta sucursal?";
-            }
-            else
-            {
-                button1.Text = "Habilitar";
-                lblSeguro.Text = "¿Seguro que desea habilitar esta sucursal?";
-            }
-            this.baja = baja;
-        }
-
-        private Boolean baja;
-        
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int habilitacion = 1;
-            if(baja)
-            {
-                habilitacion = 0;
-            }
-                        
-            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Empresa SET  empr_habilitado= "+habilitacion.ToString()+" WHERE empr_cuit ='"+lblCuit.Text +"'" );
-            if(numRegs==0){
-                MessageBox.Show("No se pudo "+button1.Text);
-            }
-            this.Hide();
-            Listado form = new Listado();
-            form.Show();
+            this.cuit = cuit;
         }
 
         private void Baja_Load(object sender, EventArgs e)
         {
-
+            this.mostrarEmpresa();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.estaHabilitada)
+                {
+                    this.setHabilitacionA(false);
+                    MessageBox.Show("Empresa deshabilitada", "Ok");
+                }
+                else
+                {
+                    this.setHabilitacionA(true);
+                    MessageBox.Show("Empresa habilitada", "Ok");
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+            
+            this.Close();
+            new Listado().Show();
+        }
+
+        private void mostrarEmpresa()
+        {
+            SqlDataReader empresaConRubro =
+                ClaseConexion.ResolverConsulta("SELECT * FROM CONGESTION.listado_empresas WHERE empr_cuit = '" + cuit + "'");
+
+            empresaConRubro.Read();
+
+            lblNombre.Text = empresaConRubro.GetString(0);
+            lblDireccion.Text = empresaConRubro.GetString(1);
+            lblCuit.Text = empresaConRubro.GetString(2);
+            rubro.Text = empresaConRubro.GetString(4);
+            this.estaHabilitada = empresaConRubro.GetBoolean(3);
+
+            if (!this.estaHabilitada)  //si ya esta habilitada
+            {
+                button1.Text = "Habilitar";
+            }
+
+            empresaConRubro.Close();
+        }
+
+        private void setHabilitacionA(Boolean habilitacion)
+        {
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_cambiarHabilitacionDe", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@cuit", cuit);
+            cmd.Parameters.AddWithValue("@habilitacion", habilitacion);
+
+            cmd.ExecuteReader().Close();
+        }
+
+        private void volver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            new Listado().Show();
+        }
+        
     }
 }
