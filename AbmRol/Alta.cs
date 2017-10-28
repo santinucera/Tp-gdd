@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.AbmRol
 {
@@ -17,20 +18,91 @@ namespace PagoAgilFrba.AbmRol
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Alta_Load(object sender, EventArgs e)
         {
-            
+            cargarFuncionalidades(this.leerFuncionalidades());
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        { 
+            dgvFunciones.Rows.Add(selectorFuncs.SelectedItem.ToString());
+            selectorFuncs.Items.Remove(selectorFuncs.SelectedItem);
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            int numRegs = ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Rol(rol_nombre, rol_habilitado)"
-                    + " VALUES('" + txtNombre.Text + "','" + 1 + "')");
 
-            if (numRegs == 0)
+            if (txtNombre.Text == "")
             {
-                MessageBox.Show("No se pudo agregar la empresa");
+                MessageBox.Show("Debe ingresar un nombre");
             }
+            else
+            {
+                int numRegs = ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Rol(rol_descripcion, rol_habilitado)"
+                        + " VALUES('" + txtNombre.Text + "','" + 1 + "')");
+
+                if (numRegs == 0)
+                {
+                    MessageBox.Show("No se pudo agregar el rol");
+                }
+
+                guardarTodasFuncionalides();
+                this.Hide();
+                Listado form = new Listado();
+                form.Show();
+            }
+        }
+
+      
+        private void cargarFuncionalidades(SqlDataReader reader)
+        {
+            while (reader.Read())
+                selectorFuncs.Items.Add(reader.GetString(0));
+
+            reader.Close();
+
+        }
+
+        private SqlDataReader leerFuncionalidades()
+        {
+            return ClaseConexion.ResolverConsulta("SELECT func_descripcion FROM CONGESTION.Funcionalidad");
+        }
+
+        
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            selectorFuncs.Items.Clear();
+            cargarFuncionalidades(this.leerFuncionalidades());
+            dgvFunciones.Rows.Clear();
+            txtNombre.Clear();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AbmRol.MenuRol form = new AbmRol.MenuRol();
+            this.Hide();
+            form.Show();
+        }
+
+        private void guardarFuncionalidadRol(string nombreFuncionalidad)
+        {
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarFuncionalidadRol", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@nombreFuncionalidad", nombreFuncionalidad);
+            cmd.Parameters.AddWithValue("@nombreRol", txtNombre.Text);
+            cmd.ExecuteReader().Close();
+        }
+
+        private void guardarTodasFuncionalides()
+        {
+            int i = 0;
+            while (i < dgvFunciones.Rows.Count-1)
+            {
+                guardarFuncionalidadRol(dgvFunciones.Rows[i].Cells[0].Value.ToString());
+                i++;
+            }
+
         }
     }
 }
