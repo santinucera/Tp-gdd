@@ -90,6 +90,12 @@ namespace PagoAgilFrba.Menu
             this.Hide();
             form.Show();
         }
+
+        private void btnRegistroFactura_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            new PagoAgilFrba.RegistroPago.SeleccionCliente().Show();
+        }
         
     }
 }

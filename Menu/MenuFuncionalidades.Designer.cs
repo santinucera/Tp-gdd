@@ -103,6 +103,7 @@
             this.btnRegistroFactura.Text = "Registro de Pago de Facturas";
             this.btnRegistroFactura.UseVisualStyleBackColor = true;
             this.btnRegistroFactura.Visible = false;
+            this.btnRegistroFactura.Click += new System.EventHandler(this.btnRegistroFactura_Click);
             // 
             // btnRendicionFactura
             // 
