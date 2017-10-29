@@ -36,7 +36,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtFechaNacimiento = new System.Windows.Forms.TextBox();
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.chkHabilitado = new System.Windows.Forms.CheckBox();
@@ -56,6 +55,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.dtpFechaNacimiento = new System.Windows.Forms.DateTimePicker();
+            this.btnDarAlta = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,7 +73,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(394, 73);
+            this.label14.Location = new System.Drawing.Point(394, 92);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(61, 13);
             this.label14.TabIndex = 108;
@@ -81,7 +82,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(394, 40);
+            this.label11.Location = new System.Drawing.Point(394, 66);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(52, 13);
             this.label11.TabIndex = 105;
@@ -89,14 +90,14 @@
             // 
             // txtCodigoPostal
             // 
-            this.txtCodigoPostal.Location = new System.Drawing.Point(461, 70);
+            this.txtCodigoPostal.Location = new System.Drawing.Point(461, 89);
             this.txtCodigoPostal.Name = "txtCodigoPostal";
             this.txtCodigoPostal.Size = new System.Drawing.Size(100, 20);
             this.txtCodigoPostal.TabIndex = 104;
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(452, 37);
+            this.txtDireccion.Location = new System.Drawing.Point(452, 63);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(137, 20);
             this.txtDireccion.TabIndex = 101;
@@ -127,13 +128,6 @@
             this.label9.Size = new System.Drawing.Size(26, 13);
             this.label9.TabIndex = 98;
             this.label9.Text = "Mail";
-            // 
-            // txtFechaNacimiento
-            // 
-            this.txtFechaNacimiento.Location = new System.Drawing.Point(288, 37);
-            this.txtFechaNacimiento.Name = "txtFechaNacimiento";
-            this.txtFechaNacimiento.Size = new System.Drawing.Size(65, 20);
-            this.txtFechaNacimiento.TabIndex = 97;
             // 
             // txtTelefono
             // 
@@ -178,7 +172,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(505, 141);
+            this.btnGuardar.Location = new System.Drawing.Point(505, 160);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
             this.btnGuardar.TabIndex = 91;
@@ -303,11 +297,30 @@
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
+            // dtpFechaNacimiento
+            // 
+            this.dtpFechaNacimiento.Location = new System.Drawing.Point(288, 37);
+            this.dtpFechaNacimiento.Name = "dtpFechaNacimiento";
+            this.dtpFechaNacimiento.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaNacimiento.TabIndex = 111;
+            // 
+            // btnDarAlta
+            // 
+            this.btnDarAlta.Location = new System.Drawing.Point(383, 124);
+            this.btnDarAlta.Name = "btnDarAlta";
+            this.btnDarAlta.Size = new System.Drawing.Size(75, 23);
+            this.btnDarAlta.TabIndex = 112;
+            this.btnDarAlta.Text = "Dar Alta";
+            this.btnDarAlta.UseVisualStyleBackColor = true;
+            this.btnDarAlta.Click += new System.EventHandler(this.btnDarAlta_Click);
+            // 
             // Cliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(605, 390);
+            this.Controls.Add(this.btnDarAlta);
+            this.Controls.Add(this.dtpFechaNacimiento);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.label14);
@@ -317,7 +330,6 @@
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.txtFechaNacimiento);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.txtMail);
             this.Controls.Add(this.chkHabilitado);
@@ -355,7 +367,6 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtFechaNacimiento;
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.CheckBox chkHabilitado;
@@ -375,5 +386,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.DateTimePicker dtpFechaNacimiento;
+        private System.Windows.Forms.Button btnDarAlta;
     }
 }

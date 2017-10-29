@@ -29,7 +29,7 @@ namespace PagoAgilFrba.AbmCliente
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtFechaNacimiento.Text == "" || txtNombre.Text == "" || txtTelefono.Text == "")
+            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtNombre.Text == "" || txtTelefono.Text == "")
             {
                 MessageBox.Show("Completar campos");
                 return;
@@ -40,7 +40,7 @@ namespace PagoAgilFrba.AbmCliente
                 chkHabilitado.Enabled = false;
                 ClaseConexion.Conectar();
                 int habilitado = this.GetChk();
-                string consulta = "UPDATE CONGESTION.Cliente SET clie_nombre='" + txtNombre.Text + "', clie_apellido='" + txtApellido.Text + "', clie_dni=" + txtDni.Text + ", clie_fecNac='" + txtFechaNacimiento.Text + "', clie_mail='" + txtMail.Text + "', clie_telefono='" + txtTelefono.Text + "', clie_direccion='" + txtDireccion.Text + "', clie_codPostal='" + txtCodigoPostal.Text + "', clie_habilitado='" + habilitado + "' WHERE clie_id=" + id;
+                string consulta = "UPDATE CONGESTION.Cliente SET clie_nombre='" + txtNombre.Text + "', clie_apellido='" + txtApellido.Text + "', clie_dni=" + txtDni.Text + ", clie_fecNac='" + dtpFechaNacimiento.Value + "', clie_mail='" + txtMail.Text + "', clie_telefono='" + txtTelefono.Text + "', clie_direccion='" + txtDireccion.Text + "', clie_codPostal='" + txtCodigoPostal.Text + "', clie_habilitado='" + habilitado + "' WHERE clie_id=" + id;
                 ClaseConexion.ResolverNonQuery(consulta);
                 this.ActualizarGrid();
                 ClaseConexion.Desconectar();
@@ -48,6 +48,7 @@ namespace PagoAgilFrba.AbmCliente
                 MessageBox.Show("Operacion realizada correctamente");
                 btnGuardar.Enabled = false;
                 btnActualizar.Enabled = true;
+                btnDarAlta.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -59,6 +60,7 @@ namespace PagoAgilFrba.AbmCliente
         private void btnActualizar_Click(object sender, EventArgs e)
         {
             btnGuardar.Enabled = true;
+            btnDarAlta.Enabled = false;
             btnActualizar.Enabled = false;
             chkHabilitado.Enabled = true;
             id = int.Parse(this.dataGridView1.CurrentRow.Cells[0].Value.ToString());
@@ -69,7 +71,6 @@ namespace PagoAgilFrba.AbmCliente
             txtTelefono.Text = dataGridView1.CurrentRow.Cells[5].Value.ToString();
             txtMail.Text = dataGridView1.CurrentRow.Cells[6].Value.ToString();
             txtCodigoPostal.Text = dataGridView1.CurrentRow.Cells[7].Value.ToString();
-            txtFechaNacimiento.Text = dataGridView1.CurrentRow.Cells[8].Value.ToString();
         }
 
         private void txtDni_KeyPress(object sender, KeyPressEventArgs e)
@@ -135,7 +136,6 @@ namespace PagoAgilFrba.AbmCliente
             txtCodigoPostal.Text = "";
             txtDireccion.Text = "";
             txtDni.Text = "";
-            txtFechaNacimiento.Text = "";
             txtTelefono.Text = "";
             txtMail.Text = "";
         }
@@ -151,9 +151,21 @@ namespace PagoAgilFrba.AbmCliente
             chkHabilitado.Enabled = false;
             btnActualizar.Enabled = true;
             btnGuardar.Enabled = false;
+            btnDarAlta.Enabled = true;
             LimpiarCampos();
             ActualizarGrid();
             ClaseConexion.Desconectar();
+        }
+
+        private void btnDarAlta_Click(object sender, EventArgs e)
+        {
+            ClaseConexion.Conectar();
+            string consulta = "INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac, clie_habilitado) VALUES ('" + txtNombre.Text + "', '" + txtApellido.Text + "', '" + txtDni.Text + "', '" + txtDireccion.Text + "', '" + txtTelefono.Text + "', '" + txtMail.Text + "', '" + txtCodigoPostal.Text + "', '" + dtpFechaNacimiento.Value + "', 1)";
+            ClaseConexion.ResolverNonQuery(consulta);
+            this.ActualizarGrid();
+            ClaseConexion.Desconectar();
+            this.LimpiarCampos();
+            MessageBox.Show("Operacion realizada correctamente");
         }
 
     }
