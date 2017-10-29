@@ -35,10 +35,10 @@
             this.selectorFuncionalidades = new System.Windows.Forms.ComboBox();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.dgvFuncionalidades = new System.Windows.Forms.DataGridView();
-            this.btnVolver = new System.Windows.Forms.Button();
-            this.btnLimpiar = new System.Windows.Forms.Button();
             this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btnVolver = new System.Windows.Forms.Button();
+            this.btnHabilitar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFuncionalidades)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,6 +77,7 @@
             this.btnGuardar.TabIndex = 4;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // selectorFuncionalidades
             // 
@@ -108,26 +109,6 @@
             this.dgvFuncionalidades.TabIndex = 7;
             this.dgvFuncionalidades.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFuncionalidades_CellContentClick);
             // 
-            // btnVolver
-            // 
-            this.btnVolver.Location = new System.Drawing.Point(16, 347);
-            this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(75, 23);
-            this.btnVolver.TabIndex = 8;
-            this.btnVolver.Text = "Volver";
-            this.btnVolver.UseVisualStyleBackColor = true;
-            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
-            // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.Location = new System.Drawing.Point(299, 347);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
-            this.btnLimpiar.TabIndex = 9;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
-            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
-            // 
             // Descripción
             // 
             this.Descripción.HeaderText = "Descripción";
@@ -139,12 +120,32 @@
             this.Eliminar.HeaderText = "Eliminar";
             this.Eliminar.Name = "Eliminar";
             // 
+            // btnVolver
+            // 
+            this.btnVolver.Location = new System.Drawing.Point(16, 347);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(75, 23);
+            this.btnVolver.TabIndex = 8;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            // 
+            // btnHabilitar
+            // 
+            this.btnHabilitar.Location = new System.Drawing.Point(19, 285);
+            this.btnHabilitar.Name = "btnHabilitar";
+            this.btnHabilitar.Size = new System.Drawing.Size(94, 33);
+            this.btnHabilitar.TabIndex = 9;
+            this.btnHabilitar.Text = "Habilitar";
+            this.btnHabilitar.UseVisualStyleBackColor = true;
+            this.btnHabilitar.Click += new System.EventHandler(this.btnHabilitar_Click);
+            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 382);
-            this.Controls.Add(this.btnLimpiar);
+            this.Controls.Add(this.btnHabilitar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvFuncionalidades);
             this.Controls.Add(this.btnAgregar);
@@ -172,8 +173,8 @@
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.DataGridView dgvFuncionalidades;
         private System.Windows.Forms.Button btnVolver;
-        private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripción;
         private System.Windows.Forms.DataGridViewButtonColumn Eliminar;
+        private System.Windows.Forms.Button btnHabilitar;
     }
 }

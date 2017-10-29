@@ -47,10 +47,12 @@ namespace PagoAgilFrba.AbmRol
             {
 
                 String descripcion = dgvRoles.Rows[rowIndex].Cells[0].Value.ToString();
+                DataGridViewCheckBoxCell cB = dgvRoles.Rows[rowIndex].Cells["Habilitado"] as DataGridViewCheckBoxCell;
+                bool habilitacion = !Convert.ToBoolean(cB.Value);
 
                 if (columnIndex == 2)
                 {
-                    AbmRol.Modificacion form = new Modificacion(descripcion);
+                    AbmRol.Modificacion form = new Modificacion(descripcion,habilitacion);
                     form.Show();
                     this.Hide();
                 }
@@ -81,7 +83,10 @@ namespace PagoAgilFrba.AbmRol
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             txtNombreFiltro.Clear();
+            dgvRoles.Rows.Clear();
+            cargarRoles(this.leerRoles());
            
         }
+
     }
 }

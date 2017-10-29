@@ -457,3 +457,69 @@ AS
 	FROM CONGESTION.Empresa e	JOIN CONGESTION.Empresa_Rubro er on (e.empr_id = er.er_empresa)
 								JOIN CONGESTION.Rubro r on (er.er_rubro = r.rub_id)
 GO
+
+----------PROCEDURES ROL
+
+CREATE PROCEDURE CONGESTION.sp_guardarFuncionalidadRol
+@nombreFuncionalidad nvarchar(100),
+@nombreRol nvarchar(100)
+AS
+BEGIN
+DECLARE
+@IdFuncionalidad int,
+@IdRol int
+
+SELECT @IdFuncionalidad =  func_id FROM CONGESTION.Funcionalidad WHERE func_descripcion = @nombreFuncionalidad
+SELECT @IdRol = rol_id FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRol
+
+IF NOT (EXISTS (SELECT fr_funcionalidad FROM CONGESTION.Funcionalidad_Rol WHERE fr_funcionalidad = @IdFuncionalidad AND fr_rol = @IdRol))
+BEGIN
+ INSERT INTO CONGESTION.Funcionalidad_Rol(fr_funcionalidad,fr_rol) VALUES (@IdFuncionalidad, @IdRol)
+ END
+ END
+ GO
+
+
+CREATE PROCEDURE CONGESTION.sp_eliminarFuncionalidadRol
+@nombreFuncionalidad nvarchar(100),
+@nombreRol nvarchar(100)
+AS
+BEGIN
+DECLARE
+@IdFuncionalidad int,
+@IdRol int
+
+SELECT @IdFuncionalidad =  func_id FROM CONGESTION.Funcionalidad WHERE func_descripcion = @nombreFuncionalidad
+SELECT @IdRol = rol_id FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRol
+
+ DELETE FROM CONGESTION.Funcionalidad_Rol WHERE  fr_funcionalidad = @IdFuncionalidad AND  fr_rol = @IdRol
+ END
+ GO
+
+ CREATE PROCEDURE CONGESTION.sp_updatearRol
+ @nombreRol nvarchar(100),
+ @nombreRolNuevo nvarchar(100)
+ AS
+ BEGIN
+ DECLARE
+ @CantidadDeRoles int
+
+ SELECT @CantidadDeRoles = count(*) FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRolNuevo
+
+ IF NOT(@CantidadDeRoles = 1)
+ BEGIN
+ UPDATE CONGESTION.Rol SET rol_descripcion = @nombreRolNuevo WHERE rol_descripcion = @nombreRol
+ END
+ END 
+ GO
+
+ CREATE PROCEDURE CONGESTION.sp_agregarRol
+ @nombreRol nvarchar(100)
+ AS
+ BEGIN
+ IF NOT(EXISTS (SELECT rol_descripcion FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRol))
+ BEGIN
+ INSERT INTO CONGESTION.Rol(rol_descripcion,rol_habilitado) VALUES (@nombreRol,'1')
+ END
+ END
+ GO

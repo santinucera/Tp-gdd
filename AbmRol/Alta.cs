@@ -38,18 +38,19 @@ namespace PagoAgilFrba.AbmRol
             }
             else
             {
-                int numRegs = ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Rol(rol_descripcion, rol_habilitado)"
-                        + " VALUES('" + txtNombre.Text + "','" + 1 + "')");
+                int numRegs = ClaseConexion.ResolverNonQuery("EXEC CONGESTION.sp_agregarRol '"+txtNombre.Text+"'");
 
-                if (numRegs == 0)
+                if (numRegs != 1)
                 {
                     MessageBox.Show("No se pudo agregar el rol");
                 }
-
-                guardarTodasFuncionalides();
-                this.Hide();
-                Listado form = new Listado();
-                form.Show();
+                else
+                {
+                    guardarTodasFuncionalides();
+                    this.Hide();
+                    Listado form = new Listado();
+                    form.Show();
+                }
             }
         }
 
@@ -104,5 +105,7 @@ namespace PagoAgilFrba.AbmRol
             }
 
         }
+
+        
     }
 }

@@ -13,10 +13,13 @@ namespace PagoAgilFrba.AbmRol
 {
     public partial class Modificacion : Form
     {
-        public Modificacion(string nombre)
+        string nombreR;
+        public Modificacion(string nombre,bool habilitacion)
         {
             InitializeComponent();
             txtNombre.Text = nombre;
+            btnHabilitar.Enabled = habilitacion;
+            nombreR = nombre;
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -28,13 +31,17 @@ namespace PagoAgilFrba.AbmRol
 
         private void Modificacion_Load(object sender, EventArgs e)
         {
+
             cargarFunciones(this.leerFunciones());
             cargarFuncionesCB(this.leerFuncionalidadesCB());
+            
+
         }
 
         private SqlDataReader leerFunciones()
         {
-            return ClaseConexion.ResolverConsulta("SELECT func_descripcion FROM CONGESTION.Funcionalidad JOIN CONGESTION.Funcionalidad_Rol ON func_id = fr_funcionalidad JOIN CONGESTION.Rol ON rol_id = fr_rol AND rol_descripcion LIKE'%" + txtNombre.Text + "%'");
+            return ClaseConexion.ResolverConsulta("SELECT func_descripcion FROM CONGESTION.Funcionalidad JOIN"
+                +" CONGESTION.Funcionalidad_Rol ON func_id = fr_funcionalidad JOIN CONGESTION.Rol ON rol_id = fr_rol AND rol_descripcion LIKE'%" + txtNombre.Text + "%'");
         }
 
         private void cargarFunciones(SqlDataReader reader)
@@ -76,10 +83,7 @@ namespace PagoAgilFrba.AbmRol
             cmd.ExecuteReader().Close();
         }
 
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-
-        }
+  
 
         private SqlDataReader leerFuncionalidadesCB()
         {
@@ -98,6 +102,72 @@ namespace PagoAgilFrba.AbmRol
         {
             dgvFuncionalidades.Rows.Add(selectorFuncionalidades.SelectedItem.ToString(),"Eliminar");
             selectorFuncionalidades.Items.Remove(selectorFuncionalidades.SelectedItem);
+        }
+
+        private void btnHabilitar_Click(object sender, EventArgs e)
+        {
+            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Rol SET rol_habilitado = 'TRUE' WHERE rol_descripcion = '"
+                + txtNombre.Text + "'");
+
+            if (numRegs == 0)
+            {
+                MessageBox.Show("No se pudo habilitar");
+            }
+            else
+            {
+                btnHabilitar.Enabled = false;
+            }
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        
+        {
+            
+            if (!nombreR.Equals(txtNombre.Text))
+            {
+                int numRegs = ClaseConexion.ResolverNonQuery("EXEC CONGESTION.sp_updatearRol '" + nombreR + "', '" + txtNombre.Text + "'");
+
+                if (numRegs != 1)
+                {
+                    MessageBox.Show("No se pudo modificar el rol");
+                }
+                else
+                {
+                    this.guardarTodasFuncionalidades();
+                    AbmRol.Listado form = new AbmRol.Listado();
+                    this.Hide();
+                    form.Show();
+                }
+            }
+            else
+            {
+                this.guardarTodasFuncionalidades();
+                AbmRol.Listado form = new AbmRol.Listado();
+                this.Hide();
+                form.Show();
+            }
+          
+            
+        }
+
+        private void guardarFuncionalidadRol(string nombreFuncionalidad)
+        {
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarFuncionalidadRol", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@nombreFuncionalidad", nombreFuncionalidad);
+            cmd.Parameters.AddWithValue("@nombreRol", txtNombre.Text);
+            cmd.ExecuteReader().Close();
+        }
+
+        private void guardarTodasFuncionalidades()
+        {
+            
+            for (int i = 0; i < dgvFuncionalidades.Rows.Count - 1; i++)
+            {
+                guardarFuncionalidadRol(dgvFuncionalidades.Rows[i].Cells[0].Value.ToString());
+                
+            }
+
         }
     }
 }
