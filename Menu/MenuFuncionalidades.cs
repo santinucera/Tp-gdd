@@ -90,6 +90,12 @@ namespace PagoAgilFrba.Menu
             this.Hide();
             form.Show();
         }
+
+        private void btnABMCliente_Click(object sender, EventArgs e)
+        {
+            AbmCliente.Cliente form = new AbmCliente.Cliente();
+            form.Show();
+        }
         
     }
 }

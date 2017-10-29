@@ -59,6 +59,7 @@
             this.btnABMCliente.Text = "ABM de Cliente";
             this.btnABMCliente.UseVisualStyleBackColor = true;
             this.btnABMCliente.Visible = false;
+            this.btnABMCliente.Click += new System.EventHandler(this.btnABMCliente_Click);
             // 
             // btnABMEmpresa
             // 
