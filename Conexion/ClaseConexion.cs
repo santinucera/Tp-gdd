@@ -26,6 +26,10 @@ namespace PagoAgilFrba
             }
         }
 
+        public static void Desconectar()
+        {
+            conexion.Close();
+        }
        
         public static SqlDataReader ResolverConsulta(String query)
         {
@@ -42,5 +46,17 @@ namespace PagoAgilFrba
             return new SqlCommand(query, conexion).ExecuteScalar();
         }
 
+        public static void ActualizarGrid(DataGridView dg, string tabla, string consulta)
+        {
+            // instancio el dataset que va a llenar de datos el datagridview
+            System.Data.DataSet ds = new System.Data.DataSet();
+            // instancio un adaptador de datos entre el dataset y la bd
+            SqlDataAdapter da = new SqlDataAdapter(consulta, conexion);
+            // llenar el dataSet con los datos de la tabla NN a través del adapter     
+            da.Fill(ds, tabla);
+            dg.DataSource = ds;
+            // para traer todo el contenido de la tabla NN al dataGridView
+            dg.DataMember = tabla;
+        }
     }
 }
