@@ -115,6 +115,7 @@
             this.btnRendicionFactura.Text = "Rendicion de Facturas Cobradas";
             this.btnRendicionFactura.UseVisualStyleBackColor = true;
             this.btnRendicionFactura.Visible = false;
+            this.btnRendicionFactura.Click += new System.EventHandler(this.btnRendicionFactura_Click);
             // 
             // btnListado
             // 

@@ -162,11 +162,11 @@ INSERT INTO CONGESTION.Empresa_Rubro(er_rubro,er_empresa)
 	FROM gd_esquema.Maestra
 	GROUP BY Empresa_Rubro, [Empresa_Cuit]
 
-INSERT INTO CONGESTION.Rendicion(rend_numero,rend_fecha,rend_total)
-	SELECT DISTINCT Rendicion_Nro,Rendicion_Fecha, sum(ItemRendicion_Importe) 
+INSERT INTO CONGESTION.Rendicion(rend_numero,rend_fecha,rend_total,rend_cantidad_facturas,rend_comision,rend_porcentaje_comision)
+	SELECT DISTINCT Rendicion_Nro,Rendicion_Fecha, sum(Factura_Total),count(Pago_nro), ItemRendicion_Importe,(ItemRendicion_Importe/sum(Factura_Total))*100
 	FROM gd_esquema.Maestra
 	WHERE Rendicion_Nro is not null
-	GROUP BY Rendicion_Nro,Rendicion_Fecha
+	GROUP BY Rendicion_Nro,Rendicion_Fecha,Factura_Total,Pago_nro,ItemRendicion_Importe
 
 
 INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_rendicion,fact_fecha_alta,fact_fecha_venc,fact_total)
@@ -523,3 +523,63 @@ SELECT @IdRol = rol_id FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRol
  END
  END
  GO
+
+ CREATE TYPE [CONGESTION].listaFacturas AS TABLE(
+	[numero] int,
+	[total] int
+ )
+ GO
+
+ GO
+CREATE PROCEDURE CONGESTION.sp_RendirFacturas(@listaFacturas listaFacturas readonly,@comision int,@cuit NVARCHAR(50))
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+
+		DECLARE @CantidadDeFacturas int
+		DECLARE @total int
+		DECLARE @numeroFactura int
+		DECLARE @rendicion int
+		DECLARE @rendNumero int
+		DECLARE @porcentaje int
+		
+
+
+		DECLARE cursorFacturas CURSOR FOR
+		SELECT numero FROM @listaFacturas
+
+		SELECT @CantidadDeFacturas =  count(*) FROM @listaFacturas
+		SELECT @total =  sum(total) FROM @listaFacturas
+		SELECT @rendNumero =  (SELECT TOP 1 rend_numero from CONGESTION.Rendicion order by rend_numero DESC) +1
+		set @porcentaje = ((@comision/@total))*100.00
+		
+		INSERT INTO CONGESTION.Rendicion(rend_numero,rend_comision,rend_cantidad_facturas,rend_fecha,rend_total,rend_porcentaje_comision) 
+			VALUES (@rendNumero,@comision,@CantidadDeFacturas,GETDATE(),@total,@porcentaje)
+
+		OPEN cursorFacturas
+		FETCH cursorFacturas INTO @numeroFactura
+		
+		WHILE(@@FETCH_STATUS = 0)
+		BEGIN
+			UPDATE CONGESTION.Factura SET fact_rendicion = @rendNumero where fact_num = @numeroFactura
+			
+			FETCH cursorFacturas INTO @numeroFactura
+		END
+
+		CLOSE cursorFacturas
+		DEALLOCATE cursorFacturas
+
+
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
