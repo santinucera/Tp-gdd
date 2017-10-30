@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.AbmSucursal
 {
@@ -16,6 +17,7 @@ namespace PagoAgilFrba.AbmSucursal
         {
             InitializeComponent();
             lblCodigo.Text= codigo;
+            this.codigo = Int32.Parse(codigo);
             lblDireccion.Text = direccion;
             lblNombre.Text = nombre;
             if (baja)
@@ -32,27 +34,59 @@ namespace PagoAgilFrba.AbmSucursal
         }
 
         private Boolean baja;
+        private int codigo;
         
         private void button1_Click(object sender, EventArgs e)
         {
-            int habilitacion = 1;
-            if(baja)
+            try
             {
-                habilitacion = 0;
+                this.modificarSucursal();
+                String mensaje;
+                if (baja)
+                {
+                    mensaje = "Baja realizada correctamente";
+                }
+                else
+                {
+                    mensaje = "Habilitacion realizada correctamente";
+                }
+                
+                
+                MessageBox.Show(mensaje);
+                this.Close();
+                new Listado().Show();
             }
-                        
-            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Sucursal SET  suc_habilitado= "+habilitacion.ToString()+" WHERE suc_codPostal ='"+lblCodigo.Text +"'" );
-            if(numRegs==0){
-                MessageBox.Show("No se pudo "+button1.Text);
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
             }
-            this.Hide();
-            Listado form = new Listado();
-            form.Show();
         }
 
         private void Baja_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Listado().Show();
+        }
+
+        private void modificarSucursal()
+        {
+            int habilitacion = 1;
+            if (baja)
+            {
+                habilitacion = 0;
+            }
+            
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_modificarHabilitacionSucursal", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@codigo", codigo);
+            cmd.Parameters.AddWithValue("@habilitacion", habilitacion);
+
+            cmd.ExecuteReader().Close();
         }
     }
 }

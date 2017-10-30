@@ -93,13 +93,21 @@ namespace PagoAgilFrba.Menu
 
         private void btnRegistroFactura_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
             new PagoAgilFrba.RegistroPago.SeleccionCliente().Show();
         }
 
         private void btnABMCliente_Click(object sender, EventArgs e)
         {
+            this.Hide();
             AbmCliente.Cliente form = new AbmCliente.Cliente();
+            form.Show();
+        }
+
+        private void btnRendicionFactura_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Rendicion.Rendicion form = new Rendicion.Rendicion();
             form.Show();
         }
         

@@ -87,19 +87,41 @@ namespace PagoAgilFrba.AbmFactura
             String[] stringSeparators = new String[] { "," };
             String[] cuit = comboBox1.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
 
-            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Factura SET "
-                                                        +"fact_cliente = (select clie_id from CONGESTION.Cliente where clie_dni =" +txtCliente.Text+"),"
-                                                        +"fact_empresa = (select empr_id from CONGESTION.Empresa where empr_cuit ='" +cuit[1]+"'),"
-                                                        +"fact_fecha_alta ='"+dtmAlta.Value.ToString()+"',fact_fecha_venc='"+dtpVencimiento.Value.ToString()+"',"
-                                                        +"fact_total= "+txtTotal.Text+" WHere fact_num = "+txtNumero.Text);
-
-            if (numRegs == 0)
+            if (String.IsNullOrWhiteSpace(txtCliente.Text) && String.IsNullOrWhiteSpace(comboBox1.Text))
             {
-                MessageBox.Show("No se pudo guardar los cambios");
+                MessageBox.Show("Debe completar todos los campos", "Error");
             }
-            Listado form = new Listado();
-            form.Show();
-            this.Hide();
+            else
+            {
+                try
+                {
+                    this.guardarFactura();
+                    MessageBox.Show("Factura guardada correctamente", "Ok");
+                    this.Close();
+                    new Listado().Show();
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            }
+            
+        }
+
+        private void guardarFactura()
+        {
+            String[] stringSeparators = new String[] { "," };
+            String[] cuit = comboBox1.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+            int dni = Int32.Parse(txtCliente.Text);
+
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_modificarFactura", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@numero", txtNumero.Text);
+            cmd.Parameters.AddWithValue("@dni", dni.ToString());
+            cmd.Parameters.AddWithValue("@cuit", cuit[1].Trim());
+            cmd.Parameters.AddWithValue("@fechaVen", dtpVencimiento.Value);
+
+            cmd.ExecuteReader().Close();
         }
     }
 }

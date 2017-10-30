@@ -37,7 +37,7 @@ namespace PagoAgilFrba.AbmSucursal
                     bajaMod = "Habilitar";
                 }
 
-                dgvSucursales.Rows.Add(reader.GetString(0).Trim(), reader.GetString(1).Trim(), reader.GetString(2).Trim(), reader.GetBoolean(3), "Modificar", bajaMod);
+                dgvSucursales.Rows.Add(reader.GetString(0).Trim(), reader.GetString(1).Trim(), reader.GetDecimal(2), reader.GetBoolean(3), "Modificar", bajaMod);
             }
 
             reader.Close();

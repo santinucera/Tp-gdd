@@ -12,7 +12,7 @@ namespace PagoAgilFrba
     {
        
         // declaro una variable de conexion global
-        public static SqlConnection conexion = new SqlConnection("Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2017;Persist Security Info=True;User ID=gd;Password=gd2017;MultipleActiveResultSets=True");
+        public static SqlConnection conexion = new SqlConnection("Data Source=localhost\\NAMEDINSTANCE;Initial Catalog=GD2C2017;Persist Security Info=True;User ID=gd;Password=gd2017;MultipleActiveResultSets=True");
         
         public static void Conectar()
         {

@@ -48,6 +48,8 @@
             this.txtCliente = new System.Windows.Forms.MaskedTextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.calendar = new System.Windows.Forms.DateTimePicker();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,7 +73,7 @@
             // 
             // btnIngresar
             // 
-            this.btnIngresar.Location = new System.Drawing.Point(111, 280);
+            this.btnIngresar.Location = new System.Drawing.Point(244, 277);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(154, 55);
             this.btnIngresar.TabIndex = 3;
@@ -198,18 +200,18 @@
             // 
             // Limpiar
             // 
-            this.Limpiar.Location = new System.Drawing.Point(707, 312);
+            this.Limpiar.Location = new System.Drawing.Point(708, 303);
             this.Limpiar.Name = "Limpiar";
-            this.Limpiar.Size = new System.Drawing.Size(75, 23);
+            this.Limpiar.Size = new System.Drawing.Size(93, 41);
             this.Limpiar.TabIndex = 14;
-            this.Limpiar.Text = "Limpiar";
+            this.Limpiar.Text = "Limpiar items";
             this.Limpiar.UseVisualStyleBackColor = true;
             this.Limpiar.Click += new System.EventHandler(this.Limpiar_Click);
             // 
             // txtCliente
             // 
             this.txtCliente.Location = new System.Drawing.Point(149, 116);
-            this.txtCliente.Mask = "9999999";
+            this.txtCliente.Mask = "99999999";
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(135, 20);
             this.txtCliente.TabIndex = 12;
@@ -230,11 +232,33 @@
             this.calendar.Size = new System.Drawing.Size(200, 20);
             this.calendar.TabIndex = 19;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(63, 280);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(154, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Limpiar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(63, 309);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(154, 23);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "Volver";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(866, 357);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.calendar);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.panel1);
@@ -280,5 +304,7 @@
         private System.Windows.Forms.MaskedTextBox txtCliente;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DateTimePicker calendar;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }

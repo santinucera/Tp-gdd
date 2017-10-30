@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.AbmSucursal
 {
@@ -30,16 +31,49 @@ namespace PagoAgilFrba.AbmSucursal
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Sucursal SET suc_direccion = '" + txtDireccion.Text + "' ,suc_codPostal = '" + txtCodigo.Text + "', suc_nombre = '" + txtNombre.Text + "'"
-                            + "WHERE suc_codPostal = '" + codigo + "'");
-
-            if (numRegs == 0)
+            if (String.IsNullOrWhiteSpace(txtCodigo.Text) && String.IsNullOrWhiteSpace(txtDireccion.Text) && String.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show("No se pudo guardar los cambios");
+                MessageBox.Show("Debe completar todos los campos", "Error");
             }
-            Listado form = new Listado();
-            form.Show();
+            else
+            {
+                try
+                {
+                    this.guardarSucursal();
+                    MessageBox.Show("Sucursal guardada correctamente", "Ok");
+                    this.Close();
+                    new Listado().Show();
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            }
+        }
+
+        private void guardarSucursal()
+        {
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_modificarSucursal", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@codigo", txtCodigo.Text);
+            cmd.Parameters.AddWithValue("@codigoViejo", codigo);
+            cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
+            cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+
+            cmd.ExecuteReader().Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             this.Hide();
+            new Listado().Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            txtCodigo.Text = "";
+            txtNombre.Text = "";
+            txtDireccion.Text = "";
         }
     }
 }
