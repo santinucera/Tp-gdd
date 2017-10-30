@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -40,6 +41,12 @@
             this.listaClientes = new System.Windows.Forms.ListBox();
             this.btnSeleccionar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.clienteBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.registroPagoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.clienteDeListaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.clienteBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.registroPagoBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.clienteDeListaBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -56,6 +63,7 @@
             // 
             this.txtApellido.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtApellido.Location = new System.Drawing.Point(12, 43);
+            this.txtApellido.MaxLength = 50;
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(105, 23);
             this.txtApellido.TabIndex = 1;
@@ -64,18 +72,21 @@
             // 
             this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNombre.Location = new System.Drawing.Point(136, 43);
+            this.txtNombre.MaxLength = 50;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(105, 23);
             this.txtNombre.TabIndex = 2;
             // 
             // txtDni
             // 
+            this.txtDni.AllowPromptAsInput = false;
             this.txtDni.BeepOnError = true;
             this.txtDni.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDni.Location = new System.Drawing.Point(259, 43);
             this.txtDni.Mask = "9999999999";
             this.txtDni.Name = "txtDni";
             this.txtDni.PromptChar = ' ';
+            this.txtDni.ResetOnPrompt = false;
             this.txtDni.Size = new System.Drawing.Size(97, 23);
             this.txtDni.TabIndex = 12;
             // 
@@ -134,11 +145,14 @@
             // listaClientes
             // 
             this.listaClientes.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.listaClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listaClientes.FormattingEnabled = true;
+            this.listaClientes.ItemHeight = 15;
             this.listaClientes.Location = new System.Drawing.Point(12, 156);
             this.listaClientes.Name = "listaClientes";
-            this.listaClientes.Size = new System.Drawing.Size(344, 95);
+            this.listaClientes.Size = new System.Drawing.Size(344, 94);
             this.listaClientes.TabIndex = 9;
+            this.listaClientes.SelectedIndexChanged += new System.EventHandler(this.listaClientes_SelectedIndexChanged);
             // 
             // btnSeleccionar
             // 
@@ -149,7 +163,7 @@
             this.btnSeleccionar.TabIndex = 10;
             this.btnSeleccionar.Text = "Seleccionar";
             this.btnSeleccionar.UseVisualStyleBackColor = true;
-            this.btnSeleccionar.Visible = false;
+            this.btnSeleccionar.Click += new System.EventHandler(this.btnSeleccionar_Click);
             // 
             // btnVolver
             // 
@@ -161,6 +175,18 @@
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            // 
+            // clienteBindingSource
+            // 
+            this.clienteBindingSource.DataSource = typeof(PagoAgilFrba.RegistroPago.Cliente);
+            // 
+            // registroPagoBindingSource
+            // 
+            this.registroPagoBindingSource.DataSource = typeof(PagoAgilFrba.RegistroPago.RegistroPago);
+            // 
+            // clienteDeListaBindingSource
+            // 
+            this.clienteDeListaBindingSource.DataSource = typeof(PagoAgilFrba.RegistroPago.ClienteDeLista);
             // 
             // BusquedaCliente
             // 
@@ -182,6 +208,9 @@
             this.Name = "BusquedaCliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Buscar cliente";
+            ((System.ComponentModel.ISupportInitialize)(this.clienteBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.registroPagoBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.clienteDeListaBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -201,6 +230,9 @@
         private System.Windows.Forms.ListBox listaClientes;
         private System.Windows.Forms.Button btnSeleccionar;
         private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.BindingSource clienteDeListaBindingSource;
+        private System.Windows.Forms.BindingSource clienteBindingSource;
+        private System.Windows.Forms.BindingSource registroPagoBindingSource;
         
     }
 }

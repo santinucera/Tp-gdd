@@ -21,7 +21,8 @@ namespace PagoAgilFrba.RegistroPago
 
         private void buscarCliente_Click(object sender, EventArgs e)
         {
-
+            new BusquedaCliente().Show();
+            lblCliente.Text = Cliente.nombreCompleto();
         }
 
         private void button1_Click(object sender, EventArgs e)

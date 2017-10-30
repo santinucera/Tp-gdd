@@ -26,15 +26,18 @@ namespace PagoAgilFrba.RegistroPago
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            listaClientes.Items.Clear();
+            if (!this.tieneLosCamposVacios())
+            {
+                listaClientes.Items.Clear();
 
-            String selectFromClientes = "SELECT clie_apellido, clie_nombre, clie_dni FROM CONGESTION.Cliente WHERE";
-            
-            String apellido = " clie_apellido LIKE '%" + txtApellido.Text + "%' and";
-            String nombre = " clie_nombre LIKE '%" + txtNombre.Text + "%' and";
-            String dni = " clie_dni LIKE '%" + txtDni.Text + "%'";
+                String selectFromClientes = "SELECT clie_apellido, clie_nombre, clie_dni FROM CONGESTION.Cliente WHERE";
 
-            this.cargarListaCon(ClaseConexion.ResolverConsulta(selectFromClientes + apellido + nombre + dni));
+                String apellido = " clie_apellido LIKE '%" + txtApellido.Text + "%' and";
+                String nombre = " clie_nombre LIKE '%" + txtNombre.Text + "%' and";
+                String dni = " clie_dni LIKE '%" + txtDni.Text + "%'";
+
+                this.cargarListaCon(ClaseConexion.ResolverConsulta(selectFromClientes + apellido + nombre + dni));
+            }
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -62,10 +65,30 @@ namespace PagoAgilFrba.RegistroPago
             
             while (dr.Read())
             {
-                listaClientes.Items.Add(new ClienteDeLista(dr.GetString(colApellido), dr.GetString(colNombre), dr.GetString(colDni)));
+                listaClientes.Items.Add(new ClienteDeLista(dr.GetString(colApellido), dr.GetString(colNombre), dr.GetSqlDecimal(colDni).ToString()));
             }
 
             dr.Close();
+        }
+
+        private Boolean tieneLosCamposVacios()  //se usa para la busqueda
+        {
+            return txtApellido.Text.Equals("") && txtNombre.Text.Equals("") && txtDni.Text.Equals("");
+        }
+
+
+        private void listaClientes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnSeleccionar.Enabled = true;
+        }
+
+        private void btnSeleccionar_Click(object sender, EventArgs e)
+        {
+            ClienteDeLista elCliente = (ClienteDeLista)listaClientes.SelectedItem;
+
+            Cliente.cargarDatosCon(elCliente.getApellido(), elCliente.getNombre(), elCliente.getDni());
+
+            this.Close();
         }
     }
 }

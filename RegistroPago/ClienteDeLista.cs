@@ -17,9 +17,24 @@ namespace PagoAgilFrba.RegistroPago
             this.dni = dni;
         }
 
-        public String adaptar()
+        public override string ToString()
         {
-            return "NOMBRE:" + this.apellido + ", " + this.nombre + " -----  DNI:" + this.dni;
+            return this.apellido + ", " + this.nombre + "    /    " + this.dni;
+        }
+
+        public String getApellido()
+        {
+            return this.apellido;
+        }
+
+        public String getNombre()
+        {
+            return this.apellido;
+        }
+
+        public String getDni()
+        {
+            return this.apellido;
         }
     }
 }

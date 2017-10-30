@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using PagoAgilFrba.Menu;
+using PagoAgilFrba;
 
 namespace PagoAgilFrba.Menu
 {
@@ -95,6 +95,7 @@ namespace PagoAgilFrba.Menu
         {
             this.Close();
             new PagoAgilFrba.RegistroPago.SeleccionCliente().Show();
+        }
 
         private void btnABMCliente_Click(object sender, EventArgs e)
         {
