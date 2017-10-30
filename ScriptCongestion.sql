@@ -339,6 +339,26 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
+CREATE PROCEDURE CONGESTION.sp_modificarHabilitacionSucursal(@codigo numeric(18,0), @habilitacion bit)
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+
+		UPDATE CONGESTION.Sucursal SET suc_habilitado=@habilitacion where suc_codPostal = @codigo
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+
 CREATE PROCEDURE CONGESTION.sp_guardarEmpresa(@cuit NVARCHAR(50),@direccion NVARCHAR(255), @nombre NVARCHAR(255), @descripcionRubro VARCHAR(255))
 AS
 	BEGIN TRANSACTION tr	--abro transaccion, asi guarda una empresa, y su vinculo con el rubro
@@ -598,7 +618,7 @@ CREATE TYPE [CONGESTION].listaItemsFactura AS TABLE(
 GO
 CREATE PROCEDURE CONGESTION.sp_ValidarModificacionFactura(@numero int)
 AS
-	if (exists(SELECT * from CONGESTION.Factura Where fact_num = @numero and fact_rendicion is null )
+	if (exists(SELECT * from CONGESTION.Factura Where fact_num = @numero and fact_rendicion is not null )
 			or exists(SELECT * from CONGESTION.Factura_Registro WHERE freg_factura =@numero))
 		BEGIN
 			RAISERROR('No se puede modificar una factura paga/rendida',11,0)
@@ -688,7 +708,7 @@ AS
 			RAISERROR('No existe cliente con ese dni',11,0)
 		END
 
-	EXEC CONGESTION.sp_ValidarModificacionFactura(@numero)
+	EXEC CONGESTION.sp_ValidarModificacionFactura @numero
 
 	UPDATE CONGESTION.Factura SET fact_cliente =@cliente,fact_empresa = @empresa,fact_fecha_venc=@fechaVen
         WHERE fact_num = @numero
@@ -711,11 +731,33 @@ AS
 
 	BEGIN TRY
 
-	EXEC CONGESTION.sp_ValidarModificacionFactura(@numero) 
+	EXEC CONGESTION.sp_ValidarModificacionFactura @numero 
 
 	INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad,item_concepto) 
 		VALUES (@numero,@monto,@cantidad,@concepto)
 		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+
+CREATE PROCEDURE CONGESTION.sp_modificarItem(@numero int,@monto numeric(18,2),@cantidad numeric(18,0), @concepto char(50))
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+
+	EXEC CONGESTION.sp_ValidarModificacionFactura @numero 
+
+	UPDATE CONGESTION.Item_Factura SET item_monto = @monto, item_cantidad= @cantidad, item_concepto = @concepto where item_fact = @numero
+
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRANSACTION tr
@@ -734,7 +776,7 @@ AS
 
 	BEGIN TRY
 
-	EXEC CONGESTION.sp_ValidarModificacionFactura(@numero)
+	EXEC CONGESTION.sp_ValidarModificacionFactura @numero
 
 	DELETE FROM CONGESTION.Item_Factura where item_id = @id
 		
