@@ -30,10 +30,10 @@ create table CONGESTION.Rol_Usuario(
 )
 
 create table CONGESTION.Sucursal(
-	suc_id int identity PRIMARY KEY,
-	suc_nombre char(30) NOT NULL,
-	suc_direccion char(30) NOT NULL,
-	suc_codPostal char(4) NOT NULL,
+	suc_id int IDENTITY PRIMARY KEY,
+	suc_nombre NVARCHAR(50) NOT NULL,
+	suc_direccion nvarchar(50) NOT NULL,
+	suc_codPostal numeric(18,0) NOT NULL,
 	suc_habilitado bit DEFAULT 1 NOT NULL
 )
 
@@ -86,16 +86,16 @@ create table CONGESTION.Rendicion(
 
 create table CONGESTION.Factura(
 	fact_num int PRIMARY KEY,
-	fact_cliente int FOREIGN KEY references CONGESTION.Cliente(clie_id),
-	fact_empresa int FOREIGN KEY references CONGESTION.Empresa(empr_id),
+	fact_cliente int FOREIGN KEY references CONGESTION.Cliente(clie_id) NOT NULL,
+	fact_empresa int FOREIGN KEY references CONGESTION.Empresa(empr_id) NOT NULL,
 	fact_rendicion int FOREIGN KEY references CONGESTION.Rendicion(rend_numero),
-	fact_fecha_alta smalldatetime NOT NULL,
-	fact_fecha_venc smalldatetime NOT NULL,
+	fact_fecha_alta datetime NOT NULL,
+	fact_fecha_venc datetime NOT NULL,
 	fact_total int NOT NULL
 )
 
 create table CONGESTION.Item_Factura(
-	item_id int identity(1,1) PRIMARY KEY,
+	item_id int identity PRIMARY KEY,
 	item_fact int FOREIGN KEY references CONGESTION.Factura(fact_num),
 	item_monto numeric(18,2) NOT NULL,
 	item_cantidad numeric(18,0) NOT NULL,
@@ -103,7 +103,7 @@ create table CONGESTION.Item_Factura(
 )
 
 create table CONGESTION.Medio_Pago(
-	med_id int identity(1,1) PRIMARY KEY,
+	med_id int identity PRIMARY KEY,
 	med_descripcion nvarchar(255)
 )
 
@@ -282,57 +282,63 @@ INSERT INTO CONGESTION.Rol_Usuario
 	(SELECT DISTINCT usua_id FROM CONGESTION.Usuario WHERE usua_username = 'admin'))
 
 GO
-CREATE TRIGGER CONGESTION.ValidarCodigoPostalSucursal
-ON CONGESTION.Sucursal
-INSTEAD OF INSERT,UPDATE
-AS 
-BEGIN    
-	if exists (SELECT * from deleted)
-	BEGIN
-		DECLARE sucursalesInsertadas CURSOR FOR
-		SELECT suc_nombre,suc_direccion,suc_codPostal,suc_habilitado FROM inserted
-		
-		DECLARE sucursalesEliminadas CURSOR FOR
-		SELECT suc_codPostal FROM deleted
+CREATE PROCEDURE CONGESTION.sp_guardarSucursal(@codigo numeric(18,0),@direccion NVARCHAR(50), @nombre NVARCHAR(50))
+AS
+	BEGIN TRANSACTION tr	
 
-		DECLARE @nombre CHAR(30)
-		DECLARE @direccion CHAR(30)
-		DECLARE @codigoIns CHAR(4)
-		DECLARE @habilitado BIT
-		DECLARE @codigoDel CHAR(4)
+	BEGIN TRY
 
-		OPEN sucursalesInsertadas
-		OPEN sucursalesEliminadas
-		FETCH sucursalesInsertadas INTO @nombre, @direccion, @codigoIns, @habilitado
-		FETCH sucursalesEliminadas INTO @codigoDel
-
-		WHILE(@@FETCH_STATUS = 0)
-		BEGIN
-			if @codigoDel = @codigoIns or not exists (SELECT * from CONGESTION.Sucursal s1 WHERE s1.suc_codPostal = @codigoIns)
+		IF  not exists (SELECT * from CONGESTION.Sucursal where suc_codPostal = @codigo)
 			BEGIN
-				UPDATE CONGESTION.Sucursal SET suc_direccion = @direccion ,suc_codPostal = @codigoIns, suc_nombre = @nombre,suc_habilitado =@habilitado WHERE suc_codPostal = @codigoDel
+				INSERT INTO CONGESTION.Sucursal(suc_codPostal,suc_direccion,suc_nombre) 
+				VALUES (@codigo,@direccion,@nombre)
 			END
+		ELSE
+			BEGIN
+				RAISERROR('Error al ingresar sucursal con codigo postal existente',11,0)
+			END
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
 
-			FETCH sucursalesInsertadas INTO @nombre, @direccion, @codigoIns, @habilitado
-			FETCH sucursalesEliminadas INTO @codigoDel
-		END
+		RETURN
+	END CATCH
 
-		CLOSE sucursalesInsertadas
-		DEALLOCATE sucursalesInsertadas
-		CLOSE sucursalesEliminadas
-		DEALLOCATE sucursalesEliminadas
-
-	END
-	ELSE
-	BEGIN
-		INSERT INTO CONGESTION.Sucursal(suc_nombre,suc_codPostal,suc_direccion)
-		SELECT i1.suc_nombre, i1.suc_codPostal,i1.suc_direccion FROM inserted i1
-		WHERE (SELECT suc_id from CONGESTION.Sucursal WHERE suc_codPostal = i1.suc_codPostal) is null
-	END
-END 
+	COMMIT TRANSACTION tr
 GO
 
+
+CREATE PROCEDURE CONGESTION.sp_modificarSucursal(@codigo numeric(18,0),@codigoViejo numeric(18,0),@direccion NVARCHAR(50), @nombre NVARCHAR(50))
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+
+		IF @codigo = @codigoViejo or not exists (SELECT * from CONGESTION.Sucursal s1 WHERE s1.suc_codPostal = @codigo)
+			BEGIN
+				UPDATE CONGESTION.Sucursal SET suc_codPostal=@codigo,suc_direccion=@direccion,suc_nombre=@nombre 
+				where suc_codPostal = @codigoViejo
+			END
+		ELSE
+			BEGIN
+				RAISERROR('Error al modificar sucursal con codigo postal existente',11,0)
+			END
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
 GO
+
 CREATE PROCEDURE CONGESTION.sp_guardarEmpresa(@cuit NVARCHAR(50),@direccion NVARCHAR(255), @nombre NVARCHAR(255), @descripcionRubro VARCHAR(255))
 AS
 	BEGIN TRANSACTION tr	--abro transaccion, asi guarda una empresa, y su vinculo con el rubro
@@ -542,10 +548,8 @@ AS
 		DECLARE @numeroFactura int
 		DECLARE @rendicion int
 		DECLARE @rendNumero int
-		DECLARE @porcentaje int
+		DECLARE @porcentaje numeric(18,2)
 		
-
-
 		DECLARE cursorFacturas CURSOR FOR
 		SELECT numero FROM @listaFacturas
 
@@ -571,6 +575,168 @@ AS
 		DEALLOCATE cursorFacturas
 
 
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+
+CREATE TYPE [CONGESTION].listaItemsFactura AS TABLE(
+	[monto] numeric(18,2),
+	[cantidad] numeric(18,0),
+	[concepto] char(50)
+ )
+
+
+GO
+CREATE PROCEDURE CONGESTION.sp_ValidarModificacionFactura(@numero int)
+AS
+	if (exists(SELECT * from CONGESTION.Factura Where fact_num = @numero and fact_rendicion is null )
+			or exists(SELECT * from CONGESTION.Factura_Registro WHERE freg_factura =@numero))
+		BEGIN
+			RAISERROR('No se puede modificar una factura paga/rendida',11,0)
+		END  
+GO
+
+
+CREATE PROCEDURE CONGESTION.sp_guardarFactura(@listaFacturas listaItemsFactura readonly,@numero int,@cuit NVARCHAR(50),@dni numeric(18,0),@fechaVen datetime)
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+		
+		if not exists(SELECT * from CONGESTION.Factura where fact_num = @numero)
+			BEGIN
+
+			DECLARE @cliente int
+			DECLARE @empresa int
+			DECLARE @total numeric(18,2)
+			DECLARE @monto numeric(18,2)
+			DECLARE @cantidad numeric(18,0)
+			DECLARE @concepto char(50)
+
+			DECLARE cursorItems CURSOR FOR
+			SELECT monto,cantidad,concepto FROM @listaFacturas
+
+			SELECT @total =  sum(monto*cantidad) FROM @listaFacturas
+			SELECT @cliente =   clie_id FROM CONGESTION.Cliente where clie_dni = @dni			
+			
+			if @cliente is null
+			BEGIN
+				RAISERROR('No existe cliente con ese dni',11,0)
+			END
+			
+			SELECT @empresa = empr_id FROM CONGESTION.Empresa where empr_cuit = @cuit
+		
+			INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_fecha_alta,fact_fecha_venc,fact_total) 
+			VALUES (@numero,@cliente,@empresa,GETDATE(),@fechaVen,@total)
+
+
+			OPEN cursorItems
+			FETCH cursorItems INTO @monto,@cantidad,@concepto
+		
+			WHILE(@@FETCH_STATUS = 0)
+			BEGIN
+				INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad,item_concepto) 
+				VALUES (@numero,@monto,@cantidad,@concepto)
+			
+				FETCH cursorItems INTO @monto,@cantidad,@concepto
+			END
+
+		CLOSE cursorItems
+		DEALLOCATE cursorItems
+
+			END
+		ELSE
+			BEGIN
+				RAISERROR('Ya existe una factura con el mismo numero',11,0)
+			END
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+
+CREATE PROCEDURE CONGESTION.sp_modificarFactura(@numero int,@dni numeric(18,0),@cuit NVARCHAR(50), @fechaVen datetime)
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+
+	DECLARE @cliente int
+	DECLARE @empresa int
+
+	SELECT @empresa = empr_id FROM CONGESTION.Empresa where empr_cuit = @cuit
+	SELECT @cliente =   clie_id FROM CONGESTION.Cliente where clie_dni = @dni	
+	
+	if @cliente is null
+		BEGIN
+			RAISERROR('No existe cliente con ese dni',11,0)
+		END
+
+	EXEC CONGESTION.sp_ValidarModificacionFactura(@numero)
+
+	UPDATE CONGESTION.Factura SET fact_cliente =@cliente,fact_empresa = @empresa,fact_fecha_venc=@fechaVen
+        WHERE fact_num = @numero
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+
+CREATE PROCEDURE CONGESTION.sp_guardarItem(@numero int,@monto numeric(18,2),@cantidad numeric(18,0), @concepto char(50))
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+
+	EXEC CONGESTION.sp_ValidarModificacionFactura(@numero) 
+
+	INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad,item_concepto) 
+		VALUES (@numero,@monto,@cantidad,@concepto)
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+
+CREATE PROCEDURE CONGESTION.sp_eliminarItem(@id int,@numero int)
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+
+	EXEC CONGESTION.sp_ValidarModificacionFactura(@numero)
+
+	DELETE FROM CONGESTION.Item_Factura where item_id = @id
 		
 	END TRY
 	BEGIN CATCH

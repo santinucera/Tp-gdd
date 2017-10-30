@@ -22,7 +22,7 @@ namespace PagoAgilFrba.AbmFactura
 
         private void btnAgregarItem_Click(object sender, EventArgs e)
         {
-            Item nuevoItem = new Item(txtConcepto.Text, Int32.Parse(txtCantidad.Text), Int32.Parse(txtMonto.Text));
+            Item nuevoItem = new Item(txtConcepto.Text, Decimal.Parse(txtMonto.Text), Int32.Parse(txtCantidad.Text));
             listaItems.Add(nuevoItem);
             txtMonto.Text = "";
             txtConcepto.Text = "";
@@ -60,41 +60,86 @@ namespace PagoAgilFrba.AbmFactura
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            int total=0;
-
-            foreach (Item element in listaItems)
+            if (String.IsNullOrWhiteSpace(txtCliente.Text) && String.IsNullOrWhiteSpace(txtNumero.Text) && String.IsNullOrWhiteSpace(selectorEmpresa.Text))
             {
-                total =total+ (element.cantidad * element.monto);
+                MessageBox.Show("Debe completar todos los campos", "Error");
             }
+            else
+            {
+                if(!listaItems.Any())
+                {
+                    MessageBox.Show("Debe ingresar algun item a la factura", "Error");
+                }
+                else
+                {
+                    try
+                    {
+                        this.guardarFactura();
+                        MessageBox.Show("Factura guardada correctamente", "Ok");
+                        this.Close();
+                        new Menu().Show();
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error");
+                    }
+                }
+                
+            }
+        }
 
-            String[] stringSeparators = new String[] {","};
-            String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators,StringSplitOptions.RemoveEmptyEntries);
+        private void guardarFactura()
+        {
+            String[] stringSeparators = new String[] { "," };
+            String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
             int dni = Int32.Parse(txtCliente.Text);
-            int numRegs = ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Factura(fact_num,fact_fecha_alta,fact_fecha_venc,fact_total,fact_empresa,fact_cliente)"
-                                                            +" Values("+txtNumero.Text+",'"+DateTime.Now.ToString()+"','"+calendar.Value.ToString()+"',"+total.ToString()+","
-                                                            + "(SELECT empr_id from CONGESTION.Empresa WHERE empr_cuit = '" + cuit[1].Trim() + "'),"
-                                                            + "(SELECT clie_id from CONGESTION.Cliente WHERE clie_dni = " + dni.ToString() + "))");
+            
+            SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarFactura", ClaseConexion.conexion);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@numero", txtNumero.Text);
+            cmd.Parameters.AddWithValue("@dni", dni.ToString());
+            cmd.Parameters.AddWithValue("@cuit", cuit[1].Trim());
+            cmd.Parameters.AddWithValue("@fechaVen", calendar.Value);
+            
+            DataTable tabla = new DataTable();
+            tabla.Columns.Add("monto", typeof(int));
+            tabla.Columns.Add("cantidad", typeof(int));
+            tabla.Columns.Add("concepto", typeof(String));
 
-            foreach (Item element in listaItems)
+            DataRow fila;
+           
+            foreach (Item item in listaItems)
             {
-                ClaseConexion.ResolverNonQuery("INSERT INTO CONGESTION.Item_Factura (item_fact,item_concepto,item_cantidad,item_monto)"
-                                                +"VALUES("+txtNumero.Text+",'"+element.concepto+"',"+element.cantidad.ToString()+","+element.monto.ToString()+")");
+                fila = tabla.NewRow();
+                fila[0] = item.monto;
+                fila[1] = item.cantidad;
+                fila[2] = item.concepto;
+                tabla.Rows.Add(fila);
             }
-            
-            
-            if (numRegs == 0)
-            {
-                MessageBox.Show("No se pudo agregar la empresa");
-            }
+
+            cmd.Parameters.AddWithValue("@listaFacturas", tabla);
+
+            cmd.ExecuteReader().Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            txtCliente.Text = "";
+            txtNumero.Text = "";
+            selectorEmpresa.Text = "";
+            calendar.Value = DateTime.Now;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
             this.Hide();
-            Listado form = new Listado();
-            form.Show();
+            new Menu().Show();
         }
 
     }
     public class Item
     {
-        public Item(String concepto, int monto,int cantidad)
+        public Item(String concepto, Decimal monto, int cantidad)
         {
             this.concepto = concepto;
             this.cantidad = cantidad;
@@ -103,6 +148,6 @@ namespace PagoAgilFrba.AbmFactura
         
         public String concepto;
         public int cantidad;
-        public int monto;
+        public Decimal monto;
     }
 }
