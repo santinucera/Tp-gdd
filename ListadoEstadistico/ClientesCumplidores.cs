@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace PagoAgilFrba.ListadoEstadistico
 {
-    public partial class Form1 : Form
+    public partial class ClientesCumplidores : Form
     {
-        public Form1()
+        public ClientesCumplidores(string periodoR, string trimestreR)
         {
             InitializeComponent();
+            periodo = periodoR;
+            trimestre = trimestreR;
+
         }
+        string periodo;
+        string trimestre;
     }
 }

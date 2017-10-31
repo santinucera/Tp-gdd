@@ -110,6 +110,13 @@ namespace PagoAgilFrba.Menu
             Rendicion.Rendicion form = new Rendicion.Rendicion();
             form.Show();
         }
+
+        private void btnListado_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ListadoEstadistico.Listados form = new ListadoEstadistico.Listados();
+            form.Show();
+        }
         
     }
 }
