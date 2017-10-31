@@ -21,7 +21,8 @@ create table CONGESTION.Usuario(
 	usua_id int identity PRIMARY KEY,
 	usua_username VARCHAR(64) NOT NULL,
 	usua_password CHAR(64) NOT NULL,
-	usua_habilitado bit DEFAULT 1 NOT NULL
+	usua_habilitado bit DEFAULT 1 NOT NULL,
+	usua_cantIntentos int DEFAULT 0 NOT NULL
 )
 
 create table CONGESTION.Rol_Usuario(
@@ -33,7 +34,7 @@ create table CONGESTION.Sucursal(
 	suc_id int IDENTITY PRIMARY KEY,
 	suc_nombre NVARCHAR(50) NOT NULL,
 	suc_direccion nvarchar(50) NOT NULL,
-	suc_codPostal numeric(18,0) NOT NULL,
+	suc_codPostal numeric(18,0) unique NOT NULL,
 	suc_habilitado bit DEFAULT 1 NOT NULL
 )
 
@@ -79,8 +80,8 @@ create table CONGESTION.Rendicion(
 	rend_numero int PRIMARY KEY,
 	rend_fecha datetime NOT NULL,
 	rend_cantidad_facturas int ,
-	rend_comision int ,
-	rend_total int NOT NULL,
+	rend_comision numeric(18,2) ,
+	rend_total numeric(18,2) NOT NULL,
 	rend_porcentaje_comision numeric(5,2) 
 )
 
@@ -91,7 +92,7 @@ create table CONGESTION.Factura(
 	fact_rendicion int FOREIGN KEY references CONGESTION.Rendicion(rend_numero),
 	fact_fecha_alta datetime NOT NULL,
 	fact_fecha_venc datetime NOT NULL,
-	fact_total int NOT NULL
+	fact_total numeric(18,2) NOT NULL
 )
 
 create table CONGESTION.Item_Factura(
@@ -116,19 +117,18 @@ create table CONGESTION.Registro(
 	reg_total int NOT NULL
 )
 
+create table CONGESTION.Devolucion(
+	devo_id int identity PRIMARY KEY,
+	devo_fecha datetime NOT NULL,
+	devo_motivo nvarchar(255) NOT NULL
+)
+
 create table CONGESTION.Factura_Registro(
 	freg_factura int FOREIGN KEY references CONGESTION.Factura(fact_num),
 	freg_registro int FOREIGN KEY references CONGESTION.Registro(reg_id),
+	freg_devolucion int FOREIGN KEY references CONGESTION.Devolucion(devo_id)
 )
 
-
-create table CONGESTION.Devolucion(
-	devo_id int identity PRIMARY KEY,
-	devo_rendicion int FOREIGN KEY references CONGESTION.Rendicion(rend_numero) NULL,
-	devo_registro int FOREIGN KEY references CONGESTION.Registro(reg_id) NULL,
-	devo_fecha smallint NOT NULL,
-	devo_motivo char(50) NOT NULL
-)
 
 
 ----------/CREACION DE TABLAS
@@ -219,7 +219,6 @@ INSERT INTO CONGESTION.Rol (rol_descripcion) VALUES ('Administrador');
 INSERT INTO CONGESTION.Rol (rol_descripcion) VALUES ('Cobrador');
 
 INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('ABM de Rol');
-INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Login y Seguridad');
 INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Registro de Usuario');
 INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('ABM de Cliente');
 INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('ABM de Empresa');
@@ -274,12 +273,28 @@ INSERT INTO CONGESTION.Funcionalidad_Rol
 	SELECT  func_id, (SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Administrador')
 	FROM CONGESTION.Funcionalidad 
 
-	
 
 INSERT INTO CONGESTION.Rol_Usuario
 	(ru_rol, ru_usuario) VALUES(
 	(SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Administrador'),
 	(SELECT DISTINCT usua_id FROM CONGESTION.Usuario WHERE usua_username = 'admin'))
+
+INSERT INTO CONGESTION.Funcionalidad (func_descripcion) VALUES ('Devolucion Facturas');
+
+INSERT INTO CONGESTION.Usuario
+	(usua_username, usua_password) VALUES ('asd', 'asd')
+
+INSERT INTO CONGESTION.Rol_Usuario
+	(ru_rol, ru_usuario) VALUES(
+	(SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Cobrador'),
+	(SELECT DISTINCT usua_id FROM CONGESTION.Usuario WHERE usua_username = 'asd'))
+
+INSERT INTO CONGESTION.Funcionalidad_Rol
+	(fr_funcionalidad,fr_rol) 
+	SELECT  func_id, (SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Cobrador')
+	FROM CONGESTION.Funcionalidad 
+	WHERE func_descripcion != 'ABM de Rol' and func_descripcion  !='Listado Estadistico'
+
 
 GO
 CREATE PROCEDURE CONGESTION.sp_guardarSucursal(@codigo numeric(18,0),@direccion NVARCHAR(50), @nombre NVARCHAR(50))
@@ -288,15 +303,9 @@ AS
 
 	BEGIN TRY
 
-		IF  not exists (SELECT * from CONGESTION.Sucursal where suc_codPostal = @codigo)
-			BEGIN
-				INSERT INTO CONGESTION.Sucursal(suc_codPostal,suc_direccion,suc_nombre) 
-				VALUES (@codigo,@direccion,@nombre)
-			END
-		ELSE
-			BEGIN
-				RAISERROR('Error al ingresar sucursal con codigo postal existente',11,0)
-			END
+		INSERT INTO CONGESTION.Sucursal(suc_codPostal,suc_direccion,suc_nombre) 
+		VALUES (@codigo,@direccion,@nombre)
+		
 		
 	END TRY
 	BEGIN CATCH
@@ -317,15 +326,8 @@ AS
 
 	BEGIN TRY
 
-		IF @codigo = @codigoViejo or not exists (SELECT * from CONGESTION.Sucursal s1 WHERE s1.suc_codPostal = @codigo)
-			BEGIN
-				UPDATE CONGESTION.Sucursal SET suc_codPostal=@codigo,suc_direccion=@direccion,suc_nombre=@nombre 
-				where suc_codPostal = @codigoViejo
-			END
-		ELSE
-			BEGIN
-				RAISERROR('Error al modificar sucursal con codigo postal existente',11,0)
-			END
+		UPDATE CONGESTION.Sucursal SET suc_codPostal=@codigo,suc_direccion=@direccion,suc_nombre=@nombre 
+		where suc_codPostal = @codigoViejo
 		
 	END TRY
 	BEGIN CATCH
@@ -576,7 +578,7 @@ AS
 		SELECT @CantidadDeFacturas =  count(*) FROM @listaFacturas
 		SELECT @total =  sum(total) FROM @listaFacturas
 		SELECT @rendNumero =  (SELECT TOP 1 rend_numero from CONGESTION.Rendicion order by rend_numero DESC) +1
-		set @porcentaje = ((@comision/@total))*100.00
+		set @porcentaje = (@comision * 100.00)/@total
 		
 		INSERT INTO CONGESTION.Rendicion(rend_numero,rend_comision,rend_cantidad_facturas,rend_fecha,rend_total,rend_porcentaje_comision) 
 			VALUES (@rendNumero,@comision,@CantidadDeFacturas,GETDATE(),@total,@porcentaje)
@@ -632,53 +634,45 @@ AS
 
 	BEGIN TRY
 		
-		if not exists(SELECT * from CONGESTION.Factura where fact_num = @numero)
-			BEGIN
+		DECLARE @cliente int
+		DECLARE @empresa int
+		DECLARE @total numeric(18,2)
+		DECLARE @monto numeric(18,2)
+		DECLARE @cantidad numeric(18,0)
+		DECLARE @concepto char(50)
 
-			DECLARE @cliente int
-			DECLARE @empresa int
-			DECLARE @total numeric(18,2)
-			DECLARE @monto numeric(18,2)
-			DECLARE @cantidad numeric(18,0)
-			DECLARE @concepto char(50)
+		DECLARE cursorItems CURSOR FOR
+		SELECT monto,cantidad,concepto FROM @listaFacturas
 
-			DECLARE cursorItems CURSOR FOR
-			SELECT monto,cantidad,concepto FROM @listaFacturas
-
-			SELECT @total =  sum(monto*cantidad) FROM @listaFacturas
-			SELECT @cliente =   clie_id FROM CONGESTION.Cliente where clie_dni = @dni			
+		SELECT @total =  sum(monto*cantidad) FROM @listaFacturas
+		SELECT @cliente =   clie_id FROM CONGESTION.Cliente where clie_dni = @dni			
 			
-			if @cliente is null
-			BEGIN
-				RAISERROR('No existe cliente con ese dni',11,0)
-			END
+		if @cliente is null
+		BEGIN
+			RAISERROR('No existe cliente con ese dni',11,0)
+		END
 			
-			SELECT @empresa = empr_id FROM CONGESTION.Empresa where empr_cuit = @cuit
+		SELECT @empresa = empr_id FROM CONGESTION.Empresa where empr_cuit = @cuit
 		
-			INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_fecha_alta,fact_fecha_venc,fact_total) 
-			VALUES (@numero,@cliente,@empresa,GETDATE(),@fechaVen,@total)
+		INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_fecha_alta,fact_fecha_venc,fact_total) 
+		VALUES (@numero,@cliente,@empresa,GETDATE(),@fechaVen,@total)
 
 
-			OPEN cursorItems
+
+		OPEN cursorItems
+		FETCH cursorItems INTO @monto,@cantidad,@concepto
+		
+		WHILE(@@FETCH_STATUS = 0)
+		BEGIN
+			INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad,item_concepto) 
+			VALUES (@numero,@monto,@cantidad,@concepto)
+		
 			FETCH cursorItems INTO @monto,@cantidad,@concepto
-		
-			WHILE(@@FETCH_STATUS = 0)
-			BEGIN
-				INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad,item_concepto) 
-				VALUES (@numero,@monto,@cantidad,@concepto)
-			
-				FETCH cursorItems INTO @monto,@cantidad,@concepto
-			END
+		END
 
 		CLOSE cursorItems
 		DEALLOCATE cursorItems
-
-			END
-		ELSE
-			BEGIN
-				RAISERROR('Ya existe una factura con el mismo numero',11,0)
-			END
-		
+				
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRANSACTION tr
@@ -791,3 +785,32 @@ AS
 
 	COMMIT TRANSACTION tr
 GO
+
+CREATE PROCEDURE CONGESTION.sp_DevolverFactura(@factura int,@pago int,@motivo nvarchar(255))
+AS
+	BEGIN TRANSACTION tr	
+
+	BEGIN TRY
+
+	INSERT INTO CONGESTION.Devolucion (devo_motivo,devo_fecha)
+	VALUES(@motivo,GETDATE())
+
+	DECLARE @idDevo int
+
+	SET @idDevo = SCOPE_IDENTITY()
+
+	UPDATE CONGESTION.Factura_Registro SET freg_devolucion = @idDevo
+	WHERE freg_factura = @factura and freg_registro = @pago
+		
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION tr
+		DECLARE @mensaje VARCHAR(255) = ERROR_MESSAGE()
+		RAISERROR(@mensaje,11,0)
+
+		RETURN
+	END CATCH
+
+	COMMIT TRANSACTION tr
+GO
+

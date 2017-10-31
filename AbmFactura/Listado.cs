@@ -40,7 +40,7 @@ namespace PagoAgilFrba.AbmFactura
         {
             while (reader.Read())
             {
-                dgvFacturas.Rows.Add(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2).Trim() + " " + reader.GetString(8).Trim(),
+                dgvFacturas.Rows.Add(reader.GetInt32(0), reader.GetDecimal(1), reader.GetString(2).Trim() + " " + reader.GetString(8).Trim(),
                     reader.GetString(3).Trim() , reader.GetDateTime(4), reader.GetDateTime(5), "Items", reader.GetInt32(6) != 0, reader.GetInt32(7) != 0, "Modificar","Baja");
             }
 

@@ -37,6 +37,8 @@
             this.btnRendicionFactura = new System.Windows.Forms.Button();
             this.btnListado = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnDevolucion = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnABMRol
@@ -108,7 +110,7 @@
             // 
             // btnRendicionFactura
             // 
-            this.btnRendicionFactura.Location = new System.Drawing.Point(89, 225);
+            this.btnRendicionFactura.Location = new System.Drawing.Point(89, 217);
             this.btnRendicionFactura.Name = "btnRendicionFactura";
             this.btnRendicionFactura.Size = new System.Drawing.Size(174, 23);
             this.btnRendicionFactura.TabIndex = 0;
@@ -119,7 +121,7 @@
             // 
             // btnListado
             // 
-            this.btnListado.Location = new System.Drawing.Point(308, 225);
+            this.btnListado.Location = new System.Drawing.Point(308, 217);
             this.btnListado.Name = "btnListado";
             this.btnListado.Size = new System.Drawing.Size(174, 23);
             this.btnListado.TabIndex = 0;
@@ -137,11 +139,34 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Seleccione funcionalidad disponible:";
             // 
+            // btnDevolucion
+            // 
+            this.btnDevolucion.Location = new System.Drawing.Point(91, 271);
+            this.btnDevolucion.Name = "btnDevolucion";
+            this.btnDevolucion.Size = new System.Drawing.Size(174, 23);
+            this.btnDevolucion.TabIndex = 2;
+            this.btnDevolucion.Text = "Devolucion Facturas";
+            this.btnDevolucion.UseVisualStyleBackColor = true;
+            this.btnDevolucion.Visible = false;
+            this.btnDevolucion.Click += new System.EventHandler(this.btnDevolucion_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(239, 335);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(124, 39);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Volver";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MenuFuncionalidades
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(607, 316);
+            this.ClientSize = new System.Drawing.Size(607, 386);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnDevolucion);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnListado);
             this.Controls.Add(this.btnRegistroFactura);
@@ -170,5 +195,7 @@
         private System.Windows.Forms.Button btnRendicionFactura;
         private System.Windows.Forms.Button btnListado;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnDevolucion;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -117,6 +117,20 @@ namespace PagoAgilFrba.Menu
             ListadoEstadistico.Listados form = new ListadoEstadistico.Listados();
             form.Show();
         }
+
+        private void btnDevolucion_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Devolucion.Devolucion().Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new ElegirRol().Show();
+        }
+
+        
         
     }
 }
