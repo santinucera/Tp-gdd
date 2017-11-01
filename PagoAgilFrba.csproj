@@ -195,16 +195,40 @@
       <DependentUpon>Modificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Conexion\ClaseConexion.cs" />
+    <Compile Include="ListadoEstadistico\ClientesCumplidores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ClientesCumplidores.Designer.cs">
+      <DependentUpon>ClientesCumplidores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ClientesMasPagos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ClientesMasPagos.Designer.cs">
+      <DependentUpon>ClientesMasPagos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\EmpresasConMayorMontoRendido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\EmpresasConMayorMontoRendido.Designer.cs">
+      <DependentUpon>EmpresasConMayorMontoRendido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\FacturasCobradasPorEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\FacturasCobradasPorEmpresa.Designer.cs">
+      <DependentUpon>FacturasCobradasPorEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\Listados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\Listados.Designer.cs">
+      <DependentUpon>Listados.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginYSeguridad\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LoginYSeguridad\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ListadoEstadistico\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ListadoEstadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginYSeguridad\PasswordInvalidaException.cs" />
@@ -351,6 +375,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmSucursal\Modificacion.resx">
       <DependentUpon>Modificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ClientesCumplidores.resx">
+      <DependentUpon>ClientesCumplidores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ClientesMasPagos.resx">
+      <DependentUpon>ClientesMasPagos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\EmpresasConMayorMontoRendido.resx">
+      <DependentUpon>EmpresasConMayorMontoRendido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\FacturasCobradasPorEmpresa.resx">
+      <DependentUpon>FacturasCobradasPorEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\Listados.resx">
+      <DependentUpon>Listados.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

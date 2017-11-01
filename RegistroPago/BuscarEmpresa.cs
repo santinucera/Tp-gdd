@@ -14,11 +14,12 @@ namespace PagoAgilFrba.RegistroPago
     public partial class BuscarEmpresa : Form
     {
         private AgregarFactura padre;
-        
+
         public BuscarEmpresa(AgregarFactura parent)
         {
             InitializeComponent();
             this.limpiarCampos();
+            this.cargarCombroRubros();
             this.padre = parent;
         }
 
@@ -31,15 +32,15 @@ namespace PagoAgilFrba.RegistroPago
         {
             if (!this.tieneLosCamposVacios())
             {
-                listaClientes.Items.Clear();
+                listaEmpresas.Items.Clear();
 
-                String selectFromClientes = "SELECT clie_apellido, clie_nombre, clie_dni FROM CONGESTION.Cliente WHERE";
+                String selectFromEmpresas = "SELECT empr_id, empr_nombre, empr_cuit, rub_descripcion FROM CONGESTION.listado_empresas";
 
-                String apellido = " clie_apellido LIKE '%" + txtApellido.Text + "%' and";
-                String nombre = " clie_nombre LIKE '%" + txtNombre.Text + "%' and";
-                String dni = " clie_dni LIKE '%" + txtDni.Text + "%'";
+                String nombre = " empr_nombre LIKE '%" + txtNombre.Text + "%' and";
+                String cuit = " empr_cuit LIKE '%" + txtCuit.Text + "%' and";
+                String rubro = " rub_descripcion LIKE '%" + selectorRubros.SelectedText + "%'"; 
 
-                this.cargarListaCon(ClaseConexion.ResolverConsulta(selectFromClientes + apellido + nombre + dni));
+                this.cargarListaCon(ClaseConexion.ResolverConsulta(selectFromEmpresas + nombre + cuit + rubro));
             }
         }
 
@@ -50,25 +51,25 @@ namespace PagoAgilFrba.RegistroPago
 
         private void limpiarCampos()
         {
-            txtApellido.Text = "";
             txtNombre.Text = "";
-            txtDni.Text = "";
-
-            listaClientes.Items.Clear();
-            listaClientes.Text = "";
+            txtCuit.Text = "";
+            selectorRubros.SelectedItem = null;
+            
+            listaEmpresas.Items.Clear();
+            listaEmpresas.Text = "";
 
             btnSeleccionar.Enabled = false;
         }
 
         private void cargarListaCon(SqlDataReader dr)
         {
-            int colApellido = dr.GetOrdinal("clie_apellido");
-            int colNombre = dr.GetOrdinal("clie_nombre");
-            int colDni = dr.GetOrdinal("clie_dni");
+            int colId = dr.GetOrdinal("empr_id");
+            int colNombre = dr.GetOrdinal("empr_nombre");
+            int colCuit = dr.GetOrdinal("empr_cuit");
             
             while (dr.Read())
             {
-                listaClientes.Items.Add(new ClienteDeLista(dr.GetString(colApellido), dr.GetString(colNombre), dr.GetSqlDecimal(colDni).ToString()));
+                listaEmpresas.Items.Add(new Empresa(dr.GetInt32(colId), dr.GetString(colNombre), dr.GetString(colCuit)));
             }
 
             dr.Close();
@@ -76,7 +77,7 @@ namespace PagoAgilFrba.RegistroPago
 
         private Boolean tieneLosCamposVacios()  //se usa para la busqueda
         {
-            return txtApellido.Text.Equals("") && txtNombre.Text.Equals("") && txtDni.Text.Equals("");
+            return txtNombre.Text.Equals("") && txtCuit.Text.Equals("") && selectorRubros.SelectedItem.Equals(null);
         }
 
 
@@ -87,12 +88,23 @@ namespace PagoAgilFrba.RegistroPago
 
         private void btnSeleccionar_Click(object sender, EventArgs e)
         {
-            ClienteDeLista elCliente = listaClientes.SelectedItem as ClienteDeLista;
+            Empresa laEmpresa = listaEmpresas.SelectedItem as Empresa;
 
-            Cliente.cargarDatosCon(elCliente.getApellido(), elCliente.getNombre(), elCliente.getDni());
 
-            this.padre.mostrarNombreCliente();
+            this.padre.setEmpresa(laEmpresa);
             this.Close();
+        }
+
+        private void cargarCombroRubros()
+        {
+            SqlDataReader dr = ClaseConexion.ResolverConsulta("SELECT rub_descripcion FROM CONGESTION.Rubro");
+
+            while (dr.Read())
+            {
+                selectorRubros.Items.Add(dr.GetString(0));
+            }
+
+            dr.Close();
         }
     }
 }

@@ -46,7 +46,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblEmpresa = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblFechaVto = new System.Windows.Forms.Label();
             this.btnEmpresas = new System.Windows.Forms.Button();
@@ -242,15 +242,15 @@
             this.label9.TabIndex = 18;
             this.label9.Text = "Empresa: ";
             // 
-            // label10
+            // lblEmpresa
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(125, 225);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(16, 17);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "_";
+            this.lblEmpresa.AutoSize = true;
+            this.lblEmpresa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEmpresa.Location = new System.Drawing.Point(125, 225);
+            this.lblEmpresa.Name = "lblEmpresa";
+            this.lblEmpresa.Size = new System.Drawing.Size(16, 17);
+            this.lblEmpresa.TabIndex = 19;
+            this.lblEmpresa.Text = "_";
             // 
             // label11
             // 
@@ -301,7 +301,7 @@
             this.Controls.Add(this.btnEmpresas);
             this.Controls.Add(this.lblFechaVto);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.lblEmpresa);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label8);
@@ -344,7 +344,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblEmpresa;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblFechaVto;
         private System.Windows.Forms.Button btnEmpresas;

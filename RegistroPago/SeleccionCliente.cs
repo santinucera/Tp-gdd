@@ -21,7 +21,7 @@ namespace PagoAgilFrba.RegistroPago
 
         private void buscarCliente_Click(object sender, EventArgs e)
         {
-            new BuscarEmpresa(this).Show();
+            new BusquedaCliente(this).Show();
         }
 
         public void mostrarNombreCliente()

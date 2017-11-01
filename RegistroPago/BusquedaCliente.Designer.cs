@@ -1,6 +1,6 @@
 ﻿namespace PagoAgilFrba.RegistroPago
 {
-    partial class BuscarEmpresa
+    partial class BusquedaCliente
     {
         /// <summary>
         /// Required designer variable.

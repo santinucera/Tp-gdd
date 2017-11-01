@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
-            this.txtDni = new System.Windows.Forms.MaskedTextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.txtCuit = new System.Windows.Forms.TextBox();
+            this.lblNombre = new System.Windows.Forms.Label();
+            this.lblCuit = new System.Windows.Forms.Label();
+            this.Rubros = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
-            this.listaClientes = new System.Windows.Forms.ListBox();
+            this.listaEmpresas = new System.Windows.Forms.ListBox();
             this.btnSeleccionar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.selectorRubros = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -52,66 +52,53 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Buscar por";
             // 
-            // txtApellido
-            // 
-            this.txtApellido.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtApellido.Location = new System.Drawing.Point(12, 43);
-            this.txtApellido.MaxLength = 50;
-            this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(105, 23);
-            this.txtApellido.TabIndex = 1;
-            // 
             // txtNombre
             // 
             this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombre.Location = new System.Drawing.Point(136, 43);
+            this.txtNombre.Location = new System.Drawing.Point(12, 43);
             this.txtNombre.MaxLength = 50;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(105, 23);
-            this.txtNombre.TabIndex = 2;
+            this.txtNombre.TabIndex = 1;
             // 
-            // txtDni
+            // txtCuit
             // 
-            this.txtDni.AllowPromptAsInput = false;
-            this.txtDni.BeepOnError = true;
-            this.txtDni.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDni.Location = new System.Drawing.Point(259, 43);
-            this.txtDni.Mask = "9999999999";
-            this.txtDni.Name = "txtDni";
-            this.txtDni.PromptChar = ' ';
-            this.txtDni.ResetOnPrompt = false;
-            this.txtDni.Size = new System.Drawing.Size(97, 23);
-            this.txtDni.TabIndex = 12;
+            this.txtCuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCuit.Location = new System.Drawing.Point(136, 43);
+            this.txtCuit.MaxLength = 50;
+            this.txtCuit.Name = "txtCuit";
+            this.txtCuit.Size = new System.Drawing.Size(105, 23);
+            this.txtCuit.TabIndex = 2;
             // 
-            // label2
+            // lblNombre
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(36, 69);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 17);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Nombre";
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombre.Location = new System.Drawing.Point(36, 69);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(58, 17);
+            this.lblNombre.TabIndex = 4;
+            this.lblNombre.Text = "Nombre";
             // 
-            // label3
+            // lblCuit
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(166, 69);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 17);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "CUIT";
+            this.lblCuit.AutoSize = true;
+            this.lblCuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCuit.Location = new System.Drawing.Point(170, 69);
+            this.lblCuit.Name = "lblCuit";
+            this.lblCuit.Size = new System.Drawing.Size(39, 17);
+            this.lblCuit.TabIndex = 5;
+            this.lblCuit.Text = "CUIT";
             // 
-            // label4
+            // Rubros
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(282, 69);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 17);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Rubros";
+            this.Rubros.AutoSize = true;
+            this.Rubros.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Rubros.Location = new System.Drawing.Point(281, 69);
+            this.Rubros.Name = "Rubros";
+            this.Rubros.Size = new System.Drawing.Size(54, 17);
+            this.Rubros.TabIndex = 6;
+            this.Rubros.Text = "Rubros";
             // 
             // btnLimpiar
             // 
@@ -135,17 +122,17 @@
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // listaClientes
+            // listaEmpresas
             // 
-            this.listaClientes.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.listaClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listaClientes.FormattingEnabled = true;
-            this.listaClientes.ItemHeight = 15;
-            this.listaClientes.Location = new System.Drawing.Point(12, 156);
-            this.listaClientes.Name = "listaClientes";
-            this.listaClientes.Size = new System.Drawing.Size(344, 94);
-            this.listaClientes.TabIndex = 9;
-            this.listaClientes.SelectedIndexChanged += new System.EventHandler(this.listaClientes_SelectedIndexChanged);
+            this.listaEmpresas.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.listaEmpresas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listaEmpresas.FormattingEnabled = true;
+            this.listaEmpresas.ItemHeight = 15;
+            this.listaEmpresas.Location = new System.Drawing.Point(12, 156);
+            this.listaEmpresas.Name = "listaEmpresas";
+            this.listaEmpresas.Size = new System.Drawing.Size(344, 94);
+            this.listaEmpresas.TabIndex = 9;
+            this.listaEmpresas.SelectedIndexChanged += new System.EventHandler(this.listaClientes_SelectedIndexChanged);
             // 
             // btnSeleccionar
             // 
@@ -169,26 +156,35 @@
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
+            // selectorRubros
+            // 
+            this.selectorRubros.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.selectorRubros.FormattingEnabled = true;
+            this.selectorRubros.Location = new System.Drawing.Point(259, 45);
+            this.selectorRubros.Name = "selectorRubros";
+            this.selectorRubros.Size = new System.Drawing.Size(97, 24);
+            this.selectorRubros.TabIndex = 12;
+            // 
             // BuscarEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(368, 350);
+            this.Controls.Add(this.selectorRubros);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnSeleccionar);
-            this.Controls.Add(this.listaClientes);
+            this.Controls.Add(this.listaEmpresas);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnLimpiar);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtDni);
+            this.Controls.Add(this.Rubros);
+            this.Controls.Add(this.lblCuit);
+            this.Controls.Add(this.lblNombre);
+            this.Controls.Add(this.txtCuit);
             this.Controls.Add(this.txtNombre);
-            this.Controls.Add(this.txtApellido);
             this.Controls.Add(this.label1);
             this.Name = "BuscarEmpresa";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Buscar empresa";
+            this.Text = "Buscar Empresa";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,17 +193,17 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.TextBox txtNombre;
-        private System.Windows.Forms.MaskedTextBox txtDni;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtCuit;
+        private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.Label lblCuit;
+        private System.Windows.Forms.Label Rubros;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.ListBox listaClientes;
+        private System.Windows.Forms.ListBox listaEmpresas;
         private System.Windows.Forms.Button btnSeleccionar;
         private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.ComboBox selectorRubros;
         
     }
 }

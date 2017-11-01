@@ -74,7 +74,13 @@ namespace PagoAgilFrba.RegistroPago
 
         private void btnEmpresas_Click(object sender, EventArgs e)
         {
+            new PagoAgilFrba.RegistroPago.BuscarEmpresa(this).Show();
+        }
 
+        public void setEmpresa(Empresa empr)
+        {
+            this.empresa = empr;
+            lblEmpresa.Text = empresa.ToString();
         }
     }
 }

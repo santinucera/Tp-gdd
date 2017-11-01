@@ -11,11 +11,11 @@ using System.Data.SqlClient;
 
 namespace PagoAgilFrba.RegistroPago
 {
-    public partial class BuscarEmpresa : Form
+    public partial class BusquedaCliente : Form
     {
         private SeleccionCliente padre;
-        
-        public BuscarEmpresa(SeleccionCliente parent)
+
+        public BusquedaCliente(SeleccionCliente parent)
         {
             InitializeComponent();
             this.limpiarCampos();
