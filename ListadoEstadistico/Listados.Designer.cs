@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.txtAnio = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.selectorTrimestre = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.selectorListado = new System.Windows.Forms.ComboBox();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnConsultar = new System.Windows.Forms.Button();
+            this.mtxtPeriodo = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -47,13 +47,6 @@
             this.label1.Size = new System.Drawing.Size(63, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Período";
-            // 
-            // txtAnio
-            // 
-            this.txtAnio.Location = new System.Drawing.Point(231, 43);
-            this.txtAnio.Name = "txtAnio";
-            this.txtAnio.Size = new System.Drawing.Size(100, 20);
-            this.txtAnio.TabIndex = 1;
             // 
             // label2
             // 
@@ -99,6 +92,7 @@
             this.btnVolver.TabIndex = 6;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // btnConsultar
             // 
@@ -110,18 +104,26 @@
             this.btnConsultar.UseVisualStyleBackColor = true;
             this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
+            // mtxtPeriodo
+            // 
+            this.mtxtPeriodo.Location = new System.Drawing.Point(231, 45);
+            this.mtxtPeriodo.Mask = "9999";
+            this.mtxtPeriodo.Name = "mtxtPeriodo";
+            this.mtxtPeriodo.Size = new System.Drawing.Size(44, 20);
+            this.mtxtPeriodo.TabIndex = 8;
+            // 
             // Listados
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(422, 301);
+            this.Controls.Add(this.mtxtPeriodo);
             this.Controls.Add(this.btnConsultar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.selectorListado);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.selectorTrimestre);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtAnio);
             this.Controls.Add(this.label1);
             this.Name = "Listados";
             this.Text = "Listados";
@@ -134,12 +136,12 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtAnio;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox selectorTrimestre;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox selectorListado;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnConsultar;
+        private System.Windows.Forms.MaskedTextBox mtxtPeriodo;
     }
 }

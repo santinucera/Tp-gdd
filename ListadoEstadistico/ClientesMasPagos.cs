@@ -12,7 +12,7 @@ namespace PagoAgilFrba.ListadoEstadistico
 {
     public partial class ClientesMasPagos : Form
     {
-        public ClientesMasPagos(string periodoR, string trimestreR)
+        public ClientesMasPagos(string periodoR, int trimestreR)
         {
             InitializeComponent();
             periodo = periodoR;
@@ -20,6 +20,11 @@ namespace PagoAgilFrba.ListadoEstadistico
         }
 
         string periodo;
-        string trimestre;
+        int trimestre;
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
     }
 }

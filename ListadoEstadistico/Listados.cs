@@ -55,34 +55,34 @@ namespace PagoAgilFrba.ListadoEstadistico
 
         private bool chequear()
         {
-            return (txtAnio.Text.Equals("") || selectorTrimestre.SelectedIndex == -1 || selectorListado.SelectedIndex == -1);
+            return (mtxtPeriodo.Text || selectorTrimestre.SelectedIndex == -1 || selectorListado.SelectedIndex == -1);
         }
 
         private void revisarSeleccion()
         {
             if (selectorListado.SelectedItem.ToString().Equals("Clientes con mas pagos"))
             {
-                ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(txtAnio.Text, selectorTrimestre.SelectedItem.ToString());
+                ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                 form.Show();
             }
             else {
                 if (selectorListado.SelectedItem.ToString().Equals("Clientes mas cumplidores"))
                 {
-                    ListadoEstadistico.ClientesCumplidores form = new ListadoEstadistico.ClientesCumplidores(txtAnio.Text, selectorTrimestre.SelectedItem.ToString());
+                    ListadoEstadistico.ClientesCumplidores form = new ListadoEstadistico.ClientesCumplidores(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                     form.Show();
                 }
                 else
                 {
                     if (selectorListado.SelectedItem.ToString().Equals("Porcentaje de facturas cobradas por empresa"))
                     {
-                        ListadoEstadistico.FacturasCobradasPorEmpresa form = new ListadoEstadistico.FacturasCobradasPorEmpresa(txtAnio.Text, selectorTrimestre.SelectedItem.ToString());
+                        ListadoEstadistico.FacturasCobradasPorEmpresa form = new ListadoEstadistico.FacturasCobradasPorEmpresa(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                         form.Show();
                     }
                     else
                     {
                         if (selectorListado.SelectedItem.ToString().Equals("Empresas con mayor monto rendido"))
                         {
-                            ListadoEstadistico.EmpresasConMayorMontoRendido form = new ListadoEstadistico.EmpresasConMayorMontoRendido(txtAnio.Text, selectorTrimestre.SelectedItem.ToString());
+                            ListadoEstadistico.EmpresasConMayorMontoRendido form = new ListadoEstadistico.EmpresasConMayorMontoRendido(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                             form.Show();
                         }
                     }
@@ -90,5 +90,24 @@ namespace PagoAgilFrba.ListadoEstadistico
                 }
         }
 
+        private int parsearInt(string trimestre)
+        {
+            switch (trimestre)
+            {
+                case "1": return 1;
+                case "2": return 2;
+                case "3": return 3;
+                case "4": return 4;
+                default: return 0;
+
+            }
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            Menu.MenuFuncionalidades form = new Menu.MenuFuncionalidades;
+            form.Show();
+            this.Hide();
+        }
     }
 }
