@@ -29,12 +29,12 @@ namespace PagoAgilFrba.RegistroPago
 
         public String getNombre()
         {
-            return this.apellido;
+            return this.nombre;
         }
 
         public String getDni()
         {
-            return this.apellido;
+            return this.dni;
         }
     }
 }

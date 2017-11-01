@@ -91,27 +91,27 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 17);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Apellido";
+            this.label2.Text = "Nombre";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(159, 69);
+            this.label3.Location = new System.Drawing.Point(166, 69);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 17);
+            this.label3.Size = new System.Drawing.Size(39, 17);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Nombre";
+            this.label3.Text = "CUIT";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(292, 69);
+            this.label4.Location = new System.Drawing.Point(282, 69);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 17);
+            this.label4.Size = new System.Drawing.Size(54, 17);
             this.label4.TabIndex = 6;
-            this.label4.Text = "DNI";
+            this.label4.Text = "Rubros";
             // 
             // btnLimpiar
             // 
@@ -169,7 +169,7 @@
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
-            // BusquedaCliente
+            // BuscarEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -186,9 +186,9 @@
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.txtApellido);
             this.Controls.Add(this.label1);
-            this.Name = "BusquedaCliente";
+            this.Name = "BuscarEmpresa";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Buscar cliente";
+            this.Text = "Buscar empresa";
             this.ResumeLayout(false);
             this.PerformLayout();
 

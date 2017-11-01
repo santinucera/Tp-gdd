@@ -13,9 +13,9 @@ namespace PagoAgilFrba.RegistroPago
 {
     public partial class BuscarEmpresa : Form
     {
-        private SeleccionCliente padre;
+        private AgregarFactura padre;
         
-        public BuscarEmpresa(SeleccionCliente parent)
+        public BuscarEmpresa(AgregarFactura parent)
         {
             InitializeComponent();
             this.limpiarCampos();

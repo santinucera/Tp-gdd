@@ -11,36 +11,30 @@ using System.Data.SqlClient;
 
 namespace PagoAgilFrba.RegistroPago
 {
-    public partial class SeleccionCliente : Form
+    public partial class MenuCobros : Form
     {
-        public SeleccionCliente()
+        public MenuCobros()
         {
             InitializeComponent();
             this.cargarHeader();
         }
 
-        private void buscarCliente_Click(object sender, EventArgs e)
+        private void agregarFactura_Click(object sender, EventArgs e)
         {
-            new BuscarEmpresa(this).Show();
-        }
-
-        public void mostrarNombreCliente()
-        {
-            lblCliente.Text = Cliente.nombreCompleto();
-            
-            this.btnCobro.Enabled = true;
+            new PagoAgilFrba.RegistroPago.AgregarFactura().Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
-            new PagoAgilFrba.Menu.MenuFuncionalidades().Show();
+            new PagoAgilFrba.RegistroPago.SeleccionCliente().Show();
         }
 
 
         private void cargarHeader()
         {
             this.cargarFecha();
+            this.mostrarCliente();
         }
 
         private void cargarFecha()
@@ -58,10 +52,9 @@ namespace PagoAgilFrba.RegistroPago
             //TODO traer la sucursal de la bd
         }
 
-        private void btnCobro_Click(object sender, EventArgs e)
+        private void mostrarCliente()
         {
-            this.Close();
-            new PagoAgilFrba.RegistroPago.MenuCobros().Show();
+            lblCliente.Text = Cliente.nombreCompleto();
         }
     }
 }

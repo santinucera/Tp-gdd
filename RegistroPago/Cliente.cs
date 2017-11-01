@@ -22,7 +22,17 @@ namespace PagoAgilFrba.RegistroPago
             return Cliente.apellido + ", " + Cliente.nombre;
         }
 
-        public static String documento()
+        public static String getApellido()
+        {
+            return Cliente.apellido;
+        }
+
+        public static String getNombre()
+        {
+            return Cliente.nombre;
+        }
+
+        public static String getDni()
         {
             return Cliente.dni;
         }
