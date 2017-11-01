@@ -60,7 +60,7 @@ namespace PagoAgilFrba.Rendicion
         {
             while (reader.Read())
             {
-                dgvFacturas.Rows.Add(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2).Trim() + " " + reader.GetString(5).Trim(),
+                dgvFacturas.Rows.Add(reader.GetInt32(0), reader.GetDecimal(1), reader.GetString(2).Trim() + " " + reader.GetString(5).Trim(),
                     reader.GetDateTime(3), reader.GetDateTime(4),false,"Seleccionar");
             }
 
@@ -120,19 +120,30 @@ namespace PagoAgilFrba.Rendicion
                     fila[0] = Convert.ToInt32(row.Cells[0].Value);
                     fila[1] = Convert.ToInt32(row.Cells[1].Value);
                     tabla.Rows.Add(fila);
+                    MessageBox.Show("dsa");
                     hayAlgunoSeleccionado = true;
                 }                
             }
 
             cmd.Parameters.AddWithValue("@listaFacturas", tabla);
 
-            if(hayAlgunoSeleccionado){
-            reader= cmd.ExecuteReader();
-            reader.Read();
+            if (hayAlgunoSeleccionado)
+            {
 
-            this.Hide();
-            MenuFuncionalidades form = new MenuFuncionalidades();
-            form.Show();
+                try
+                {
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    this.Hide();
+                    MenuFuncionalidades form = new MenuFuncionalidades();
+                    form.Show();
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+
             }
             else
             {

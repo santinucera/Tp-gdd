@@ -15,8 +15,6 @@ namespace PagoAgilFrba
 {
     public partial class Form1 : Form
     {
-        List<String> intentosFallidos = new List<String>();
-        
         public Form1()
         {
             InitializeComponent();
@@ -37,6 +35,7 @@ namespace PagoAgilFrba
 
             if (id != 0)
             {
+                ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Usuario SET usua_cantIntentos=0  WHERE usua_username = '" + txtUsuario.Text + "'");
                 reader = ClaseConexion.ResolverConsulta("SELECT usua_habilitado FROM [CONGESTION].[Usuario] WHERE usua_id = " + id);
                 reader.Read();
                 bool habilitado = reader.GetBoolean(0);
@@ -58,12 +57,18 @@ namespace PagoAgilFrba
             else
             {
                 MessageBox.Show("Contraseña incorrecta");
-                intentosFallidos.Add(txtUsuario.Text);
-                if (intentosFallidos.Count(user => user == txtUsuario.Text) == 3)
+                reader = ClaseConexion.ResolverConsulta("SELECT usua_cantIntentos FROM [CONGESTION].[Usuario]  WHERE usua_username = '" + txtUsuario.Text + "'");
+                reader.Read();
+                if (reader.GetInt32(0) == 2)
                 {
-                    ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Usuario SET usua_habilitado = 0 WHERE usua_username = '" + txtUsuario.Text + "'");
+                    ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Usuario SET usua_habilitado = 0,usua_cantIntentos=0  WHERE usua_username = '" + txtUsuario.Text + "'");
                     MessageBox.Show("Has sobrepasado la cantidad de intentos posibles, el usuario " + txtUsuario.Text + "ha sido deshabilitado");
                 }
+                else
+                {
+                    ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Usuario SET usua_cantIntentos = "+(reader.GetInt32(0)+1).ToString()+" WHERE usua_username = '" + txtUsuario.Text + "'");
+                }
+                reader.Close();
             }
         }
 

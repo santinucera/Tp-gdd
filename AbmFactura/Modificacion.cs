@@ -42,7 +42,7 @@ namespace PagoAgilFrba.AbmFactura
         {
             while (reader.Read())
             {
-                txtTotal.Text = reader.GetInt32(0).ToString().Trim();
+                txtTotal.Text = reader.GetDecimal(0).ToString().Trim();
                 txtCliente.Text = reader.GetDecimal(1).ToString().Trim();
                 comboBox1.SelectedIndex = comboBox1.FindStringExact(reader.GetString(2) + ", " + reader.GetString(5));
                 dtmAlta.Text = reader.GetDateTime(3).ToString();
@@ -50,7 +50,7 @@ namespace PagoAgilFrba.AbmFactura
             }
             txtNumero.Text = numero.ToString();
             reader.Close();
-
+            
         }
 
         private SqlDataReader leerFacturas()
