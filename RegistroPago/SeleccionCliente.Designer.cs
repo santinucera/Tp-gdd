@@ -126,11 +126,11 @@
             // buscarCliente
             // 
             this.buscarCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buscarCliente.Location = new System.Drawing.Point(25, 140);
+            this.buscarCliente.Location = new System.Drawing.Point(208, 134);
             this.buscarCliente.Name = "buscarCliente";
-            this.buscarCliente.Size = new System.Drawing.Size(265, 38);
+            this.buscarCliente.Size = new System.Drawing.Size(82, 38);
             this.buscarCliente.TabIndex = 12;
-            this.buscarCliente.Text = "Seleccionar Cliente";
+            this.buscarCliente.Text = "Buscar";
             this.buscarCliente.UseVisualStyleBackColor = true;
             this.buscarCliente.Click += new System.EventHandler(this.buscarCliente_Click);
             // 
@@ -149,9 +149,9 @@
             // 
             this.btnCobro.Enabled = false;
             this.btnCobro.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCobro.Location = new System.Drawing.Point(36, 196);
+            this.btnCobro.Location = new System.Drawing.Point(25, 183);
             this.btnCobro.Name = "btnCobro";
-            this.btnCobro.Size = new System.Drawing.Size(243, 26);
+            this.btnCobro.Size = new System.Drawing.Size(265, 40);
             this.btnCobro.TabIndex = 14;
             this.btnCobro.Text = "Agregar Facturas";
             this.btnCobro.UseVisualStyleBackColor = true;

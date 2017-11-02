@@ -24,7 +24,7 @@ namespace PagoAgilFrba.RegistroPago
 
         private void guardar_Click(object sender, EventArgs e)
         {
-            
+            this.Close();
         }
 
         private void volver_Click(object sender, EventArgs e)
@@ -70,6 +70,8 @@ namespace PagoAgilFrba.RegistroPago
         {
             this.fechaVto = unaFecha;
             lblFechaVto.Text = fechaVto.Date.ToString("dd/MM/yyyy");
+
+            this.habilitarBotonGuardar();
         }
 
         private void btnEmpresas_Click(object sender, EventArgs e)
@@ -81,6 +83,14 @@ namespace PagoAgilFrba.RegistroPago
         {
             this.empresa = empr;
             lblEmpresa.Text = empresa.ToString();
+
+            this.habilitarBotonGuardar();
+        }
+
+        private void habilitarBotonGuardar()
+        {
+            if (this.fecha != null && this.empresa != null)
+                this.btnGuardar.Enabled = true;
         }
     }
 }

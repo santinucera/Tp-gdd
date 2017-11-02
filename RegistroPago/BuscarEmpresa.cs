@@ -34,13 +34,24 @@ namespace PagoAgilFrba.RegistroPago
             {
                 listaEmpresas.Items.Clear();
 
-                String selectFromEmpresas = "SELECT empr_id, empr_nombre, empr_cuit, rub_descripcion FROM CONGESTION.listado_empresas";
+                String query;       //creo el string de la query
 
-                String nombre = " empr_nombre LIKE '%" + txtNombre.Text + "%' and";
-                String cuit = " empr_cuit LIKE '%" + txtCuit.Text + "%' and";
-                String rubro = " rub_descripcion LIKE '%" + selectorRubros.SelectedText + "%'"; 
+                String selectFromEmpresas = "SELECT empr_id, empr_nombre, empr_cuit, rub_descripcion FROM CONGESTION.listado_empresas WHERE";
+                String and = " and";
 
-                this.cargarListaCon(ClaseConexion.ResolverConsulta(selectFromEmpresas + nombre + cuit + rubro));
+                String nombre = " empr_nombre LIKE '%" + txtNombre.Text + "%'";     //parametrizo los distintos campos
+                String cuit = " empr_cuit LIKE '%" + txtCuit.Text + "%'";
+                String rubro;
+
+                query = selectFromEmpresas + nombre + and + cuit;
+
+                if (selectorRubros.SelectedItem != null)            //en caso de que sea null, no se agrega a la query
+                {
+                    rubro = " rub_descripcion = '" + selectorRubros.SelectedItem.ToString() + "'";
+                    query += and + rubro;
+                }
+
+                this.cargarListaCon(ClaseConexion.ResolverConsulta(query));
             }
         }
 
