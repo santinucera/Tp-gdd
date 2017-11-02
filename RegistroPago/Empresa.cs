@@ -22,5 +22,10 @@ namespace PagoAgilFrba.RegistroPago
         {
             return this.nombre + "   /   CUIT: " + this.cuit;
         }
+
+        public int getId()
+        {
+            return this.id;
+        }
     }
 }

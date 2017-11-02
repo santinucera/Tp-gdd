@@ -15,16 +15,30 @@ namespace PagoAgilFrba.RegistroPago
     {
         private Empresa empresa;
         private DateTime fechaVto;
+        private MenuCobros parent;
 
-        public AgregarFactura()
+        public AgregarFactura(MenuCobros parent)
         {
             InitializeComponent();
+
+            this.parent = parent;
+
             this.cargarHeader();
         }
 
         private void guardar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            try
+            {
+                Registro.cobrosPendientes.Add(new CobroPendiente(int.Parse(txtFactura.Text), empresa.getId(), fechaVto, float.Parse(txtMonto.Text)));
+
+                this.parent.refrescarListaCobrosPendientes();
+                this.Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Campos con datos invalidos", "Error");
+            }
         }
 
         private void volver_Click(object sender, EventArgs e)
@@ -37,6 +51,8 @@ namespace PagoAgilFrba.RegistroPago
         {
             this.cargarFecha();
             this.mostrarCliente();
+
+            txtMonto.Text = "0";
         }
 
         private void cargarFecha()
@@ -89,8 +105,37 @@ namespace PagoAgilFrba.RegistroPago
 
         private void habilitarBotonGuardar()
         {
-            if (this.fecha != null && this.empresa != null)
+            if (this.txtFactura.Text != "" && this.fecha != null && this.empresa != null && float.Parse(txtMonto.Text) >= 0)
                 this.btnGuardar.Enabled = true;
+        }
+
+        private void txtMonto_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                float.Parse(txtMonto.Text);
+                this.habilitarBotonGuardar();
+            }
+            catch (Exception exc)
+            {
+                this.btnGuardar.Enabled = false;
+                MessageBox.Show(exc.Message, "Error");
+            }
+        }
+
+        private void txtFactura_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int.Parse(txtFactura.Text);
+                this.habilitarBotonGuardar();
+            }
+            catch (Exception exc)
+            {
+                this.btnGuardar.Enabled = false;
+                MessageBox.Show(exc.Message, "Error");
+            }
+            
         }
     }
 }

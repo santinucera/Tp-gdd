@@ -115,7 +115,7 @@ create table CONGESTION.Registro(
 	reg_sucursal int FOREIGN KEY references CONGESTION.Sucursal(suc_id),
 	reg_medio_pago int FOREIGN KEY references CONGESTION.Medio_Pago(med_id),
 	reg_fecha_cobro smalldatetime NOT NULL,
-	reg_total int NOT NULL
+	reg_total numeric(18,2) NOT NULL
 )
 
 create table CONGESTION.Devolucion(
@@ -815,18 +815,3 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
--- VIEW clientes con mas pagos
-CREATE VIEW CONGESTION.clientesConMasPagos
-AS
-SELECT clie_nombre,reg_fecha_cobro 
-FROM CONGESTION.Cliente JOIN CONGESTION.Registro ON clie_id = reg_cliente
-
-SELECT TOP 5 clie_nombre,count(*) FROM CONGESTION.viewClientesConMasPagos GROUP BY clie_nombre ORDER BY 2 DESC
- -------------------
-
- -- VIEW empresas con mayor monto rendido
- CREATE VIEW CONGESTION.empresasConMayorMontoRendido
- AS
- SELECT  empr_nombre,rend_total,rend_fecha
- FROM CONGESTION.Empresa JOIN CONGESTION.Factura ON empr_id = fact_empresa JOIN CONGESTION.Rendicion ON fact_rendicion = rend_numero
-----------

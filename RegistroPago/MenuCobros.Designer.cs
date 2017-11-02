@@ -40,6 +40,7 @@
             this.btnVolver = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnCobro = new System.Windows.Forms.Button();
+            this.listaCobros = new System.Windows.Forms.ListBox();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -167,12 +168,22 @@
             this.btnCobro.TabIndex = 16;
             this.btnCobro.Text = "Efectuar Cobro";
             this.btnCobro.UseVisualStyleBackColor = true;
+            this.btnCobro.Click += new System.EventHandler(this.btnCobro_Click);
+            // 
+            // listaCobros
+            // 
+            this.listaCobros.FormattingEnabled = true;
+            this.listaCobros.Location = new System.Drawing.Point(333, 12);
+            this.listaCobros.Name = "listaCobros";
+            this.listaCobros.Size = new System.Drawing.Size(245, 290);
+            this.listaCobros.TabIndex = 17;
             // 
             // MenuCobros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(318, 317);
+            this.ClientSize = new System.Drawing.Size(590, 317);
+            this.Controls.Add(this.listaCobros);
             this.Controls.Add(this.btnCobro);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnVolver);
@@ -206,5 +217,6 @@
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btnCobro;
+        private System.Windows.Forms.ListBox listaCobros;
     }
 }

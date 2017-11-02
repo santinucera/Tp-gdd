@@ -34,6 +34,7 @@ namespace PagoAgilFrba.RegistroPago
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+
             new PagoAgilFrba.Menu.MenuFuncionalidades().Show();
         }
 
@@ -61,7 +62,8 @@ namespace PagoAgilFrba.RegistroPago
         private void btnCobro_Click(object sender, EventArgs e)
         {
             this.Close();
+
             new PagoAgilFrba.RegistroPago.MenuCobros().Show();
-        }
+        }   
     }
 }

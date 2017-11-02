@@ -44,13 +44,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtFactura = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.lblEmpresa = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblFechaVto = new System.Windows.Forms.Label();
             this.btnEmpresas = new System.Windows.Forms.Button();
             this.btnFecha = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtMonto = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -223,20 +225,21 @@
             this.label8.TabIndex = 16;
             this.label8.Text = "Nro. Factura: ";
             // 
-            // textBox1
+            // txtFactura
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(128, 165);
-            this.textBox1.MaxLength = 50;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(294, 23);
-            this.textBox1.TabIndex = 17;
+            this.txtFactura.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFactura.Location = new System.Drawing.Point(128, 165);
+            this.txtFactura.MaxLength = 50;
+            this.txtFactura.Name = "txtFactura";
+            this.txtFactura.Size = new System.Drawing.Size(294, 23);
+            this.txtFactura.TabIndex = 17;
+            this.txtFactura.TextChanged += new System.EventHandler(this.txtFactura_TextChanged);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(22, 225);
+            this.label9.Location = new System.Drawing.Point(22, 215);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(72, 17);
             this.label9.TabIndex = 18;
@@ -246,7 +249,7 @@
             // 
             this.lblEmpresa.AutoSize = true;
             this.lblEmpresa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmpresa.Location = new System.Drawing.Point(125, 225);
+            this.lblEmpresa.Location = new System.Drawing.Point(125, 215);
             this.lblEmpresa.Name = "lblEmpresa";
             this.lblEmpresa.Size = new System.Drawing.Size(16, 17);
             this.lblEmpresa.TabIndex = 19;
@@ -256,7 +259,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(22, 281);
+            this.label11.Location = new System.Drawing.Point(22, 266);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(76, 17);
             this.label11.TabIndex = 20;
@@ -266,7 +269,7 @@
             // 
             this.lblFechaVto.AutoSize = true;
             this.lblFechaVto.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaVto.Location = new System.Drawing.Point(125, 281);
+            this.lblFechaVto.Location = new System.Drawing.Point(125, 266);
             this.lblFechaVto.Name = "lblFechaVto";
             this.lblFechaVto.Size = new System.Drawing.Size(16, 17);
             this.lblFechaVto.TabIndex = 21;
@@ -274,7 +277,7 @@
             // 
             // btnEmpresas
             // 
-            this.btnEmpresas.Location = new System.Drawing.Point(423, 222);
+            this.btnEmpresas.Location = new System.Drawing.Point(423, 212);
             this.btnEmpresas.Name = "btnEmpresas";
             this.btnEmpresas.Size = new System.Drawing.Size(85, 23);
             this.btnEmpresas.TabIndex = 22;
@@ -284,7 +287,7 @@
             // 
             // btnFecha
             // 
-            this.btnFecha.Location = new System.Drawing.Point(423, 278);
+            this.btnFecha.Location = new System.Drawing.Point(423, 263);
             this.btnFecha.Name = "btnFecha";
             this.btnFecha.Size = new System.Drawing.Size(85, 23);
             this.btnFecha.TabIndex = 23;
@@ -292,18 +295,40 @@
             this.btnFecha.UseVisualStyleBackColor = true;
             this.btnFecha.Click += new System.EventHandler(this.btnFecha_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(280, 309);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(51, 17);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Monto:";
+            // 
+            // txtMonto
+            // 
+            this.txtMonto.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMonto.Location = new System.Drawing.Point(337, 306);
+            this.txtMonto.MaxLength = 50;
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(85, 23);
+            this.txtMonto.TabIndex = 25;
+            this.txtMonto.TextChanged += new System.EventHandler(this.txtMonto_TextChanged);
+            // 
             // AgregarFactura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(520, 433);
+            this.Controls.Add(this.txtMonto);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.btnFecha);
             this.Controls.Add(this.btnEmpresas);
             this.Controls.Add(this.lblFechaVto);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.lblEmpresa);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtFactura);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnVolver);
@@ -342,12 +367,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtFactura;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lblEmpresa;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblFechaVto;
         private System.Windows.Forms.Button btnEmpresas;
         private System.Windows.Forms.Button btnFecha;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtMonto;
     }
 }

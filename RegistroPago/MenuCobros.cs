@@ -21,12 +21,14 @@ namespace PagoAgilFrba.RegistroPago
 
         private void agregarFactura_Click(object sender, EventArgs e)
         {
-            new PagoAgilFrba.RegistroPago.AgregarFactura().Show();
+            new PagoAgilFrba.RegistroPago.AgregarFactura(this).Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+            Registro.cobrosPendientes.Clear();
+
             new PagoAgilFrba.RegistroPago.SeleccionCliente().Show();
         }
 
@@ -35,16 +37,24 @@ namespace PagoAgilFrba.RegistroPago
         {
             this.cargarFecha();
             this.mostrarCliente();
+            this.cargarDatosCabeceraDeRegistro();
         }
 
         private void cargarFecha()
         {
+            fecha.Text = this.traerFechaDeDB().ToString("dd/MM/yyyy");
+        }
+
+        private DateTime traerFechaDeDB()
+        {
             SqlDataReader dr = ClaseConexion.ResolverConsulta("SELECT GETDATE()");
             dr.Read();
 
-            fecha.Text = dr.GetDateTime(0).ToString("dd/MM/yyyy");
+            DateTime f = dr.GetDateTime(0);
 
             dr.Close();
+
+            return f;
         }
 
         private void cargarSucursal()
@@ -55,6 +65,27 @@ namespace PagoAgilFrba.RegistroPago
         private void mostrarCliente()
         {
             lblCliente.Text = Cliente.nombreCompleto();
+        }
+        
+        private void cargarDatosCabeceraDeRegistro()
+        {
+            Registro.cliente = Cliente.getId();
+            Registro.fechaCobro = this.traerFechaDeDB();
+            //Registro.sucursal = algo;
+        }
+
+        public void refrescarListaCobrosPendientes()
+        {
+            listaCobros.Items.Clear();
+
+            Registro.cobrosPendientes.ForEach(delegate(CobroPendiente cobro) {listaCobros.Items.Add(cobro);});    //Wollok version manaos
+
+            btnCobro.Enabled = true; //si entran a este metodo, es porque hay al menos una factura cargada, por lo que habilito el boton
+        }
+
+        private void btnCobro_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Registro.cobrosPendientes.Sum(cobro => cobro.getImporte()).ToString());
         }
     }
 }
