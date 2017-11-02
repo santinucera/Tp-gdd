@@ -35,7 +35,7 @@ namespace PagoAgilFrba.ListadoEstadistico
 
         private void cargarListado()
         {
-            selectorListado.Items.Add("Porcentaje de facturas cobradas por empresa");
+            selectorListado.Items.Add("Mayores porcentajes de facturas cobradas por empresa");
             selectorListado.Items.Add("Empresas con mayor monto rendido");
             selectorListado.Items.Add("Clientes con mas pagos");
             selectorListado.Items.Add("Clientes mas cumplidores");
@@ -55,39 +55,32 @@ namespace PagoAgilFrba.ListadoEstadistico
 
         private bool chequear()
         {
-            return (mtxtPeriodo.Text || selectorTrimestre.SelectedIndex == -1 || selectorListado.SelectedIndex == -1);
+            return (mtxtPeriodo.Text.Equals("") || selectorTrimestre.SelectedIndex == -1 || selectorListado.SelectedIndex == -1);
         }
 
         private void revisarSeleccion()
         {
-            if (selectorListado.SelectedItem.ToString().Equals("Clientes con mas pagos"))
+            switch (selectorListado.SelectedItem.ToString())
             {
-                ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
-                form.Show();
+                case "Clientes con mas pagos": 
+                    ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                     form.Show();
+                     break;
+                case "Clientes mas cumplidores":
+                    ListadoEstadistico.ClientesCumplidores form1 = new ListadoEstadistico.ClientesCumplidores(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    form1.Show();
+                    break;
+                case "Mayores porcentajes de facturas cobradas por empresa":
+                    ListadoEstadistico.FacturasCobradasPorEmpresa form2 = new ListadoEstadistico.FacturasCobradasPorEmpresa(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    form2.Show();
+                    break;
+                case "Empresas con mayor monto rendido":
+                    ListadoEstadistico.EmpresasConMayorMontoRendido form3 = new ListadoEstadistico.EmpresasConMayorMontoRendido(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    form3.Show();
+                    break;
+                default: break;
             }
-            else {
-                if (selectorListado.SelectedItem.ToString().Equals("Clientes mas cumplidores"))
-                {
-                    ListadoEstadistico.ClientesCumplidores form = new ListadoEstadistico.ClientesCumplidores(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
-                    form.Show();
-                }
-                else
-                {
-                    if (selectorListado.SelectedItem.ToString().Equals("Porcentaje de facturas cobradas por empresa"))
-                    {
-                        ListadoEstadistico.FacturasCobradasPorEmpresa form = new ListadoEstadistico.FacturasCobradasPorEmpresa(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
-                        form.Show();
-                    }
-                    else
-                    {
-                        if (selectorListado.SelectedItem.ToString().Equals("Empresas con mayor monto rendido"))
-                        {
-                            ListadoEstadistico.EmpresasConMayorMontoRendido form = new ListadoEstadistico.EmpresasConMayorMontoRendido(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
-                            form.Show();
-                        }
-                    }
-                }
-                }
+
         }
 
         private int parsearInt(string trimestre)
@@ -105,7 +98,7 @@ namespace PagoAgilFrba.ListadoEstadistico
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            Menu.MenuFuncionalidades form = new Menu.MenuFuncionalidades;
+            Menu.MenuFuncionalidades form = new Menu.MenuFuncionalidades();
             form.Show();
             this.Hide();
         }
