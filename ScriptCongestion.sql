@@ -54,7 +54,8 @@ create table CONGESTION.Empresa(
 	empr_cuit nvarchar(50) NOT NULL,
 	empr_direccion nvarchar(255)  NOT NULL,
 	empr_nombre nvarchar(255)  NOT NULL,
-	empr_habilitado bit DEFAULT 1 NOT NULL
+	empr_habilitado bit DEFAULT 1 NOT NULL,
+	empr_dia_rendicion int DEFAULT 1 NOT NULL
 )
 
 create table CONGESTION.Empresa_Rubro(
@@ -481,7 +482,7 @@ GO
 
 CREATE VIEW CONGESTION.listado_empresas
 AS
-	SELECT e.empr_nombre, e.empr_direccion, e.empr_cuit, e.empr_habilitado, r.rub_descripcion
+	SELECT e.empr_id, e.empr_nombre, e.empr_direccion, e.empr_cuit, e.empr_habilitado, r.rub_descripcion
 	FROM CONGESTION.Empresa e	JOIN CONGESTION.Empresa_Rubro er on (e.empr_id = er.er_empresa)
 								JOIN CONGESTION.Rubro r on (er.er_rubro = r.rub_id)
 GO
