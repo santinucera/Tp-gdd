@@ -81,7 +81,7 @@
             this.selectorListado.FormattingEnabled = true;
             this.selectorListado.Location = new System.Drawing.Point(231, 154);
             this.selectorListado.Name = "selectorListado";
-            this.selectorListado.Size = new System.Drawing.Size(174, 21);
+            this.selectorListado.Size = new System.Drawing.Size(198, 21);
             this.selectorListado.TabIndex = 5;
             // 
             // btnVolver
@@ -96,7 +96,7 @@
             // 
             // btnConsultar
             // 
-            this.btnConsultar.Location = new System.Drawing.Point(307, 242);
+            this.btnConsultar.Location = new System.Drawing.Point(331, 242);
             this.btnConsultar.Name = "btnConsultar";
             this.btnConsultar.Size = new System.Drawing.Size(98, 31);
             this.btnConsultar.TabIndex = 7;
@@ -116,7 +116,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 301);
+            this.ClientSize = new System.Drawing.Size(451, 301);
             this.Controls.Add(this.mtxtPeriodo);
             this.Controls.Add(this.btnConsultar);
             this.Controls.Add(this.btnVolver);

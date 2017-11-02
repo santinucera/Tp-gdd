@@ -815,3 +815,18 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
+-- VIEW clientes con mas pagos
+CREATE VIEW CONGESTION.clientesConMasPagos
+AS
+SELECT clie_nombre,reg_fecha_cobro 
+FROM CONGESTION.Cliente JOIN CONGESTION.Registro ON clie_id = reg_cliente
+
+SELECT TOP 5 clie_nombre,count(*) FROM CONGESTION.viewClientesConMasPagos GROUP BY clie_nombre ORDER BY 2 DESC
+ -------------------
+
+ -- VIEW empresas con mayor monto rendido
+ CREATE VIEW CONGESTION.empresasConMayorMontoRendido
+ AS
+ SELECT  empr_nombre,rend_total,rend_fecha
+ FROM CONGESTION.Empresa JOIN CONGESTION.Factura ON empr_id = fact_empresa JOIN CONGESTION.Rendicion ON fact_rendicion = rend_numero
+----------

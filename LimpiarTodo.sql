@@ -40,3 +40,5 @@ DROP PROCEDURE CONGESTION.sp_modificarItem
 DROP PROCEDURE CONGESTION.sp_DevolverFactura
 DROP TYPE [CONGESTION].listaFacturas
 DROP TYPE [CONGESTION].listaItemsFactura
+DROP VIEW [CONGESTION].clientesConMasPagos
+DROP VIEW [CONGESTION].empresasConMayorMontoRendido
