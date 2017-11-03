@@ -51,9 +51,13 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private Boolean puedeDeshabilitar()
         {
-            MessageBox.Show(ClaseConexion.ResolverFuncion("SELECT CONGESTION.controlarFacturasPagadasRendidasDe(" + this.cuit + ")").ToString());
-
-            return (int)ClaseConexion.ResolverFuncion("SELECT CONGESTION.controlarFacturasPagadasRendidasDe(" + this.cuit + ")") == 1;
+            SqlDataReader dr = ClaseConexion.ResolverConsulta("SELECT CONGESTION.controlarFacturasPagadasRendidasDe('" + this.cuit.Trim() + "')");
+            
+            dr.Read();
+            Boolean puede = Convert.ToBoolean(dr.GetInt32(0));
+            dr.Close();
+            
+            return puede;
         }
 
         private void mostrarEmpresa()

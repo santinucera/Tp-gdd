@@ -894,14 +894,15 @@ RETURNS int
 BEGIN
 	
 	DECLARE @empresa int = (SELECT empr_id FROM CONGESTION.Empresa WHERE empr_cuit = @cuit)
+	DECLARE @resultado BIT = 1
 
 	IF (SELECT count(distinct freg_factura)			--si tiene facturas pagadas no rendidas
 			FROM CONGESTION.Factura_Registro JOIN CONGESTION.Factura on (freg_factura = fact_num)
 			WHERE fact_empresa = @empresa and fact_rendicion IS NULL) > 0
 	BEGIN
-		RETURN 0
+		SET @resultado = 0
 	END
 
-	RETURN 1
+	RETURN @resultado
 END
 GO
