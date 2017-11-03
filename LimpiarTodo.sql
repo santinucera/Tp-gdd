@@ -44,4 +44,5 @@ DROP VIEW [CONGESTION].clientesConMasPagos
 DROP VIEW [CONGESTION].empresasConMayorMontoRendido
 DROP PROCEDURE CONGESTION.sp_guardarRegistroCobros
 DROP TYPE [CONGESTION].listaCobrosPendientes
+DROP FUNCTION [CONGESTION].controlarFacturasPagadasRendidasDe
 

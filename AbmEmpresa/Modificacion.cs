@@ -55,10 +55,10 @@ namespace PagoAgilFrba.AbmEmpresa
 
             empresaConRubro.Read();
 
-            txtNombre.Text = empresaConRubro.GetString(0);
-            txtDireccion.Text = empresaConRubro.GetString(1);
-            txtCuit.Text = empresaConRubro.GetString(2);
-            selectorRubros.SelectedItem = empresaConRubro.GetString(4);
+            txtNombre.Text = empresaConRubro.GetString(1);
+            txtDireccion.Text = empresaConRubro.GetString(2);
+            txtCuit.Text = empresaConRubro.GetString(3);
+            selectorRubros.SelectedItem = empresaConRubro.GetString(5);
 
             empresaConRubro.Close();
         }

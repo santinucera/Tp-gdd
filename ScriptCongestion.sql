@@ -272,7 +272,8 @@ INSERT INTO CONGESTION.Usuario
 INSERT INTO CONGESTION.Funcionalidad_Rol
 	(fr_funcionalidad,fr_rol) 
 	SELECT  func_id, (SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Administrador')
-	FROM CONGESTION.Funcionalidad 
+	FROM CONGESTION.Funcionalidad
+	WHERE func_descripcion <> 'Registro de Pago de Facturas'
 
 
 INSERT INTO CONGESTION.Rol_Usuario
@@ -888,3 +889,19 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
+CREATE FUNCTION CONGESTION.controlarFacturasPagadasRendidasDe(@cuit NVARCHAR(50))
+RETURNS int
+BEGIN
+	
+	DECLARE @empresa int = (SELECT empr_id FROM CONGESTION.Empresa WHERE empr_cuit = @cuit)
+
+	IF (SELECT count(distinct freg_factura)			--si tiene facturas pagadas no rendidas
+			FROM CONGESTION.Factura_Registro JOIN CONGESTION.Factura on (freg_factura = fact_num)
+			WHERE fact_empresa = @empresa and fact_rendicion IS NULL) > 0
+	BEGIN
+		RETURN 0
+	END
+
+	RETURN 1
+END
+GO

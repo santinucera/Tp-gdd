@@ -18,7 +18,7 @@ namespace PagoAgilFrba.RegistroPago
         public static int getIdSucursal()
         {
             SqlDataReader dr = 
-                ClaseConexion.ResolverConsulta("SELECT suc_id FROM CONGESTION.Sucursal WHERE suc_descripcion = '" + Registro.sucursal + "'");
+                ClaseConexion.ResolverConsulta("SELECT suc_id FROM CONGESTION.Sucursal WHERE suc_nombre = '" + Registro.sucursal + "'");
             dr.Read();
 
             int id = dr.GetInt32(0);

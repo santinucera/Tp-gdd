@@ -31,7 +31,7 @@ namespace PagoAgilFrba.AbmEmpresa
             {
                 String bajaMod;
 
-                if (reader.GetBoolean(3))
+                if (reader.GetBoolean(4))
                     bajaMod = "Baja";
                 else
                     bajaMod = "Habilitar";

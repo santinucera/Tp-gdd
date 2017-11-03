@@ -29,26 +29,31 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
+            if (this.estaHabilitada)
             {
-                if (this.estaHabilitada)
+                if (!this.puedeDeshabilitar())
+                    MessageBox.Show("La empresa tiene facturas pagadas sin rendir", "Error");
+                else
                 {
                     this.setHabilitacionA(false);
                     MessageBox.Show("Empresa deshabilitada", "Ok");
                 }
-                else
-                {
-                    this.setHabilitacionA(true);
-                    MessageBox.Show("Empresa habilitada", "Ok");
-                }
             }
-            catch (SqlException ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Error");
+                this.setHabilitacionA(true);
+                MessageBox.Show("Empresa habilitada", "Ok");
             }
             
             this.Close();
             new Listado().Show();
+        }
+
+        private Boolean puedeDeshabilitar()
+        {
+            MessageBox.Show(ClaseConexion.ResolverFuncion("SELECT CONGESTION.controlarFacturasPagadasRendidasDe(" + this.cuit + ")").ToString());
+
+            return (int)ClaseConexion.ResolverFuncion("SELECT CONGESTION.controlarFacturasPagadasRendidasDe(" + this.cuit + ")") == 1;
         }
 
         private void mostrarEmpresa()
@@ -58,11 +63,11 @@ namespace PagoAgilFrba.AbmEmpresa
 
             empresaConRubro.Read();
 
-            lblNombre.Text = empresaConRubro.GetString(0);
-            lblDireccion.Text = empresaConRubro.GetString(1);
-            lblCuit.Text = empresaConRubro.GetString(2);
-            rubro.Text = empresaConRubro.GetString(4);
-            this.estaHabilitada = empresaConRubro.GetBoolean(3);
+            lblNombre.Text = empresaConRubro.GetString(1);
+            lblDireccion.Text = empresaConRubro.GetString(2);
+            lblCuit.Text = empresaConRubro.GetString(3);
+            lblRubro.Text = empresaConRubro.GetString(5);
+            this.estaHabilitada = empresaConRubro.GetBoolean(4);
 
             if (!this.estaHabilitada)  //si ya esta habilitada
             {
