@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.AbmCliente
 {
@@ -22,6 +23,7 @@ namespace PagoAgilFrba.AbmCliente
 
         private void Cliente_Load(object sender, EventArgs e)
         {
+            ClaseConexion.Desconectar();
             this.ActualizarGrid();
             chkHabilitado.Enabled = false;
             btnGuardar.Enabled = false;
@@ -29,7 +31,7 @@ namespace PagoAgilFrba.AbmCliente
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtNombre.Text == "" || txtTelefono.Text == "")
+            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtNombre.Text == "" || txtTelefono.Text == "" || txtMail.Text == "" || txtCodigoPostal.Text == "")
             {
                 MessageBox.Show("Completar campos");
                 return;
@@ -125,7 +127,6 @@ namespace PagoAgilFrba.AbmCliente
         private void ActualizarGrid()
         {
             ClaseConexion.ActualizarGrid(this.dataGridView1, "Cliente", "SELECT clie_id, clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac, clie_habilitado FROM CONGESTION.Cliente");
-            ClaseConexion.Desconectar();
         }
 
         private void LimpiarCampos()
@@ -153,20 +154,48 @@ namespace PagoAgilFrba.AbmCliente
             btnGuardar.Enabled = false;
             btnDarAlta.Enabled = true;
             LimpiarCampos();
-            ActualizarGrid();
-            ClaseConexion.Desconectar();
+            this.ActualizarGrid();
         }
 
         private void btnDarAlta_Click(object sender, EventArgs e)
         {
-            ClaseConexion.Conectar();
-            string consulta = "INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac, clie_habilitado) VALUES ('" + txtNombre.Text + "', '" + txtApellido.Text + "', '" + txtDni.Text + "', '" + txtDireccion.Text + "', '" + txtTelefono.Text + "', '" + txtMail.Text + "', '" + txtCodigoPostal.Text + "', '" + dtpFechaNacimiento.Value + "', 1)";
-            ClaseConexion.ResolverNonQuery(consulta);
-            this.ActualizarGrid();
-            ClaseConexion.Desconectar();
-            this.LimpiarCampos();
-            MessageBox.Show("Operacion realizada correctamente");
-        }
+            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtNombre.Text == "" || txtTelefono.Text == "" || txtMail.Text == "" || txtCodigoPostal.Text == "")
+            {
+                MessageBox.Show("Completar campos");
+                return;
+            }
+            
+            try
+            {
+                ClaseConexion.Conectar();
+                string query = "SELECT count(clie_mail) as NRO FROM CONGESTION.cliente WHERE clie_mail = '"+ txtMail.Text +"'";
+                SqlDataReader leer = ClaseConexion.ResolverConsulta(query);
+                leer.Read();
+                int nro = leer.GetInt32(leer.GetOrdinal("NRO"));
+                leer.Close();
 
+                // Verificacion. Si el mail ya existe, lo informa; caso contrario da el alta
+                if (nro == 0)
+                {
+                    string consulta = "INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac, clie_habilitado) VALUES ('" + txtNombre.Text + "', '" + txtApellido.Text + "', '" + txtDni.Text + "', '" + txtDireccion.Text + "', '" + txtTelefono.Text + "', '" + txtMail.Text + "', '" + txtCodigoPostal.Text + "', '" + dtpFechaNacimiento.Value + "', 1)";
+                    ClaseConexion.ResolverNonQuery(consulta);
+                    this.ActualizarGrid();
+                    ClaseConexion.Desconectar();
+                    this.LimpiarCampos();
+                    MessageBox.Show("Operacion realizada correctamente");
+                }
+                else
+                {
+                    MessageBox.Show("Mail ya existente");
+                    ClaseConexion.Desconectar();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                ClaseConexion.Desconectar();
+                MessageBox.Show("Ingresar todos los datos. Error: "+ ex.Message);
+            }
+        }
     }
 }
