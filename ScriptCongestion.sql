@@ -860,28 +860,24 @@ AS
 			FROM CONGESTION.Factura
 			WHERE	fact_num IN (SELECT factura FROM @listaCobros) and
 					fact_fecha_venc = (SELECT fechavto FROM @listaCobros WHERE factura = fact_num and empresa = fact_empresa) and
-					fact_fecha_venc < @fechaCobro
+					fact_fecha_venc <= @fechaCobro
 		) > 0
 	BEGIN
 		ROLLBACK TRANSACTION tr
-		RAISERROR('Se està intentando cobrar una factura ya vencida',11,0)
+		RAISERROR('Se està intentando cobrar una factura invalida',11,0)
 		RETURN
 	END
 
 	ELSE
 	BEGIN	--primero guardo el registro, para poder tener la id, y guardar las multiples entradas
-		INSERT INTO CONGESTION.Registro(reg_cliente,reg_sucursal,reg_medio_pago,reg_fecha_cobro,reg_total)	
-			VALUES(@cliente,@sucursal,@medioPago,@fechaCobro,@importe)
-
-		DECLARE @registroCargado int = (SELECT reg_id FROM CONGESTION.Registro		--traigo la id del ultimo registro guardado
-											WHERE	@cliente = reg_cliente and
-													@sucursal = reg_sucursal and
-													@fechaCobro = reg_fecha_cobro and
-													@medioPago = reg_medio_pago and
-													@importe = reg_total
-										)
+		
+		DECLARE @nuevaId int = (SELECT max(reg_id) + 1 FROM CONGESTION.Registro)
+		
+		INSERT INTO CONGESTION.Registro(reg_id, reg_cliente,reg_sucursal,reg_medio_pago,reg_fecha_cobro,reg_total)	
+			VALUES(@nuevaId, @cliente,@sucursal,@medioPago,@fechaCobro,@importe)
+		
 		INSERT INTO CONGESTION.Factura_Registro(freg_factura, freg_registro, freg_devolucion)
-			SELECT factura, @registroCargado, NULL FROM @listaCobros
+			SELECT factura, @nuevaId, NULL FROM @listaCobros
 	END
 
 	COMMIT TRANSACTION tr

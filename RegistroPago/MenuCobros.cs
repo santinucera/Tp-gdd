@@ -17,6 +17,7 @@ namespace PagoAgilFrba.RegistroPago
         {
             InitializeComponent();
             this.cargarHeader();
+            this.refrescarListaCobrosPendientes();
         }
 
         private void agregarFactura_Click(object sender, EventArgs e)
@@ -42,24 +43,12 @@ namespace PagoAgilFrba.RegistroPago
 
         private void cargarFecha()
         {
-            fecha.Text = this.traerFechaDeDB().ToString("dd/MM/yyyy");
-        }
-
-        private DateTime traerFechaDeDB()
-        {
-            SqlDataReader dr = ClaseConexion.ResolverConsulta("SELECT GETDATE()");
-            dr.Read();
-
-            DateTime f = dr.GetDateTime(0);
-
-            dr.Close();
-
-            return f;
+            fecha.Text = Registro.fechaCobro.ToString("dd/MM/yyyy");
         }
 
         private void cargarSucursal()
         {
-            //TODO traer la sucursal de la bd
+            //algo = Registro.sucursal
         }
 
         private void mostrarCliente()
@@ -70,51 +59,23 @@ namespace PagoAgilFrba.RegistroPago
         private void cargarDatosCabeceraDeRegistro()
         {
             Registro.cliente = Cliente.getId();
-            Registro.fechaCobro = this.traerFechaDeDB();
-            //Registro.sucursal = algo;
         }
 
         public void refrescarListaCobrosPendientes()
         {
             listaCobros.Items.Clear();
 
-            Registro.cobrosPendientes.ForEach(delegate(CobroPendiente cobro) {listaCobros.Items.Add(cobro);});    //Wollok version manaos
-
-            btnCobro.Enabled = true; //si entran a este metodo, es porque hay al menos una factura cargada, por lo que habilito el boton
+            if (Registro.cobrosPendientes.Count > 0)
+            {
+                Registro.cobrosPendientes.ForEach(delegate(CobroPendiente cobro) { listaCobros.Items.Add(cobro); });    //Wollok version manaos
+                btnCobro.Enabled = true;
+            }
         }
 
         private void btnCobro_Click(object sender, EventArgs e)
         {
-            DataTable tabla = new DataTable();
-            tabla.Columns.Add("cliente", typeof(int));
-            tabla.Columns.Add("sucursal", typeof(int));
-            tabla.Columns.Add("fechaCobro", typeof(DateTime));
-            tabla.Columns.Add("factura", typeof(int));
-            tabla.Columns.Add("empresa", typeof(int));
-            tabla.Columns.Add("fechaVto", typeof(DateTime));
-            tabla.Columns.Add("medioPago", typeof(int));
-            tabla.Columns.Add("importe", typeof(float));
-
-            DataRow fila;
-
-            foreach (DataGridViewRow row in listaCobros.Items)
-            {
-                CobroPendiente unCobro = listaCobros.SelectedItem as CobroPendiente;
-
-                fila = tabla.NewRow();
-                fila["cliente"] = unCobro.getCliente();
-                fila["sucursal"] = unCobro.getSucursal();
-                fila["fechaCobro"] = unCobro.getFechaCobro();
-                fila["factura"] = unCobro.getFactura();
-                fila["empresa"] = unCobro.getEmpresa();
-                fila["fechaVto"] = unCobro.getFechaVto();
-                fila["medioPago"] = unCobro.getMedioPago();
-                fila["importe"] = unCobro.getImporte();
-
-                tabla.Rows.Add(fila);
-            }
-
-
+            this.Close();
+            new EfectuarCobro().Show();
         }
     }
 }

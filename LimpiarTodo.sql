@@ -42,5 +42,6 @@ DROP TYPE [CONGESTION].listaFacturas
 DROP TYPE [CONGESTION].listaItemsFactura
 DROP VIEW [CONGESTION].clientesConMasPagos
 DROP VIEW [CONGESTION].empresasConMayorMontoRendido
-DROP TYPE [CONGESTION].listaCobrosPendientes
 DROP PROCEDURE CONGESTION.sp_guardarRegistroCobros
+DROP TYPE [CONGESTION].listaCobrosPendientes
+

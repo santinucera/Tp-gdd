@@ -11,8 +11,7 @@ namespace PagoAgilFrba.RegistroPago
     {
         public static List<CobroPendiente> cobrosPendientes = new List<CobroPendiente>();
 
-        public static int cliente, sucursal, medioPago;
+        public static int cliente, sucursal;
         public static DateTime fechaCobro;
-        public static float total;
     }
 }

@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.RegistroPago
 {
     public class CobroPendiente
     {
-        private int cliente, sucursal, medioPago;
+        private int cliente, sucursal;
         private DateTime fechaCobro;
 
         private int factura, empresa;
         private DateTime fechaVto;
-        private float importe;
+        private decimal importe;
 
-        public CobroPendiente(int factura, int empresa, DateTime fechaVto, float importe)
+        public CobroPendiente(int factura, int empresa, DateTime fechaVto, decimal importe)
         {
             this.factura = factura;
             this.empresa = empresa;
@@ -27,7 +28,7 @@ namespace PagoAgilFrba.RegistroPago
 
         public override string ToString()
         {
-            return "FACT: " + this.factura + ", EMPRESA: " + this.empresa + ", MONTO: " + this.importe;
+            return "FACT: " + this.factura + ", EMPRESA: " + this.nombreDeEmpresa() + ", MONTO: " + this.importe + ", F.VTO: " + this.fechaVto.ToString("dd/MM/yy");
         }
 
         private void cargarDatosCabecera()
@@ -37,9 +38,15 @@ namespace PagoAgilFrba.RegistroPago
             this.fechaCobro = Registro.fechaCobro;
         }
 
-        public void setMedioPago(int medio)
+        private String nombreDeEmpresa()
         {
-            this.medioPago = medio;
+            SqlDataReader dr = ClaseConexion.ResolverConsulta("SELECT empr_nombre FROM CONGESTION.Empresa WHERE empr_id = " + this.empresa);
+            
+            dr.Read();
+            String nombre = dr.GetString(0);
+            dr.Close();
+
+            return nombre;
         }
 
         public int getCliente()
@@ -50,11 +57,6 @@ namespace PagoAgilFrba.RegistroPago
         public int getSucursal()
         {
             return this.sucursal;
-        }
-
-        public int getMedioPago()
-        {
-            return this.medioPago;
         }
 
         public DateTime getFechaCobro()
@@ -77,9 +79,10 @@ namespace PagoAgilFrba.RegistroPago
             return this.fechaVto;
         }
 
-        public float getImporte()
+        public decimal getImporte()
         {
             return this.importe;
         }
+
     }
 }

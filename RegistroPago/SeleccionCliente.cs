@@ -42,16 +42,26 @@ namespace PagoAgilFrba.RegistroPago
         private void cargarHeader()
         {
             this.cargarFecha();
+            this.cargarSucursal();
+            Registro.fechaCobro = this.traerFechaDeDB();
+            Registro.sucursal = 1;
         }
 
         private void cargarFecha()
         {
+            fecha.Text = this.traerFechaDeDB().ToString("dd/MM/yyyy");
+        }
+
+        private DateTime traerFechaDeDB()
+        {
             SqlDataReader dr = ClaseConexion.ResolverConsulta("SELECT GETDATE()");
             dr.Read();
 
-            fecha.Text = dr.GetDateTime(0).ToString("dd/MM/yyyy");
+            DateTime f = dr.GetDateTime(0);
 
             dr.Close();
+
+            return f;
         }
 
         private void cargarSucursal()

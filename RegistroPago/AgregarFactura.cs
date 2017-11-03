@@ -13,8 +13,6 @@ namespace PagoAgilFrba.RegistroPago
 {
     public partial class AgregarFactura : Form
     {
-        private Empresa empresa;
-        private DateTime fechaVto;
         private MenuCobros parent;
 
         public AgregarFactura(MenuCobros parent)
@@ -24,21 +22,13 @@ namespace PagoAgilFrba.RegistroPago
             this.parent = parent;
 
             this.cargarHeader();
+            this.cargarListaFacturasPendientes();
         }
 
         private void guardar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Registro.cobrosPendientes.Add(new CobroPendiente(int.Parse(txtFactura.Text), empresa.getId(), fechaVto, float.Parse(txtMonto.Text)));
-
-                this.parent.refrescarListaCobrosPendientes();
-                this.Close();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Campos con datos invalidos", "Error");
-            }
+            this.parent.refrescarListaCobrosPendientes();
+            this.Close();
         }
 
         private void volver_Click(object sender, EventArgs e)
@@ -51,23 +41,16 @@ namespace PagoAgilFrba.RegistroPago
         {
             this.cargarFecha();
             this.mostrarCliente();
-
-            txtMonto.Text = "0";
         }
 
         private void cargarFecha()
         {
-            SqlDataReader dr = ClaseConexion.ResolverConsulta("SELECT GETDATE()");
-            dr.Read();
-
-            fecha.Text = dr.GetDateTime(0).ToString("dd / MM / yyyy");
-
-            dr.Close();
+            fecha.Text = Registro.fechaCobro.ToString("dd / MM / yyyy");
         }
 
         private void cargarSucursal()
         {
-            //TODO traer la sucursal de la bd
+            sucursal.Text = Registro.sucursal.ToString();
         }
 
         private void mostrarCliente()
@@ -77,65 +60,39 @@ namespace PagoAgilFrba.RegistroPago
             lblDni.Text = Cliente.getDni();
         }
 
-        private void btnFecha_Click(object sender, EventArgs e)
+        private void cargarListaFacturasPendientes()
         {
-            new SeleccionarFecha(this).Show();
-        }
+            String select = "SELECT fact_num, fact_empresa, fact_fecha_venc, fact_total FROM CONGESTION.Factura ";
+            String where = "WHERE fact_cliente = '" + Cliente.getId() + "'";
 
-        public void setFechaVto(DateTime unaFecha)
-        {
-            this.fechaVto = unaFecha;
-            lblFechaVto.Text = fechaVto.Date.ToString("dd/MM/yyyy");
+            SqlDataReader dr = ClaseConexion.ResolverConsulta(select + where);
+        
+            while(dr.Read())
+                //if (dr.GetDateTime(2) > Registro.fechaCobro)
+                    listaFacturas.Items.Add(new CobroPendiente(dr.GetInt32(0),dr.GetInt32(1),dr.GetDateTime(2),dr.GetDecimal(3)));
 
-            this.habilitarBotonGuardar();
-        }
-
-        private void btnEmpresas_Click(object sender, EventArgs e)
-        {
-            new PagoAgilFrba.RegistroPago.BuscarEmpresa(this).Show();
-        }
-
-        public void setEmpresa(Empresa empr)
-        {
-            this.empresa = empr;
-            lblEmpresa.Text = empresa.ToString();
-
-            this.habilitarBotonGuardar();
+            dr.Close();
         }
 
         private void habilitarBotonGuardar()
         {
-            if (this.txtFactura.Text != "" && this.fecha != null && this.empresa != null && float.Parse(txtMonto.Text) >= 0)
+            if (Registro.cobrosPendientes.Count() > 0)
                 this.btnGuardar.Enabled = true;
         }
 
-        private void txtMonto_TextChanged(object sender, EventArgs e)
+        private void listaFacturas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
-            {
-                float.Parse(txtMonto.Text);
-                this.habilitarBotonGuardar();
-            }
-            catch (Exception exc)
-            {
-                this.btnGuardar.Enabled = false;
-                MessageBox.Show(exc.Message, "Error");
-            }
+            this.btnAgregar.Enabled = true;
         }
 
-        private void txtFactura_TextChanged(object sender, EventArgs e)
+        private void btnAgregar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                int.Parse(txtFactura.Text);
-                this.habilitarBotonGuardar();
-            }
-            catch (Exception exc)
-            {
-                this.btnGuardar.Enabled = false;
-                MessageBox.Show(exc.Message, "Error");
-            }
-            
+            Registro.cobrosPendientes.Add(listaFacturas.SelectedItem as CobroPendiente);
+            listaFacturas.Items.Remove(listaFacturas.SelectedItem);
+
+            btnAgregar.Enabled = false;
+
+            this.habilitarBotonGuardar();
         }
     }
 }
