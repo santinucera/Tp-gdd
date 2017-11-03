@@ -21,6 +21,7 @@ namespace PagoAgilFrba.Menu
         private void ElegirRol_Load(object sender, EventArgs e)
         {
             this.cargarRoles();
+            this.cargarSelectorSucursales();
         }
 
         private void cargarRoles()
@@ -41,17 +42,61 @@ namespace PagoAgilFrba.Menu
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (selectorRol.SelectedItem == null)
+            Program.rol = selectorRol.SelectedItem.ToString();
+            Program.sucursal = selectorSucursales.SelectedItem.ToString();
+            
+            new MenuFuncionalidades().Show();
+            this.Close();
+        }
+
+        private void selectorRol_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.rolSeleccionadoEsAdministrador())
             {
-                MessageBox.Show("Debe seleccionar un rol para seguir");
+                this.mostrarSelectorSucursales(false);
+                this.habilitarAcceso(true);
             }
             else
             {
-                Program.rol = selectorRol.SelectedItem.ToString();
-                MenuFuncionalidades form = new MenuFuncionalidades();
-                form.Show();
-                this.Hide();
+                this.mostrarSelectorSucursales(true);
+                this.habilitarAcceso(false);
             }
+        }
+
+        private Boolean rolSeleccionadoEsAdministrador()
+        {
+            return selectorRol.SelectedItem.ToString() == "Administrador";
+        }
+
+        private void mostrarSelectorSucursales(Boolean habil)
+        {
+            lblSucursal.Visible = habil;
+            selectorSucursales.Visible = habil;
+        }
+
+        private void habilitarAcceso(Boolean habil)
+        {
+            btnAcceder.Enabled = habil;
+        }
+
+        private void cargarSelectorSucursales()
+        {
+            String select = "SELECT suc_nombre FROM CONGESTION.Sucursal";
+            String joinSucUser = " JOIN CONGESTION.Usuario_Sucursal on (usuc_sucursal = suc_id)";
+            String joinUser = " JOIN CONGESTION.Usuario on (usuc_usuario = usua_id)";
+            String where = " WHERE usua_username = '" + Program.username + "'";
+
+            SqlDataReader dr = ClaseConexion.ResolverConsulta(select + joinSucUser + joinUser + where);
+
+            while (dr.Read())
+                selectorSucursales.Items.Add(dr.GetString(0));
+
+            dr.Close();
+        }
+
+        private void selectorSucursales_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.habilitarAcceso(true);
         }
     }
 }

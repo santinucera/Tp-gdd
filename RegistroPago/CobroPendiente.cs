@@ -34,7 +34,7 @@ namespace PagoAgilFrba.RegistroPago
         private void cargarDatosCabecera()
         {
             this.cliente = Registro.cliente;
-            this.sucursal = Registro.sucursal;
+            this.sucursal = Registro.getIdSucursal();
             this.fechaCobro = Registro.fechaCobro;
         }
 

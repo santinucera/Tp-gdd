@@ -11,7 +11,21 @@ namespace PagoAgilFrba.RegistroPago
     {
         public static List<CobroPendiente> cobrosPendientes = new List<CobroPendiente>();
 
-        public static int cliente, sucursal;
+        public static int cliente;
+        public static String sucursal;
         public static DateTime fechaCobro;
+
+        public static int getIdSucursal()
+        {
+            SqlDataReader dr = 
+                ClaseConexion.ResolverConsulta("SELECT suc_id FROM CONGESTION.Sucursal WHERE suc_descripcion = '" + Registro.sucursal + "'");
+            dr.Read();
+
+            int id = dr.GetInt32(0);
+
+            dr.Close();
+
+            return id;
+        }
     }
 }

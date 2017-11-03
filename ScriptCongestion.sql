@@ -290,6 +290,12 @@ INSERT INTO CONGESTION.Rol_Usuario
 	(SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Cobrador'),
 	(SELECT DISTINCT usua_id FROM CONGESTION.Usuario WHERE usua_username = 'asd'))
 
+INSERT INTO CONGESTION.Usuario_Sucursal
+	(usuc_sucursal,usuc_usuario) VALUES(
+	(SELECT TOP 1 suc_id FROM CONGESTION.Sucursal),
+	(SELECT DISTINCT usua_id FROM CONGESTION.Usuario WHERE usua_username = 'asd')
+	)
+
 INSERT INTO CONGESTION.Funcionalidad_Rol
 	(fr_funcionalidad,fr_rol) 
 	SELECT  func_id, (SELECT DISTINCT rol_id FROM CONGESTION.Rol WHERE rol_descripcion = 'Cobrador')

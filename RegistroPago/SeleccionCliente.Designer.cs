@@ -48,16 +48,16 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.fecha);
-            this.panel2.Location = new System.Drawing.Point(174, 12);
+            this.panel2.Location = new System.Drawing.Point(208, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(132, 52);
+            this.panel2.Size = new System.Drawing.Size(98, 52);
             this.panel2.TabIndex = 9;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(3, 15);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(3, 3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(51, 17);
             this.label4.TabIndex = 8;
@@ -67,7 +67,7 @@
             // 
             this.fecha.AutoSize = true;
             this.fecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fecha.Location = new System.Drawing.Point(60, 16);
+            this.fecha.Location = new System.Drawing.Point(3, 27);
             this.fecha.Name = "fecha";
             this.fecha.Size = new System.Drawing.Size(15, 16);
             this.fecha.TabIndex = 5;
@@ -80,14 +80,14 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(141, 52);
+            this.panel1.Size = new System.Drawing.Size(189, 52);
             this.panel1.TabIndex = 8;
             // 
             // sucursal
             // 
             this.sucursal.AutoSize = true;
             this.sucursal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sucursal.Location = new System.Drawing.Point(66, 15);
+            this.sucursal.Location = new System.Drawing.Point(3, 26);
             this.sucursal.Name = "sucursal";
             this.sucursal.Size = new System.Drawing.Size(16, 17);
             this.sucursal.TabIndex = 8;
@@ -96,8 +96,8 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(-1, 15);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 17);
             this.label2.TabIndex = 2;

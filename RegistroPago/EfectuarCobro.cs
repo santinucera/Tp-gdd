@@ -27,7 +27,7 @@ namespace PagoAgilFrba.RegistroPago
         {
             this.lblFecha.Text = Registro.fechaCobro.ToString("dd/MM/yyyy");
             this.lblCliente.Text = Cliente.nombreCompleto();
-            //this.lblSucursal.Text = Registro.sucursal;
+            this.lblSucursal.Text = Registro.sucursal;
             this.lblImporte.Text = Registro.cobrosPendientes.Sum(cobro => cobro.getImporte()).ToString();
         }
 

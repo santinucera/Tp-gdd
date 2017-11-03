@@ -36,24 +36,11 @@ namespace PagoAgilFrba.RegistroPago
 
         private void cargarHeader()
         {
-            this.cargarFecha();
-            this.mostrarCliente();
-            this.cargarDatosCabeceraDeRegistro();
-        }
-
-        private void cargarFecha()
-        {
             fecha.Text = Registro.fechaCobro.ToString("dd/MM/yyyy");
-        }
-
-        private void cargarSucursal()
-        {
-            //algo = Registro.sucursal
-        }
-
-        private void mostrarCliente()
-        {
+            sucursal.Text = Registro.sucursal;
             lblCliente.Text = Cliente.nombreCompleto();
+
+            this.cargarDatosCabeceraDeRegistro();
         }
         
         private void cargarDatosCabeceraDeRegistro()

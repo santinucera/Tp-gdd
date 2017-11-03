@@ -36,21 +36,12 @@ namespace PagoAgilFrba.RegistroPago
             this.Close();
         }
 
-
         private void cargarHeader()
         {
-            this.cargarFecha();
-            this.mostrarCliente();
-        }
-
-        private void cargarFecha()
-        {
             fecha.Text = Registro.fechaCobro.ToString("dd / MM / yyyy");
-        }
-
-        private void cargarSucursal()
-        {
-            sucursal.Text = Registro.sucursal.ToString();
+            sucursal.Text = Registro.sucursal;
+            
+            this.mostrarCliente();
         }
 
         private void mostrarCliente()
@@ -68,7 +59,7 @@ namespace PagoAgilFrba.RegistroPago
             SqlDataReader dr = ClaseConexion.ResolverConsulta(select + where);
         
             while(dr.Read())
-                //if (dr.GetDateTime(2) > Registro.fechaCobro)
+                if (dr.GetDateTime(2) > Registro.fechaCobro)
                     listaFacturas.Items.Add(new CobroPendiente(dr.GetInt32(0),dr.GetInt32(1),dr.GetDateTime(2),dr.GetDecimal(3)));
 
             dr.Close();

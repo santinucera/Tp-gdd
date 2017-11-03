@@ -44,7 +44,6 @@ namespace PagoAgilFrba.RegistroPago
             this.cargarFecha();
             this.cargarSucursal();
             Registro.fechaCobro = this.traerFechaDeDB();
-            Registro.sucursal = 1;
         }
 
         private void cargarFecha()
@@ -66,7 +65,8 @@ namespace PagoAgilFrba.RegistroPago
 
         private void cargarSucursal()
         {
-            //TODO traer la sucursal de la bd
+            Registro.sucursal = Program.sucursal;
+            this.sucursal.Text = Registro.sucursal;
         }
 
         private void btnCobro_Click(object sender, EventArgs e)
