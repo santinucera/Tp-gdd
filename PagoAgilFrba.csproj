@@ -195,6 +195,12 @@
       <DependentUpon>Modificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Conexion\ClaseConexion.cs" />
+    <Compile Include="Devolucion\Devolucion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Devolucion\Devolucion.Designer.cs">
+      <DependentUpon>Devolucion.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListadoEstadistico\ClientesCumplidores.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -274,6 +280,7 @@
     <Compile Include="RegistroPago\BuscarEmpresa.Designer.cs">
       <DependentUpon>BuscarEmpresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegistroPago\CobroPendiente.cs" />
     <Compile Include="RegistroPago\Empresa.cs" />
     <Compile Include="RegistroPago\MenuCobros.cs">
       <SubType>Form</SubType>
@@ -281,6 +288,7 @@
     <Compile Include="RegistroPago\MenuCobros.Designer.cs">
       <DependentUpon>MenuCobros.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegistroPago\Registros.cs" />
     <Compile Include="RegistroPago\SeleccionarFecha.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -375,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmSucursal\Modificacion.resx">
       <DependentUpon>Modificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Devolucion\Devolucion.resx">
+      <DependentUpon>Devolucion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListadoEstadistico\ClientesCumplidores.resx">
       <DependentUpon>ClientesCumplidores.cs</DependentUpon>

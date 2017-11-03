@@ -8,7 +8,7 @@ namespace PagoAgilFrba.RegistroPago
 {
     public class CobroPendiente
     {
-        private int cliente, sucursal;
+        private int cliente, sucursal, medioPago;
         private DateTime fechaCobro;
 
         private int factura, empresa;
@@ -35,6 +35,46 @@ namespace PagoAgilFrba.RegistroPago
             this.cliente = Registro.cliente;
             this.sucursal = Registro.sucursal;
             this.fechaCobro = Registro.fechaCobro;
+        }
+
+        public void setMedioPago(int medio)
+        {
+            this.medioPago = medio;
+        }
+
+        public int getCliente()
+        {
+            return this.cliente;
+        }
+
+        public int getSucursal()
+        {
+            return this.sucursal;
+        }
+
+        public int getMedioPago()
+        {
+            return this.medioPago;
+        }
+
+        public DateTime getFechaCobro()
+        {
+            return this.fechaCobro;
+        }
+
+        public int getFactura()
+        {
+            return this.factura;
+        }
+
+        public int getEmpresa()
+        {
+            return this.empresa;
+        }
+
+        public DateTime getFechaVto()
+        {
+            return this.fechaVto;
         }
 
         public float getImporte()

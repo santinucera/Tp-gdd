@@ -831,3 +831,59 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
+CREATE TYPE [CONGESTION].listaCobrosPendientes AS TABLE(
+	[cliente] int,
+	[sucursal] int,
+	[fechaCobro] smalldatetime,
+	[factura] int,
+	[empresa] int,
+	[fechavto] smalldatetime,
+	[medioPago] int,
+	[importe] numeric(18,2)
+)
+GO
+
+CREATE PROCEDURE CONGESTION.sp_guardarRegistroCobros(@listaCobros listaCobrosPendientes readonly)
+AS
+	BEGIN TRANSACTION tr
+
+	DECLARE @cliente int = (SELECT top 1 cliente FROM @listaCobros)
+	DECLARE @sucursal int = (SELECT top 1 sucursal FROM @listaCobros)
+	DECLARE @fechaCobro smalldatetime = (SELECT top 1 fechaCobro FROM @listaCobros)
+	DECLARE @factura int 
+	DECLARE @empresa int
+	DECLARE @fechaVto smalldatetime
+	DECLARE @medioPago int = (SELECT top 1 medioPago FROM @listaCobros)
+	DECLARE @importe numeric(18,2) = (SELECT sum(importe) FROM @listaCobros)
+
+	IF (SELECT COUNT(*)					--si hay una factura que ya este vencida, se vuelve todo atras
+			FROM CONGESTION.Factura
+			WHERE	fact_num IN (SELECT factura FROM @listaCobros) and
+					fact_fecha_venc = (SELECT fechavto FROM @listaCobros WHERE factura = fact_num and empresa = fact_empresa) and
+					fact_fecha_venc < @fechaCobro
+		) > 0
+	BEGIN
+		ROLLBACK TRANSACTION tr
+		RAISERROR('Se està intentando cobrar una factura ya vencida',11,0)
+		RETURN
+	END
+
+	ELSE
+	BEGIN	--primero guardo el registro, para poder tener la id, y guardar las multiples entradas
+		INSERT INTO CONGESTION.Registro(reg_cliente,reg_sucursal,reg_medio_pago,reg_fecha_cobro,reg_total)	
+			VALUES(@cliente,@sucursal,@medioPago,@fechaCobro,@importe)
+
+		DECLARE @registroCargado int = (SELECT reg_id FROM CONGESTION.Registro		--traigo la id del ultimo registro guardado
+											WHERE	@cliente = reg_cliente and
+													@sucursal = reg_sucursal and
+													@fechaCobro = reg_fecha_cobro and
+													@medioPago = reg_medio_pago and
+													@importe = reg_total
+										)
+		INSERT INTO CONGESTION.Factura_Registro(freg_factura, freg_registro, freg_devolucion)
+			SELECT factura, @registroCargado, NULL FROM @listaCobros
+	END
+
+	COMMIT TRANSACTION tr
+GO
+

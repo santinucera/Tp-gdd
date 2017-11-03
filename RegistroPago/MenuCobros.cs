@@ -85,7 +85,36 @@ namespace PagoAgilFrba.RegistroPago
 
         private void btnCobro_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Registro.cobrosPendientes.Sum(cobro => cobro.getImporte()).ToString());
+            DataTable tabla = new DataTable();
+            tabla.Columns.Add("cliente", typeof(int));
+            tabla.Columns.Add("sucursal", typeof(int));
+            tabla.Columns.Add("fechaCobro", typeof(DateTime));
+            tabla.Columns.Add("factura", typeof(int));
+            tabla.Columns.Add("empresa", typeof(int));
+            tabla.Columns.Add("fechaVto", typeof(DateTime));
+            tabla.Columns.Add("medioPago", typeof(int));
+            tabla.Columns.Add("importe", typeof(float));
+
+            DataRow fila;
+
+            foreach (DataGridViewRow row in listaCobros.Items)
+            {
+                CobroPendiente unCobro = listaCobros.SelectedItem as CobroPendiente;
+
+                fila = tabla.NewRow();
+                fila["cliente"] = unCobro.getCliente();
+                fila["sucursal"] = unCobro.getSucursal();
+                fila["fechaCobro"] = unCobro.getFechaCobro();
+                fila["factura"] = unCobro.getFactura();
+                fila["empresa"] = unCobro.getEmpresa();
+                fila["fechaVto"] = unCobro.getFechaVto();
+                fila["medioPago"] = unCobro.getMedioPago();
+                fila["importe"] = unCobro.getImporte();
+
+                tabla.Rows.Add(fila);
+            }
+
+
         }
     }
 }
