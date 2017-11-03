@@ -37,7 +37,7 @@ namespace PagoAgilFrba.Rendicion
 
         private SqlDataReader leerEmpresas()
         {
-            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_cuit from CONGESTION.Empresa");
+            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_cuit from CONGESTION.Empresa where day(GETDATE()) = empr_dia_rendicion ");
         }
 
         private void btnObtener_Click(object sender, EventArgs e)
@@ -47,6 +47,8 @@ namespace PagoAgilFrba.Rendicion
                 String[] stringSeparators = new String[] {","};
                 String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators,StringSplitOptions.RemoveEmptyEntries);
 
+                
+                
                 cuitEmpresa = cuit[1].Trim();
                 cargarFacturas(this.leerFacturas());
             }
@@ -61,7 +63,7 @@ namespace PagoAgilFrba.Rendicion
             while (reader.Read())
             {
                 dgvFacturas.Rows.Add(reader.GetInt32(0), reader.GetDecimal(1), reader.GetString(2).Trim() + " " + reader.GetString(5).Trim(),
-                    reader.GetDateTime(3), reader.GetDateTime(4),false,"Seleccionar");
+                    reader.GetDateTime(3), reader.GetDateTime(4), false, "Seleccionar");                
             }
 
             reader.Close();
@@ -71,7 +73,7 @@ namespace PagoAgilFrba.Rendicion
         private SqlDataReader leerFacturas()
         {
             return ClaseConexion.ResolverConsulta("select DISTINCT fact_num, fact_total,(SELECT clie_nombre from CONGESTION.Cliente WHERE clie_id = fact_cliente),"
-                                                    +"fact_fecha_alta,fact_fecha_venc,(SELECT clie_apellido from CONGESTION.Cliente WHERE clie_id = fact_cliente)"
+                                                    + "fact_fecha_alta,fact_fecha_venc,(SELECT clie_apellido from CONGESTION.Cliente WHERE clie_id = fact_cliente) "
                                                     +"from CONGESTION.Factura JOIN CONGESTION.Empresa on (fact_empresa = empr_id)"
                                                     + "where empr_cuit = '" + cuitEmpresa + "' and (SELECT freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num) is null "
                                                     + "and fact_rendicion is null");

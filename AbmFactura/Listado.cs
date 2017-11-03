@@ -57,7 +57,7 @@ namespace PagoAgilFrba.AbmFactura
                                                     + "isnull((SELECT freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num),0)"
                                                     + ",isnull(fact_rendicion,0),"
                                                     + "(SELECT clie_apellido from CONGESTION.Cliente WHERE clie_id = fact_cliente)"
-                                                    +" from CONGESTION.Factura");
+                                                    +" from CONGESTION.Factura ");
         }
 
         private void cargarEmpresas(SqlDataReader reader)
@@ -111,19 +111,34 @@ namespace PagoAgilFrba.AbmFactura
             txtNumero.Text = "";
             txtCliente.Text = "";
             selectorEmpresa.Text = "";
-            dtpAlta.Value = DateTime.Now;
-            dtpVencimiento.Value = DateTime.Now;
-
         }
 
         private void button4_Click_1(object sender, EventArgs e)
         {
             dgvFacturas.Rows.Clear();
+            String cuit;
 
-            //String consulta = "select suc_nombre,suc_direccion,suc_codPostal,suc_habilitado from CONGESTION.Sucursal "
-                                //+ "WHERE suc_nombre LIKE '%" + txtNombre.Text + "%' and suc_codPostal LIKE '%" + txtCodigo.Text + "%' and suc_direccion LIKE '%" + txtDireccion.Text + "%'";
+            if (!String.IsNullOrWhiteSpace(selectorEmpresa.Text))
+            {
+                String[] stringSeparators = new String[] { "," };
+                String[] cuitt = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+                cuit = cuitt[1];
+            }
+            else
+            {
+                cuit= "";
+            }
 
-            //cargarFacturas(ClaseConexion.ResolverConsulta(consulta));
+            MessageBox.Show(txtNumero.Text);
+
+            String consulta = "select DISTINCT fact_num, fact_total,clie_nombre ,empr_nombre,fact_fecha_alta,fact_fecha_venc,"
+                                + "isnull((SELECT freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num),0)"
+                                + ",isnull(fact_rendicion,0),clie_apellido"
+                                + " from CONGESTION.Factura join CONGESTION.Cliente on (clie_id = fact_cliente)"
+                                + "join CONGESTION.Empresa on (empr_id = fact_empresa)"
+                                +"WHERE clie_dni LIKE '%"+txtCliente.Text.Trim()+"%' and fact_num LIKE '%"+txtNumero.Text.Trim()+"%' and empr_cuit LIKE '%"+cuit+"%'";
+
+            cargarFacturas(ClaseConexion.ResolverConsulta(consulta));
         }
 
         private void txtNombre_TextChanged(object sender, EventArgs e)

@@ -45,15 +45,11 @@
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.dtpAlta = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dtpVencimiento = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.selectorEmpresa = new System.Windows.Forms.ComboBox();
-            this.txtNumero = new System.Windows.Forms.MaskedTextBox();
-            this.txtCliente = new System.Windows.Forms.MaskedTextBox();
+            this.txtNumero = new System.Windows.Forms.TextBox();
+            this.txtCliente = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFacturas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -202,41 +198,6 @@
             this.label4.TabIndex = 57;
             this.label4.Text = "Ingrese los campos por los que quiera filtrar :";
             // 
-            // dtpAlta
-            // 
-            this.dtpAlta.Location = new System.Drawing.Point(434, 70);
-            this.dtpAlta.Name = "dtpAlta";
-            this.dtpAlta.Size = new System.Drawing.Size(196, 20);
-            this.dtpAlta.TabIndex = 68;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(646, 48);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 13);
-            this.label1.TabIndex = 58;
-            this.label1.Text = "Fecha Vencimiento:";
-            this.label1.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label2.Location = new System.Drawing.Point(431, 48);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
-            this.label2.TabIndex = 58;
-            this.label2.Text = "Fecha Alta:";
-            this.label2.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // dtpVencimiento
-            // 
-            this.dtpVencimiento.Location = new System.Drawing.Point(649, 70);
-            this.dtpVencimiento.Name = "dtpVencimiento";
-            this.dtpVencimiento.Size = new System.Drawing.Size(196, 20);
-            this.dtpVencimiento.TabIndex = 68;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -268,16 +229,14 @@
             // 
             // txtNumero
             // 
-            this.txtNumero.Location = new System.Drawing.Point(41, 73);
-            this.txtNumero.Mask = "999999";
+            this.txtNumero.Location = new System.Drawing.Point(41, 70);
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(100, 20);
             this.txtNumero.TabIndex = 70;
             // 
             // txtCliente
             // 
-            this.txtCliente.Location = new System.Drawing.Point(169, 73);
-            this.txtCliente.Mask = "99999999";
+            this.txtCliente.Location = new System.Drawing.Point(169, 71);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(100, 20);
             this.txtCliente.TabIndex = 70;
@@ -290,14 +249,10 @@
             this.Controls.Add(this.txtCliente);
             this.Controls.Add(this.txtNumero);
             this.Controls.Add(this.selectorEmpresa);
-            this.Controls.Add(this.dtpVencimiento);
-            this.Controls.Add(this.dtpAlta);
             this.Controls.Add(this.volver);
             this.Controls.Add(this.dgvFacturas);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.btnLimpiar);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
@@ -319,10 +274,6 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DateTimePicker dtpAlta;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dtpVencimiento;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox selectorEmpresa;
@@ -337,7 +288,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Rendicion;
         private System.Windows.Forms.DataGridViewButtonColumn Modificar;
         private System.Windows.Forms.DataGridViewButtonColumn Baja;
-        private System.Windows.Forms.MaskedTextBox txtNumero;
-        private System.Windows.Forms.MaskedTextBox txtCliente;
+        private System.Windows.Forms.TextBox txtNumero;
+        private System.Windows.Forms.TextBox txtCliente;
     }
 }
