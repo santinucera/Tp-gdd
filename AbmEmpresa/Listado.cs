@@ -36,7 +36,7 @@ namespace PagoAgilFrba.AbmEmpresa
                 else
                     bajaMod = "Habilitar";
                
-                dgvSucursales.Rows.Add(reader.GetString(0).Trim(), reader.GetString(1).Trim(), reader.GetString(2).Trim(), reader.GetString(4).Trim(), reader.GetBoolean(3), "Modificar", bajaMod);
+                dgvSucursales.Rows.Add(reader.GetString(1).Trim(), reader.GetString(2).Trim(), reader.GetString(3).Trim(), reader.GetString(5).Trim(), reader.GetBoolean(4), "Modificar", bajaMod);
             }
 
             reader.Close();

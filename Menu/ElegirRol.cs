@@ -43,7 +43,9 @@ namespace PagoAgilFrba.Menu
         private void button1_Click(object sender, EventArgs e)
         {
             Program.rol = selectorRol.SelectedItem.ToString();
-            Program.sucursal = selectorSucursales.SelectedItem.ToString();
+            
+            if(!this.rolSeleccionadoEsAdministrador())
+                Program.sucursal = selectorSucursales.SelectedItem.ToString();
             
             new MenuFuncionalidades().Show();
             this.Close();
@@ -65,7 +67,7 @@ namespace PagoAgilFrba.Menu
 
         private Boolean rolSeleccionadoEsAdministrador()
         {
-            return selectorRol.SelectedItem.ToString() == "Administrador";
+            return selectorRol.SelectedItem.ToString().Contains("Administrador");
         }
 
         private void mostrarSelectorSucursales(Boolean habil)

@@ -16,7 +16,7 @@ namespace PagoAgilFrba
         /// </summary>
         public static String username;
         public static String rol;
-        public static String sucursal;
+        public static String sucursal = "";
         
         [STAThread]
         static void Main()
