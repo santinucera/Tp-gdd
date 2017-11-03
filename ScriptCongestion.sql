@@ -859,12 +859,11 @@ AS
 	IF (SELECT COUNT(*)					--si hay una factura que ya este vencida, se vuelve todo atras
 			FROM CONGESTION.Factura
 			WHERE	fact_num IN (SELECT factura FROM @listaCobros) and
-					fact_fecha_venc = (SELECT fechavto FROM @listaCobros WHERE factura = fact_num and empresa = fact_empresa) and
-					fact_fecha_venc <= @fechaCobro
+					fact_empresa IN (SELECT empr_id FROM CONGESTION.Empresa WHERE empr_habilitado = 0)
 		) > 0
 	BEGIN
 		ROLLBACK TRANSACTION tr
-		RAISERROR('Se està intentando cobrar una factura invalida',11,0)
+		RAISERROR('Se està intentando cobrar una factura de una empresa inhabilitada',11,0)
 		RETURN
 	END
 
