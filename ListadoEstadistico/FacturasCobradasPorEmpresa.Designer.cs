@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvEmpresas = new System.Windows.Forms.DataGridView();
             this.porcentajeFacturasCobradas = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Empresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnCerrar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmpresas)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dgvEmpresas
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvEmpresas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEmpresas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.porcentajeFacturasCobradas,
             this.Empresa});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 24);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(250, 254);
-            this.dataGridView1.TabIndex = 0;
+            this.dgvEmpresas.Location = new System.Drawing.Point(12, 24);
+            this.dgvEmpresas.Name = "dgvEmpresas";
+            this.dgvEmpresas.Size = new System.Drawing.Size(250, 254);
+            this.dgvEmpresas.TabIndex = 0;
             // 
             // porcentajeFacturasCobradas
             // 
@@ -72,17 +72,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(283, 329);
             this.Controls.Add(this.btnCerrar);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvEmpresas);
             this.Name = "FacturasCobradasPorEmpresa";
             this.Text = "Porcentaje de facturas cobradas por empresa";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Load += new System.EventHandler(this.FacturasCobradasPorEmpresa_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmpresas)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvEmpresas;
         private System.Windows.Forms.DataGridViewTextBoxColumn porcentajeFacturasCobradas;
         private System.Windows.Forms.DataGridViewTextBoxColumn Empresa;
         private System.Windows.Forms.Button btnCerrar;

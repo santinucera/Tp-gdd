@@ -495,20 +495,35 @@ AS
 GO
 
 -- VIEW clientes con mas pagos
- CREATE VIEW CONGESTION.clientesConMasPagos
- AS
- SELECT clie_nombre,reg_fecha_cobro 
- FROM CONGESTION.Cliente JOIN CONGESTION.Registro ON clie_id = reg_cliente
-   
- GO
+CREATE VIEW CONGESTION.viewClientesConMasPagos
+AS
+SELECT clie_nombre,reg_fecha_cobro 
+FROM CONGESTION.Cliente JOIN CONGESTION.Registro ON clie_id = reg_cliente JOIN CONGESTION.Factura_Registro ON reg_id = freg_registro
+WHERE freg_devolucion IS NULL
+GO
  
  -- VIEW empresas con mayor monto rendido
- CREATE VIEW CONGESTION.empresasConMayorMontoRendido
+CREATE VIEW CONGESTION.viewEmpresasConMayorMontoRendido
  AS
  SELECT  empr_nombre,rend_total,rend_fecha
  FROM CONGESTION.Empresa JOIN CONGESTION.Factura ON empr_id = fact_empresa JOIN CONGESTION.Rendicion ON fact_rendicion = rend_numero
- 
  GO
+
+-- VIEW facturas x empresa
+CREATE VIEW CONGESTION.viewFacturasPorEmpresa
+AS
+SELECT empr_nombre,empr_id,fact_fecha_alta,reg_fecha_cobro
+FROM CONGESTION.Empresa JOIN CONGESTION.Factura ON fact_empresa = empr_id JOIN CONGESTION.Factura_Registro ON freg_factura = fact_num JOIN CONGESTION.Registro ON reg_id = freg_registro
+WHERE freg_devolucion IS NULL
+GO
+
+--VIEW clientes cumplidores
+CREATE VIEW CONGESTION.viewClientesCumplidores
+AS
+SELECT clie_nombre,clie_id,fact_fecha_alta,reg_fecha_cobro
+FROM CONGESTION.Cliente JOIN CONGESTION.Factura ON fact_cliente = clie_id JOIN CONGESTION.Factura_Registro ON freg_factura = fact_num JOIN CONGESTION.Registro ON reg_id = freg_registro
+WHERE freg_devolucion IS NULL
+GO
 
 ----------PROCEDURES ROL
 
@@ -904,5 +919,49 @@ BEGIN
 	END
 
 	RETURN @resultado
+END
+GO
+
+--FUNCIONES PARA LISTADOS
+
+--FUNCION PARA CALCULAR PORCENTAJE DE FACTURAS PAGADAS POR CLIENTE
+CREATE FUNCTION CONGESTION.FN_CALCULAR_PORCENTAJE_FACT_PAGADAS(@clie_id int,@periodo char(4), @trimestre int)
+RETURNS DECIMAL(5,2)
+AS
+BEGIN
+DECLARE @porcentaje DECIMAL(5,2)
+ IF NOT EXISTS(SELECT * FROM CONGESTION.Factura WHERE fact_cliente = @clie_id
+  AND YEAR(fact_fecha_alta) = @periodo AND (MONTH(fact_fecha_alta) = @trimestre*3 OR MONTH(fact_fecha_alta) = @trimestre*3-1 OR MONTH(fact_fecha_alta) = @trimestre*3-2))
+	RETURN 100.00
+ ELSE
+ BEGIN
+	SET @porcentaje =(SELECT count(*) FROM CONGESTION.viewClientesCumplidores  WHERE @clie_id=clie_id
+	 AND YEAR(reg_fecha_cobro) = @periodo AND (MONTH(reg_fecha_cobro) = @trimestre*3 OR MONTH(reg_fecha_cobro) = @trimestre*3-1 OR MONTH(reg_fecha_cobro) = @trimestre*3-2)
+	 AND YEAR(fact_fecha_alta) = @periodo AND (MONTH(fact_fecha_alta) = @trimestre*3 OR MONTH(fact_fecha_alta) = @trimestre*3-1 OR MONTH(fact_fecha_alta) = @trimestre*3-2))*100
+	/(SELECT count(*) FROM CONGESTION.Factura WHERE fact_cliente = @clie_id
+	 AND YEAR(fact_fecha_alta) = @periodo AND (MONTH(fact_fecha_alta) = @trimestre*3 OR MONTH(fact_fecha_alta) = @trimestre*3-1 OR MONTH(fact_fecha_alta) = @trimestre*3-2))
+ END
+ RETURN @porcentaje	
+END
+GO
+
+--FUNCION PARA CALCULAR PORCENTAJE DE FACTURAS COBRADAS POR EMPRESA
+CREATE FUNCTION CONGESTION.FN_CALCULAR_PORCENTAJE_FACT_COBRADAS_XEMPRESA(@empr_id int, @periodo char(4), @trimestre int)
+RETURNS DECIMAL(5,2)
+AS
+BEGIN
+DECLARE @porcentaje DECIMAL(5,2)
+IF NOT EXISTS(SELECT * FROM CONGESTION.Factura
+		WHERE YEAR(fact_fecha_alta) = @periodo AND (MONTH(fact_fecha_alta) = @trimestre*3 OR MONTH(fact_fecha_alta) = @trimestre*3-1 OR MONTH(fact_fecha_alta) = @trimestre*3-2))
+	RETURN 0.00
+ ELSE
+ BEGIN
+	SET @porcentaje = (SELECT count(*) FROM CONGESTION.viewFacturasPorEmpresa WHERE empr_id = @empr_id
+		AND YEAR(reg_fecha_cobro) = @periodo AND (MONTH(reg_fecha_cobro) = @trimestre*3 OR MONTH(reg_fecha_cobro) = @trimestre*3-1 OR MONTH(reg_fecha_cobro) = @trimestre*3-2)
+		AND YEAR(fact_fecha_alta) = @periodo AND (MONTH(fact_fecha_alta) = @trimestre*3 OR MONTH(fact_fecha_alta) = @trimestre*3-1 OR MONTH(fact_fecha_alta) = @trimestre*3-2))
+		*100/(SELECT count(*) FROM CONGESTION.Factura
+		WHERE YEAR(fact_fecha_alta) = @periodo AND (MONTH(fact_fecha_alta) = @trimestre*3 OR MONTH(fact_fecha_alta) = @trimestre*3-1 OR MONTH(fact_fecha_alta) = @trimestre*3-2))
+ END
+RETURN @porcentaje
 END
 GO

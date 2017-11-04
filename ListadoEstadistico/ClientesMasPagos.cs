@@ -46,7 +46,7 @@ namespace PagoAgilFrba.ListadoEstadistico
         private SqlDataReader leerClientes()
         {
 
-            return ClaseConexion.ResolverConsulta("SELECT TOP 5 clie_nombre, count(*) FROM CONGESTION.clientesConMasPagos"
+            return ClaseConexion.ResolverConsulta("SELECT TOP 5 clie_nombre, count(*) FROM CONGESTION.viewClientesConMasPagos"
                 + " WHERE YEAR(reg_fecha_cobro) = " + periodo + "AND (MONTH(reg_fecha_cobro) = " + (trimestre * 3).ToString()
                     + " OR MONTH(reg_fecha_cobro) = " + (trimestre * 3 - 1).ToString() + " OR MONTH(reg_fecha_cobro) = " + (trimestre * 3 - 2).ToString()
                     + ") GROUP BY clie_nombre ORDER BY 2 DESC");
