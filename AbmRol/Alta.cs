@@ -38,27 +38,31 @@ namespace PagoAgilFrba.AbmRol
             }
             else
             {
-                String query = "INSERT INTO CONGESTION.Rol (rol_descripcion,rol_habilitado) VALUES ('" + txtNombre.Text + "','TRUE')";
-              
-                
-                SqlCommand command = new SqlCommand(query, ClaseConexion.conexion);
-                try
+                if (txtNombre.Text.Length > 100)
+                    MessageBox.Show("El nombre es demasiado largo");
+                else
                 {
-                    
-                    command.ExecuteNonQuery();
-                    guardarTodasFuncionalides();
-                    this.Hide();
-                    Listado form = new Listado();
-                    form.Show();
+                    String query = "INSERT INTO CONGESTION.Rol (rol_descripcion,rol_habilitado) VALUES ('" + txtNombre.Text + "','TRUE')";
+
+
+                    SqlCommand command = new SqlCommand(query, ClaseConexion.conexion);
+                    try
+                    {
+
+                        command.ExecuteNonQuery();
+                        guardarTodasFuncionalides();
+                        this.Hide();
+                        Listado form = new Listado();
+                        form.Show();
+
+                    }
+                    catch (SqlException ex)
+                    {
+                        if (ex.Message.Contains("clave duplicada"))
+                            MessageBox.Show("El Rol ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
                 }
-                catch (SqlException ex)
-                {
-                    if (ex.Message.Contains("clave duplicada"))
-                        MessageBox.Show("El Rol ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-               
-               
             }
 
                 
