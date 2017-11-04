@@ -84,8 +84,8 @@ namespace PagoAgilFrba.AbmEmpresa
         {
             SqlCommand cmd = new SqlCommand("CONGESTION.sp_modificarEmpresa", ClaseConexion.conexion);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@cuitViejo", cuitViejo);
-            cmd.Parameters.AddWithValue("@cuit", txtCuit.Text);
+            cmd.Parameters.AddWithValue("@cuitViejo", cuitViejo.Trim());
+            cmd.Parameters.AddWithValue("@cuit", txtCuit.Text.Trim());
             cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
             cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
             cmd.Parameters.AddWithValue("@descripcionRubro", selectorRubros.SelectedItem.ToString());

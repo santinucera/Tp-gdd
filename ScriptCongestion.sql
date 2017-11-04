@@ -52,7 +52,7 @@ create table CONGESTION.Rubro(
 
 create table CONGESTION.Empresa(
 	empr_id int identity PRIMARY KEY,
-	empr_cuit nvarchar(50) NOT NULL,
+	empr_cuit nvarchar(50) UNIQUE NOT NULL,
 	empr_direccion nvarchar(255)  NOT NULL,
 	empr_nombre nvarchar(255)  NOT NULL,
 	empr_habilitado bit DEFAULT 1 NOT NULL,
@@ -410,14 +410,14 @@ AS
 
 	BEGIN TRY
 
-		IF (@cuit IN	(SELECT empr_cuit FROM CONGESTION.Empresa) and @cuit <> @cuitViejo)
+		IF (RTRIM(@cuit) IN	(SELECT RTRIM(empr_cuit) FROM CONGESTION.Empresa) and RTRIM(@cuit) <> RTRIM(@cuitViejo))
 		BEGIN
 			RAISERROR('Ya existe una empresa con el mismo cuit',11,0)
 		END
 
 		UPDATE CONGESTION.Empresa
 			SET empr_cuit = @cuit, empr_direccion = @direccion, empr_nombre = @nombre
-			WHERE (empr_cuit = @cuitViejo)	--tiene un trigger que lanza una excepcion
+			WHERE (empr_cuit = @cuitViejo)	
 
 		UPDATE CONGESTION.Empresa_Rubro
 			SET er_rubro = (SELECT TOP 1 rub_id
@@ -460,29 +460,6 @@ AS
 	END CATCH
 
 	COMMIT TRANSACTION tr
-GO
-
-
-----------CREACION DE TRIGGERS
-
-CREATE TRIGGER CONGESTION.validar_unica_empresa
-ON CONGESTION.Empresa
-INSTEAD OF INSERT
-AS 
-BEGIN    
-	DECLARE @cuit NVARCHAR(50)
-	DECLARE @direccion NVARCHAR(255)
-	DECLARE @nombre NVARCHAR(255)
-
-	SELECT @cuit = empr_cuit, @direccion = empr_direccion, @nombre = empr_nombre FROM inserted
-
-	IF @cuit IN	(SELECT empr_cuit FROM CONGESTION.Empresa)
-	BEGIN
-		RAISERROR('Ya existe una empresa con el mismo cuit',11,0)
-	END
-
-	INSERT INTO CONGESTION.Empresa (empr_cuit, empr_direccion, empr_nombre) VALUES (@cuit, @direccion, @nombre)
-END 
 GO
 
 

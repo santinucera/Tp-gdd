@@ -43,9 +43,9 @@ namespace PagoAgilFrba.AbmEmpresa
                     this.Close();
                     new MenuEmpresas().Show();
                 }
-                catch (SqlException ex)
+                catch (SqlException)
                 {
-                    MessageBox.Show(ex.Message,"Error");
+                    MessageBox.Show("Ya existe una empresa con el mismo CUIT","Error");
                 }
             }
         }
@@ -70,7 +70,7 @@ namespace PagoAgilFrba.AbmEmpresa
         {
             SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarEmpresa", ClaseConexion.conexion);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@cuit", txtCuit.Text);
+            cmd.Parameters.AddWithValue("@cuit", txtCuit.Text.Trim());
             cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
             cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
             cmd.Parameters.AddWithValue("@descripcionRubro", selectorRubros.SelectedItem.ToString());

@@ -274,13 +274,13 @@
     <Compile Include="RegistroPago\AgregarFactura.Designer.cs">
       <DependentUpon>AgregarFactura.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistroPago\BuscarEmpresa.cs">
+    <Compile Include="RegistroPago\CobroPendiente.cs" />
+    <Compile Include="RegistroPago\EfectuarCobro.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegistroPago\BuscarEmpresa.Designer.cs">
-      <DependentUpon>BuscarEmpresa.cs</DependentUpon>
+    <Compile Include="RegistroPago\EfectuarCobro.Designer.cs">
+      <DependentUpon>EfectuarCobro.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistroPago\CobroPendiente.cs" />
     <Compile Include="RegistroPago\Empresa.cs" />
     <Compile Include="RegistroPago\MenuCobros.cs">
       <SubType>Form</SubType>
@@ -289,12 +289,6 @@
       <DependentUpon>MenuCobros.cs</DependentUpon>
     </Compile>
     <Compile Include="RegistroPago\Registros.cs" />
-    <Compile Include="RegistroPago\SeleccionarFecha.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RegistroPago\SeleccionarFecha.Designer.cs">
-      <DependentUpon>SeleccionarFecha.cs</DependentUpon>
-    </Compile>
     <Compile Include="RegistroPago\SeleccionCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -429,14 +423,11 @@
     <EmbeddedResource Include="RegistroPago\AgregarFactura.resx">
       <DependentUpon>AgregarFactura.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RegistroPago\BuscarEmpresa.resx">
-      <DependentUpon>BuscarEmpresa.cs</DependentUpon>
+    <EmbeddedResource Include="RegistroPago\EfectuarCobro.resx">
+      <DependentUpon>EfectuarCobro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroPago\MenuCobros.resx">
       <DependentUpon>MenuCobros.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RegistroPago\SeleccionarFecha.resx">
-      <DependentUpon>SeleccionarFecha.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroPago\SeleccionCliente.resx">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
