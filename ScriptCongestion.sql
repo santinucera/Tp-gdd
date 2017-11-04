@@ -9,7 +9,8 @@ create table CONGESTION.Funcionalidad(
 create table CONGESTION.Rol(
 	rol_id int identity PRIMARY KEY,
 	rol_descripcion char(100) NULL,
-	rol_habilitado bit DEFAULT 1 NOT NULL
+	rol_habilitado bit DEFAULT 1 NOT NULL,
+	CONSTRAINT restriccionNombre UNIQUE(rol_descripcion)
 )
 
 create table CONGESTION.Funcionalidad_Rol(
@@ -563,33 +564,6 @@ SELECT @IdRol = rol_id FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRol
  END
  GO
 
- CREATE PROCEDURE CONGESTION.sp_updatearRol
- @nombreRol nvarchar(100),
- @nombreRolNuevo nvarchar(100)
- AS
- BEGIN
- DECLARE
- @CantidadDeRoles int
-
- SELECT @CantidadDeRoles = count(*) FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRolNuevo
-
- IF NOT(@CantidadDeRoles = 1)
- BEGIN
- UPDATE CONGESTION.Rol SET rol_descripcion = @nombreRolNuevo WHERE rol_descripcion = @nombreRol
- END
- END 
- GO
-
- CREATE PROCEDURE CONGESTION.sp_agregarRol
- @nombreRol nvarchar(100)
- AS
- BEGIN
- IF NOT(EXISTS (SELECT rol_descripcion FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRol))
- BEGIN
- INSERT INTO CONGESTION.Rol(rol_descripcion,rol_habilitado) VALUES (@nombreRol,'1')
- END
- END
- GO
 
  CREATE TYPE [CONGESTION].listaFacturas AS TABLE(
 	[numero] int,

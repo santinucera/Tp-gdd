@@ -32,26 +32,38 @@ namespace PagoAgilFrba.AbmRol
         private void btnGuardar_Click(object sender, EventArgs e)
         {
 
-            if (txtNombre.Text == "")
+            if (txtNombre.Text == "" || dgvFunciones.Rows.Count == 1)
             {
-                MessageBox.Show("Debe ingresar un nombre");
+                MessageBox.Show("Debe completar todos los campos");
             }
             else
             {
-                int numRegs = ClaseConexion.ResolverNonQuery("EXEC CONGESTION.sp_agregarRol '"+txtNombre.Text+"'");
-
-                if (numRegs != 1)
+                String query = "INSERT INTO CONGESTION.Rol (rol_descripcion,rol_habilitado) VALUES ('" + txtNombre.Text + "','TRUE')";
+              
+                
+                SqlCommand command = new SqlCommand(query, ClaseConexion.conexion);
+                try
                 {
-                    MessageBox.Show("No se pudo agregar el rol");
-                }
-                else
-                {
+                    
+                    command.ExecuteNonQuery();
                     guardarTodasFuncionalides();
                     this.Hide();
                     Listado form = new Listado();
                     form.Show();
+
                 }
+                catch (SqlException ex)
+                {
+                    if (ex.Message.Contains("clave duplicada"))
+                        MessageBox.Show("El Rol ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+               
+               
             }
+
+                
+                
+            
         }
 
       
@@ -105,7 +117,6 @@ namespace PagoAgilFrba.AbmRol
             }
 
         }
-
-        
+    
     }
 }

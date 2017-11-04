@@ -81,6 +81,7 @@ namespace PagoAgilFrba.AbmRol
             cmd.Parameters.AddWithValue("@nombreFuncionalidad", descripcion);
             cmd.Parameters.AddWithValue("@nombreRol", txtNombre.Text);
             cmd.ExecuteReader().Close();
+
         }
 
   
@@ -125,18 +126,24 @@ namespace PagoAgilFrba.AbmRol
             
             if (!nombreR.Equals(txtNombre.Text))
             {
-                int numRegs = ClaseConexion.ResolverNonQuery("EXEC CONGESTION.sp_updatearRol '" + nombreR + "', '" + txtNombre.Text + "'");
+                
+                String query = "UPDATE CONGESTION.Rol SET rol_descripcion = '" + txtNombre.Text + "' WHERE rol_descripcion='" + nombreR+ "'";
 
-                if (numRegs != 1)
+                SqlCommand command = new SqlCommand(query, ClaseConexion.conexion);
+                try
                 {
-                    MessageBox.Show("No se pudo modificar el rol");
-                }
-                else
-                {
-                    this.guardarTodasFuncionalidades();
+
+                    command.ExecuteNonQuery();
+                    guardarTodasFuncionalidades();
                     AbmRol.Listado form = new AbmRol.Listado();
                     this.Hide();
                     form.Show();
+
+                }
+                catch (SqlException ex)
+                {
+                    if (ex.Message.Contains("clave duplicada"))
+                        MessageBox.Show("El Rol ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
