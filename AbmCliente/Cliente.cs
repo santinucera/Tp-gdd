@@ -144,6 +144,7 @@ namespace PagoAgilFrba.AbmCliente
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Hide();
+            new PagoAgilFrba.Menu.MenuFuncionalidades().Show();
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)

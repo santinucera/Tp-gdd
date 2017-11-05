@@ -96,7 +96,7 @@ namespace PagoAgilFrba.Devolucion
                 {
                     cmd.Parameters.AddWithValue("@factura", dgvFacturas.Rows[indexSelec].Cells[0].Value);
                     cmd.Parameters.AddWithValue("@pago", dgvFacturas.Rows[indexSelec].Cells[1].Value);
-                    cmd.Parameters.AddWithValue("@motivo", textBox1.Text.Trim());
+                    cmd.Parameters.AddWithValue("@motivo", txtMotivo.Text.Trim());
 
                     reader = cmd.ExecuteReader();
                     reader.Read();
@@ -115,6 +115,17 @@ namespace PagoAgilFrba.Devolucion
             {
                 MessageBox.Show("Debe seleccionar una sola factura");
             }
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            new PagoAgilFrba.Menu.MenuFuncionalidades().Show();
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            this.txtMotivo.Text = "";
         }
     }
 }
