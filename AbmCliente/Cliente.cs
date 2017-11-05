@@ -23,7 +23,6 @@ namespace PagoAgilFrba.AbmCliente
 
         private void Cliente_Load(object sender, EventArgs e)
         {
-            ClaseConexion.Desconectar();
             this.ActualizarGrid();
             chkHabilitado.Enabled = false;
             btnGuardar.Enabled = false;
@@ -40,12 +39,10 @@ namespace PagoAgilFrba.AbmCliente
             try
             {
                 chkHabilitado.Enabled = false;
-                ClaseConexion.Conectar();
                 int habilitado = this.GetChk();
                 string consulta = "UPDATE CONGESTION.Cliente SET clie_nombre='" + txtNombre.Text + "', clie_apellido='" + txtApellido.Text + "', clie_dni=" + txtDni.Text + ", clie_fecNac='" + dtpFechaNacimiento.Value + "', clie_mail='" + txtMail.Text + "', clie_telefono='" + txtTelefono.Text + "', clie_direccion='" + txtDireccion.Text + "', clie_codPostal='" + txtCodigoPostal.Text + "', clie_habilitado='" + habilitado + "' WHERE clie_id=" + id;
                 ClaseConexion.ResolverNonQuery(consulta);
                 this.ActualizarGrid();
-                ClaseConexion.Desconectar();
                 this.LimpiarCampos();
                 MessageBox.Show("Operacion realizada correctamente");
                 btnGuardar.Enabled = false;
@@ -154,6 +151,9 @@ namespace PagoAgilFrba.AbmCliente
             btnActualizar.Enabled = true;
             btnGuardar.Enabled = false;
             btnDarAlta.Enabled = true;
+            txtBuscar.Text = "";
+            txtBuscar2.Text = "";
+            txtBuscar3.Text = "";
             LimpiarCampos();
             this.ActualizarGrid();
         }
@@ -168,7 +168,6 @@ namespace PagoAgilFrba.AbmCliente
             
             try
             {
-                ClaseConexion.Conectar();
                 string query = "SELECT count(clie_mail) as NRO FROM CONGESTION.cliente WHERE clie_mail = '"+ txtMail.Text +"'";
                 SqlDataReader leer = ClaseConexion.ResolverConsulta(query);
                 leer.Read();
@@ -188,13 +187,11 @@ namespace PagoAgilFrba.AbmCliente
                 else
                 {
                     MessageBox.Show("Mail ya existente");
-                    ClaseConexion.Desconectar();
                     return;
                 }
             }
             catch (Exception ex)
             {
-                ClaseConexion.Desconectar();
                 MessageBox.Show("Ingresar todos los datos. Error: "+ ex.Message);
             }
         }
