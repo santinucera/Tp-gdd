@@ -23,7 +23,6 @@ namespace PagoAgilFrba.AbmCliente
 
         private void Cliente_Load(object sender, EventArgs e)
         {
-            ClaseConexion.Desconectar();
             this.ActualizarGrid();
             chkHabilitado.Enabled = false;
             btnGuardar.Enabled = false;
@@ -40,12 +39,10 @@ namespace PagoAgilFrba.AbmCliente
             try
             {
                 chkHabilitado.Enabled = false;
-                ClaseConexion.Conectar();
                 int habilitado = this.GetChk();
                 string consulta = "UPDATE CONGESTION.Cliente SET clie_nombre='" + txtNombre.Text + "', clie_apellido='" + txtApellido.Text + "', clie_dni=" + txtDni.Text + ", clie_fecNac='" + dtpFechaNacimiento.Value + "', clie_mail='" + txtMail.Text + "', clie_telefono='" + txtTelefono.Text + "', clie_direccion='" + txtDireccion.Text + "', clie_codPostal='" + txtCodigoPostal.Text + "', clie_habilitado='" + habilitado + "' WHERE clie_id=" + id;
                 ClaseConexion.ResolverNonQuery(consulta);
                 this.ActualizarGrid();
-                ClaseConexion.Desconectar();
                 this.LimpiarCampos();
                 MessageBox.Show("Operacion realizada correctamente");
                 btnGuardar.Enabled = false;
@@ -168,7 +165,6 @@ namespace PagoAgilFrba.AbmCliente
             
             try
             {
-                ClaseConexion.Conectar();
                 string query = "SELECT count(clie_mail) as NRO FROM CONGESTION.cliente WHERE clie_mail = '"+ txtMail.Text +"'";
                 SqlDataReader leer = ClaseConexion.ResolverConsulta(query);
                 leer.Read();
@@ -181,20 +177,17 @@ namespace PagoAgilFrba.AbmCliente
                     string consulta = "INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac, clie_habilitado) VALUES ('" + txtNombre.Text + "', '" + txtApellido.Text + "', '" + txtDni.Text + "', '" + txtDireccion.Text + "', '" + txtTelefono.Text + "', '" + txtMail.Text + "', '" + txtCodigoPostal.Text + "', '" + dtpFechaNacimiento.Value + "', 1)";
                     ClaseConexion.ResolverNonQuery(consulta);
                     this.ActualizarGrid();
-                    ClaseConexion.Desconectar();
                     this.LimpiarCampos();
                     MessageBox.Show("Operacion realizada correctamente");
                 }
                 else
                 {
                     MessageBox.Show("Mail ya existente");
-                    ClaseConexion.Desconectar();
                     return;
                 }
             }
             catch (Exception ex)
             {
-                ClaseConexion.Desconectar();
                 MessageBox.Show("Ingresar todos los datos. Error: "+ ex.Message);
             }
         }

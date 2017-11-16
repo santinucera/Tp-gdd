@@ -123,6 +123,7 @@
             // 
             this.Habilitado.HeaderText = "Habilitado";
             this.Habilitado.Name = "Habilitado";
+            this.Habilitado.ReadOnly = true;
             // 
             // Modificar
             // 
