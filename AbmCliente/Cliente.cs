@@ -151,6 +151,9 @@ namespace PagoAgilFrba.AbmCliente
             btnActualizar.Enabled = true;
             btnGuardar.Enabled = false;
             btnDarAlta.Enabled = true;
+            txtBuscar.Text = "";
+            txtBuscar2.Text = "";
+            txtBuscar3.Text = "";
             LimpiarCampos();
             this.ActualizarGrid();
         }
