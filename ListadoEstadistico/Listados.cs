@@ -43,13 +43,20 @@ namespace PagoAgilFrba.ListadoEstadistico
 
         private void btnConsultar_Click(object sender, EventArgs e)
         {
-
+            
            if (this.chequear())
             {
                 MessageBox.Show("Debe completar todos los campos");
             }
             else{
-                this.revisarSeleccion();
+                try
+                {
+                    this.revisarSeleccion();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 

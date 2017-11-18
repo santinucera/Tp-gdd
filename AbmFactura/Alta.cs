@@ -22,14 +22,22 @@ namespace PagoAgilFrba.AbmFactura
 
         private void btnAgregarItem_Click(object sender, EventArgs e)
         {
-            Item nuevoItem = new Item(txtConcepto.Text, Decimal.Parse(txtMonto.Text), Int32.Parse(txtCantidad.Text));
-            listaItems.Add(nuevoItem);
-            txtMonto.Text = "";
-            txtConcepto.Text = "";
-            txtCantidad.Text = "";
-            listBox1.Items.Add("Item"+listaItems.Count);
-            listBox1.Items.Add("Concepto: " + nuevoItem.concepto + ",Monto: " + nuevoItem.monto.ToString() + ",Cantidad: " + nuevoItem.cantidad.ToString());
-            listBox1.Items.Add(" ");
+            try
+            {
+                Item nuevoItem = new Item(txtConcepto.Text, Decimal.Parse(txtMonto.Text), Int32.Parse(txtCantidad.Text));
+                listaItems.Add(nuevoItem);
+                txtMonto.Text = "";
+                txtConcepto.Text = "";
+                txtCantidad.Text = "";
+                listBox1.Items.Add("Item"+listaItems.Count);
+                listBox1.Items.Add("Concepto: " + nuevoItem.concepto + ",Monto: " + nuevoItem.monto.ToString() + ",Cantidad: " + nuevoItem.cantidad.ToString());
+                listBox1.Items.Add(" ");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: "+ex.Message);
+            }
+            
         }
 
         private void Limpiar_Click(object sender, EventArgs e)
@@ -90,36 +98,43 @@ namespace PagoAgilFrba.AbmFactura
 
         private void guardarFactura()
         {
-            String[] stringSeparators = new String[] { "," };
-            String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-            int dni = Int32.Parse(txtCliente.Text);
-            
-            SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarFactura", ClaseConexion.conexion);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@numero", txtNumero.Text);
-            cmd.Parameters.AddWithValue("@dni", dni.ToString());
-            cmd.Parameters.AddWithValue("@cuit", cuit[1].Trim());
-            cmd.Parameters.AddWithValue("@fechaVen", calendar.Value);
-            
-            DataTable tabla = new DataTable();
-            tabla.Columns.Add("monto", typeof(int));
-            tabla.Columns.Add("cantidad", typeof(int));
-            tabla.Columns.Add("concepto", typeof(String));
-
-            DataRow fila;
-           
-            foreach (Item item in listaItems)
+            try
             {
-                fila = tabla.NewRow();
-                fila[0] = item.monto;
-                fila[1] = item.cantidad;
-                fila[2] = item.concepto;
-                tabla.Rows.Add(fila);
+                String[] stringSeparators = new String[] { "," };
+                String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+                int dni = Int32.Parse(txtCliente.Text);
+
+                SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarFactura", ClaseConexion.conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@numero", txtNumero.Text);
+                cmd.Parameters.AddWithValue("@dni", dni.ToString());
+                cmd.Parameters.AddWithValue("@cuit", cuit[1].Trim());
+                cmd.Parameters.AddWithValue("@fechaVen", calendar.Value);
+
+                DataTable tabla = new DataTable();
+                tabla.Columns.Add("monto", typeof(int));
+                tabla.Columns.Add("cantidad", typeof(int));
+                tabla.Columns.Add("concepto", typeof(String));
+
+                DataRow fila;
+
+                foreach (Item item in listaItems)
+                {
+                    fila = tabla.NewRow();
+                    fila[0] = item.monto;
+                    fila[1] = item.cantidad;
+                    fila[2] = item.concepto;
+                    tabla.Rows.Add(fila);
+                }
+
+                cmd.Parameters.AddWithValue("@listaFacturas", tabla);
+
+                cmd.ExecuteReader().Close();
             }
-
-            cmd.Parameters.AddWithValue("@listaFacturas", tabla);
-
-            cmd.ExecuteReader().Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

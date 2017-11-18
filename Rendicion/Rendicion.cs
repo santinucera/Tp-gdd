@@ -156,9 +156,16 @@ namespace PagoAgilFrba.Rendicion
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            dgvFacturas.Rows.Clear();
-            selectorEmpresa.SelectedIndex = 0;
-            txtComision.Text = "";
+            try
+            {
+                dgvFacturas.Rows.Clear();
+                selectorEmpresa.SelectedIndex = 0;
+                txtComision.Text = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
     }
 }

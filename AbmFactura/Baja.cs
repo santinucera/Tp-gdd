@@ -72,11 +72,18 @@ namespace PagoAgilFrba.AbmFactura
         {
             while (reader.Read())
             {
-                lblTotal.Text = reader.GetInt32(0).ToString();
-                lblCliente.Text= reader.GetDecimal(1).ToString();
-                lblEmpresa.Text= reader.GetString(2).Trim(); 
-                lblAlta.Text = reader.GetDateTime(3).ToString();
-                lblBaja.Text = reader.GetDateTime(4).ToString();
+                try
+                {
+                    lblTotal.Text = reader.GetInt32(0).ToString();
+                    lblCliente.Text = reader.GetDecimal(1).ToString();
+                    lblEmpresa.Text = reader.GetString(2).Trim();
+                    lblAlta.Text = reader.GetDateTime(3).ToString();
+                    lblBaja.Text = reader.GetDateTime(4).ToString();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
             }
 
             reader.Close();

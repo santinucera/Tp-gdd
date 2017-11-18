@@ -87,9 +87,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(60, 119);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(42, 13);
+            this.label3.Size = new System.Drawing.Size(64, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Cliente:";
+            this.label3.Text = "Cliente DNI:";
             // 
             // label4
             // 

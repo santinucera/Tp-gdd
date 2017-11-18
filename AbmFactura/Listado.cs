@@ -98,7 +98,6 @@ namespace PagoAgilFrba.AbmFactura
                 }
                 else if (columnIndex == 10 && !estaPagaORendida)
                 {//columna baja
-
                     AbmFactura.Baja form = new Baja(numero);
                     form.Show();
                     this.Hide();
