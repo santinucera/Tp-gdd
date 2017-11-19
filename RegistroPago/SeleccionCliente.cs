@@ -33,7 +33,7 @@ namespace PagoAgilFrba.RegistroPago
             this.btnCobro.Enabled = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
 
@@ -45,20 +45,20 @@ namespace PagoAgilFrba.RegistroPago
         {
             this.cargarFecha();
             this.cargarSucursal();
-            Registro.fechaCobro = this.traerFechaDeDB();
+            Registro.fechaCobro = this.traerFechaDeArchivo();
         }
 
         private void cargarFecha()
         {
-            fecha.Text = this.traerFechaDeDB().ToString("dd/MM/yyyy");
+            fecha.Text = this.traerFechaDeArchivo().ToString("dd/MM/yyyy");
         }
 
-        private DateTime traerFechaDeDB()
+        private DateTime traerFechaDeArchivo()
         {
 
             String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
 
-            return DateTime.ParseExact(fechaArchivo,"yyyy-dd-MM",null);
+            return DateTime.ParseExact(fechaArchivo,"dd-MM-yyyy",null);
         }
 
         private void cargarSucursal()

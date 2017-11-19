@@ -145,7 +145,7 @@ namespace PagoAgilFrba.AbmFactura
             selectorEmpresa.Text = "";
 
             String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
-            calendar.Value = DateTime.ParseExact(fechaArchivo, "yyyy-dd-MM", null);
+            calendar.Value = DateTime.ParseExact(fechaArchivo, "dd-MM-yyyy", null);
         }
 
         private void button2_Click(object sender, EventArgs e)

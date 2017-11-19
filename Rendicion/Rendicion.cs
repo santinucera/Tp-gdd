@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using PagoAgilFrba.Menu;
+using System.Configuration;
 
 namespace PagoAgilFrba.Rendicion
 {
@@ -37,7 +38,11 @@ namespace PagoAgilFrba.Rendicion
 
         private SqlDataReader leerEmpresas()
         {
-            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_cuit from CONGESTION.Empresa where day(GETDATE()) = empr_dia_rendicion ");
+            String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
+
+            DateTime dt = DateTime.ParseExact(fechaArchivo, "dd-MM-yyyy", null);
+
+            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_cuit from CONGESTION.Empresa where " + dt.Day + " = empr_dia_rendicion ");
         }
 
         private void btnObtener_Click(object sender, EventArgs e)
