@@ -24,9 +24,17 @@ namespace PagoAgilFrba.AbmRol
         }
 
         private void button1_Click(object sender, EventArgs e)
-        { 
-            dgvFunciones.Rows.Add(selectorFuncs.SelectedItem.ToString());
-            selectorFuncs.Items.Remove(selectorFuncs.SelectedItem);
+        {
+            if (!String.IsNullOrWhiteSpace(selectorFuncs.Text))
+            {
+                dgvFunciones.Rows.Add(selectorFuncs.SelectedItem.ToString());
+                selectorFuncs.Items.Remove(selectorFuncs.SelectedItem);
+            }
+            else
+            {
+                MessageBox.Show("Debe selecccionar una funcionalidad");
+            }
+            
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -119,6 +127,11 @@ namespace PagoAgilFrba.AbmRol
                 guardarFuncionalidadRol(dgvFunciones.Rows[i].Cells[0].Value.ToString());
                 i++;
             }
+
+        }
+
+        private void dgvFunciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     

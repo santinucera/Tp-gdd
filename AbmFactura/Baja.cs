@@ -98,5 +98,12 @@ namespace PagoAgilFrba.AbmFactura
                                                     + "fact_fecha_alta,fact_fecha_venc"
                                                     + " from CONGESTION.Factura WHERE fact_num = "+numero.ToString());
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Listado form = new Listado();
+            form.Show();
+        }
     }
 }

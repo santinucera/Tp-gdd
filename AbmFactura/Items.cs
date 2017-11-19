@@ -75,7 +75,7 @@ namespace PagoAgilFrba.AbmFactura
         private void button2_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new Items(numero).Show();
+            new Listado().Show();
         }
     }
 }

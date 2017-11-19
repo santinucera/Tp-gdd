@@ -56,5 +56,11 @@ namespace PagoAgilFrba.AbmFactura
 
             cmd.ExecuteReader().Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            new Items(numero).Show();
+        }
     }
 }

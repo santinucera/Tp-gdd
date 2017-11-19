@@ -110,6 +110,7 @@
             // 
             // selectorFuncs
             // 
+            this.selectorFuncs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectorFuncs.FormattingEnabled = true;
             this.selectorFuncs.Location = new System.Drawing.Point(142, 83);
             this.selectorFuncs.Name = "selectorFuncs";
@@ -121,15 +122,17 @@
             this.dgvFunciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFunciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Descripción});
-            this.dgvFunciones.Location = new System.Drawing.Point(363, 83);
+            this.dgvFunciones.Location = new System.Drawing.Point(411, 59);
             this.dgvFunciones.Name = "dgvFunciones";
-            this.dgvFunciones.Size = new System.Drawing.Size(327, 263);
+            this.dgvFunciones.Size = new System.Drawing.Size(248, 263);
             this.dgvFunciones.TabIndex = 10;
+            this.dgvFunciones.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFunciones_CellContentClick);
             // 
             // Descripción
             // 
             this.Descripción.HeaderText = "Descripción";
             this.Descripción.Name = "Descripción";
+            this.Descripción.ReadOnly = true;
             this.Descripción.Width = 200;
             // 
             // Alta
