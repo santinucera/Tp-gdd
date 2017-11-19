@@ -66,8 +66,8 @@ namespace PagoAgilFrba.ListadoEstadistico
         }
 
         private void revisarSeleccion()
-        {
-            switch (selectorListado.SelectedItem.ToString())
+        {    //switch que revisa el item seleccionado en el comoboBox y en base a eso abre una ventana de listado correspondiente
+            switch (selectorListado.SelectedItem.ToString()) 
             {
                 case "Clientes con mas pagos": 
                     ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
