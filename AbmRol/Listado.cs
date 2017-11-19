@@ -43,10 +43,10 @@ namespace PagoAgilFrba.AbmRol
         {
             int columnIndex = dgvRoles.CurrentCell.ColumnIndex;
             int rowIndex = dgvRoles.CurrentCell.RowIndex;
-            if (dgvRoles.RowCount > 1)
+            if (dgvRoles.RowCount > 1)  //comprueba que haya roles para mostrar y carga columna por columna
             {
 
-                String descripcion = dgvRoles.Rows[rowIndex].Cells[0].Value.ToString();
+                String descripcion = dgvRoles.Rows[rowIndex].Cells[0].Value.ToString(); 
                 DataGridViewCheckBoxCell cB = dgvRoles.Rows[rowIndex].Cells["Habilitado"] as DataGridViewCheckBoxCell;
                 bool habilitacion = !Convert.ToBoolean(cB.Value);
 
@@ -74,6 +74,8 @@ namespace PagoAgilFrba.AbmRol
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            //realiza una consulta en la bd donde busca en la tabla una fila que contenga lo ingresado en el textbox 
+
             dgvRoles.Rows.Clear();
             String consulta = "SELECT rol_descripcion,rol_habilitado FROM CONGESTION.Rol "
                                + "WHERE rol_descripcion LIKE '%" + txtNombreFiltro.Text + "%'";

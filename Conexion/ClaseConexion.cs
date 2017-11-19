@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.IO;
+using System.Collections;
 
 namespace PagoAgilFrba
 {
     class ClaseConexion
     {
-       
-        // declaro una variable de conexion global
-        public static SqlConnection conexion = new SqlConnection("Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2017;Persist Security Info=True;User ID=gd;Password=gd2017;MultipleActiveResultSets=True");
         
+        // declaro una variable de conexion global
+        public static SqlConnection conexion = new SqlConnection(leerParametros());
+
         public static void Conectar()
         {
             try
@@ -57,6 +58,25 @@ namespace PagoAgilFrba
             dg.DataSource = ds;
             // para traer todo el contenido de la tabla NN al dataGridView
             dg.DataMember = tabla;
+        }
+        private static string leerParametros()
+        {
+            string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location).Replace("\\bin\\Debug", "")
+                                + "\\config.txt";
+
+            StreamReader objReader = new StreamReader(path);
+            string sLine = "";
+            ArrayList arrText = new ArrayList();
+
+            while (sLine != null)
+            {
+                sLine = objReader.ReadLine();
+                if (sLine != null)
+                    arrText.Add(sLine);
+            }
+            objReader.Close();
+
+            return string.Join(";", (string[])arrText.ToArray(Type.GetType("System.String")));
         }
     }
 }

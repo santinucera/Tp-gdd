@@ -43,6 +43,7 @@ namespace PagoAgilFrba.AbmRol
 
         private SqlDataReader leerFunciones()
         {
+            //trae las funcionalidades del rol
             return ClaseConexion.ResolverConsulta("SELECT func_descripcion FROM CONGESTION.Funcionalidad JOIN CONGESTION.Funcionalidad_Rol"
             + " ON func_id = fr_funcionalidad JOIN CONGESTION.Rol ON rol_id = fr_rol AND rol_descripcion LIKE'%" + labelNombre.Text + "%'");
         }
@@ -64,6 +65,8 @@ namespace PagoAgilFrba.AbmRol
 
         private void darDeBaja()
         {
+            //a traves del numRegs verifica que se haya cambiado una fila en la bd cuando quiere deshabilitar ese rol
+
             int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Rol SET rol_habilitado = 'FALSE' WHERE rol_descripcion = '"
                 + labelNombre.Text + "'");
 

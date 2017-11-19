@@ -32,22 +32,22 @@ namespace PagoAgilFrba.AbmRol
         private void btnGuardar_Click(object sender, EventArgs e)
         {
 
-            if (txtNombre.Text == "" || dgvFunciones.Rows.Count == 1)
+            if (txtNombre.Text == "" || dgvFunciones.Rows.Count == 1)           //comprueba que se hayan completado todos los campos
             {
                 MessageBox.Show("Debe completar todos los campos");
             }
             else
             {
                 if (txtNombre.Text.Length > 100)
-                    MessageBox.Show("El nombre es demasiado largo");
+                    MessageBox.Show("El nombre es demasiado largo");            //comprueba que no exceda el maximo definido en la bd
                 else
                 {
-                    String query = "INSERT INTO CONGESTION.Rol (rol_descripcion,rol_habilitado) VALUES ('" + txtNombre.Text + "','TRUE')";
-
+                    String query = "INSERT INTO CONGESTION.Rol (rol_descripcion,rol_habilitado) VALUES ('" + txtNombre.Text + "','TRUE')"; 
 
                     SqlCommand command = new SqlCommand(query, ClaseConexion.conexion);
                     try
                     {
+                        //intenta insertar el rol
 
                         command.ExecuteNonQuery();
                         guardarTodasFuncionalides();
@@ -58,7 +58,7 @@ namespace PagoAgilFrba.AbmRol
                     }
                     catch (SqlException ex)
                     {
-                        if (ex.Message.Contains("clave duplicada"))
+                        if (ex.Message.Contains("clave duplicada"))     //contains para ver si la excepcion es porque ya existe ese rol
                             MessageBox.Show("El Rol ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 

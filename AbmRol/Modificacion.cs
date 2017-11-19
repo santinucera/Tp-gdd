@@ -14,8 +14,8 @@ namespace PagoAgilFrba.AbmRol
     public partial class Modificacion : Form
     {
         string nombreR;
-        public Modificacion(string nombre,bool habilitacion)
-        {
+        public Modificacion(string nombre, bool habilitacion)    //se pasa habilitacion por constructor para saber si habilitar el boton btnHabilitar
+        {                                                      
             InitializeComponent();
             txtNombre.Text = nombre;
             btnHabilitar.Enabled = habilitacion;
@@ -38,8 +38,9 @@ namespace PagoAgilFrba.AbmRol
 
         }
 
-        private SqlDataReader leerFunciones()
+        private SqlDataReader leerFunciones()   //trae las funcionalidades de ese rol
         {
+
             return ClaseConexion.ResolverConsulta("SELECT func_descripcion FROM CONGESTION.Funcionalidad JOIN"
                 +" CONGESTION.Funcionalidad_Rol ON func_id = fr_funcionalidad JOIN CONGESTION.Rol ON rol_id = fr_rol AND rol_descripcion LIKE'%" + txtNombre.Text + "%'");
         }
@@ -63,7 +64,7 @@ namespace PagoAgilFrba.AbmRol
             {
                 String descripcion = dgvFuncionalidades.Rows[rowIndex].Cells[0].Value.ToString();
 
-                if (columnIndex == 1)
+                if (columnIndex == 1)   //si hizo click en el boton eliminar, va a la bd y elimina la fila FuncionalidadRol
                 {
                     this.eliminarFuncionalidad(descripcion);
                     dgvFuncionalidades.Rows.RemoveAt(rowIndex);
@@ -130,7 +131,7 @@ namespace PagoAgilFrba.AbmRol
                 String query = "UPDATE CONGESTION.Rol SET rol_descripcion = '" + txtNombre.Text + "' WHERE rol_descripcion='" + nombreR+ "'";
 
                 SqlCommand command = new SqlCommand(query, ClaseConexion.conexion);
-                try
+                try       //intenta insertar el rol y las filas en funcionalidadRol y catchea el caso de que ya existe un rol con ese nombre
                 {
 
                     command.ExecuteNonQuery();
