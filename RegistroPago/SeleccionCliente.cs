@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
+using System.Globalization;
 
 namespace PagoAgilFrba.RegistroPago
 {
@@ -53,14 +55,10 @@ namespace PagoAgilFrba.RegistroPago
 
         private DateTime traerFechaDeDB()
         {
-            SqlDataReader dr = ClaseConexion.ResolverConsulta("SELECT GETDATE()");
-            dr.Read();
 
-            DateTime f = dr.GetDateTime(0);
+            String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
 
-            dr.Close();
-
-            return f;
+            return DateTime.ParseExact(fechaArchivo,"yyyy-dd-MM",null);
         }
 
         private void cargarSucursal()
