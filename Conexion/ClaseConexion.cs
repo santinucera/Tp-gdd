@@ -6,14 +6,22 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections;
+using System.Configuration;
 
 namespace PagoAgilFrba
 {
     class ClaseConexion
     {
         
+        
+
+        static string server = ConfigurationManager.AppSettings["server"].ToString();
+        static string user = ConfigurationManager.AppSettings["user"].ToString();
+        static string password = ConfigurationManager.AppSettings["password"].ToString();
+
         // declaro una variable de conexion global
-        public static SqlConnection conexion = new SqlConnection(leerParametros());
+        public static SqlConnection conexion = getConnection();
+
 
         public static void Conectar()
         {
@@ -59,24 +67,13 @@ namespace PagoAgilFrba
             // para traer todo el contenido de la tabla NN al dataGridView
             dg.DataMember = tabla;
         }
-        private static string leerParametros()
+
+        public static SqlConnection getConnection()
         {
-            string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location).Replace("\\bin\\Debug", "")
-                                + "\\config.txt";
+            SqlConnection con = new SqlConnection();
+            con.ConnectionString = "SERVER=" + server + "\\SQLSERVER2012;DATABASE=GD2C2017;UID=" + user + ";PASSWORD=" + password + ";";
+            return con;
 
-            StreamReader objReader = new StreamReader(path);
-            string sLine = "";
-            ArrayList arrText = new ArrayList();
-
-            while (sLine != null)
-            {
-                sLine = objReader.ReadLine();
-                if (sLine != null)
-                    arrText.Add(sLine);
-            }
-            objReader.Close();
-
-            return string.Join(";", (string[])arrText.ToArray(Type.GetType("System.String")));
         }
     }
 }
