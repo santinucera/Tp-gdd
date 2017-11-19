@@ -92,5 +92,13 @@ namespace PagoAgilFrba.AbmEmpresa
 
             cmd.ExecuteReader().Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            txtNombre.Text = "";
+            txtDireccion.Text = "";
+            txtCuit.Text = "";
+            selectorRubros.SelectedItem = null;
+        }
     }
 }

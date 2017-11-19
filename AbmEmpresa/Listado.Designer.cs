@@ -195,6 +195,7 @@
             // 
             // selectorRubros
             // 
+            this.selectorRubros.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectorRubros.FormattingEnabled = true;
             this.selectorRubros.Location = new System.Drawing.Point(394, 77);
             this.selectorRubros.Name = "selectorRubros";

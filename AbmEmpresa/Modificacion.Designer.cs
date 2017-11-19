@@ -39,6 +39,7 @@
             this.rubro = new System.Windows.Forms.Label();
             this.selectorRubros = new System.Windows.Forms.ComboBox();
             this.volver = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtCuit
@@ -119,6 +120,7 @@
             // 
             // selectorRubros
             // 
+            this.selectorRubros.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectorRubros.FormattingEnabled = true;
             this.selectorRubros.Location = new System.Drawing.Point(147, 161);
             this.selectorRubros.Name = "selectorRubros";
@@ -127,7 +129,7 @@
             // 
             // volver
             // 
-            this.volver.Location = new System.Drawing.Point(101, 235);
+            this.volver.Location = new System.Drawing.Point(51, 235);
             this.volver.Name = "volver";
             this.volver.Size = new System.Drawing.Size(75, 23);
             this.volver.TabIndex = 13;
@@ -135,11 +137,22 @@
             this.volver.UseVisualStyleBackColor = true;
             this.volver.Click += new System.EventHandler(this.volver_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(147, 235);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Limpiar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 270);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.volver);
             this.Controls.Add(this.selectorRubros);
             this.Controls.Add(this.rubro);
@@ -173,5 +186,6 @@
         private System.Windows.Forms.Label rubro;
         private System.Windows.Forms.ComboBox selectorRubros;
         private System.Windows.Forms.Button volver;
+        private System.Windows.Forms.Button button1;
     }
 }

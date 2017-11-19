@@ -30,9 +30,9 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (selectorRubros.SelectedItem == null)
+            if (selectorRubros.SelectedItem == null || String.IsNullOrWhiteSpace(txtCuit.Text) || String.IsNullOrWhiteSpace(txtDireccion.Text) || String.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show("Debe elegir un rubro","Error");
+                MessageBox.Show("Debe completar  todos los campos","Error");
             }
             else
             {
@@ -76,6 +76,14 @@ namespace PagoAgilFrba.AbmEmpresa
             cmd.Parameters.AddWithValue("@descripcionRubro", selectorRubros.SelectedItem.ToString());
 
             cmd.ExecuteReader().Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            txtNombre.Text = "";
+            txtDireccion.Text = "";
+            txtCuit.Text = "";
+            selectorRubros.SelectedItem = null;
         }
     }
 }

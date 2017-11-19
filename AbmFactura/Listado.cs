@@ -109,7 +109,7 @@ namespace PagoAgilFrba.AbmFactura
         {
             txtNumero.Text = "";
             txtCliente.Text = "";
-            selectorEmpresa.SelectedIndex = 0;
+            selectorEmpresa.SelectedItem = null;
         }
 
         private void button4_Click_1(object sender, EventArgs e)

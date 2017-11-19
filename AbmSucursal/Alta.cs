@@ -30,7 +30,7 @@ namespace PagoAgilFrba.AbmSucursal
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtCodigo.Text) && String.IsNullOrWhiteSpace(txtDireccion.Text) && String.IsNullOrWhiteSpace(txtNombre.Text))
+            if (String.IsNullOrWhiteSpace(txtCodigo.Text) || String.IsNullOrWhiteSpace(txtDireccion.Text) || String.IsNullOrWhiteSpace(txtNombre.Text))
             {
                 MessageBox.Show("Debe completar todos los campos", "Error");
             }
