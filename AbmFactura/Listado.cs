@@ -109,7 +109,7 @@ namespace PagoAgilFrba.AbmFactura
         {
             txtNumero.Text = "";
             txtCliente.Text = "";
-            selectorEmpresa.Text = "";
+            selectorEmpresa.SelectedIndex = 0;
         }
 
         private void button4_Click_1(object sender, EventArgs e)
@@ -121,7 +121,7 @@ namespace PagoAgilFrba.AbmFactura
             {
                 String[] stringSeparators = new String[] { "," };
                 String[] cuitt = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-                cuit = cuitt[1];
+                cuit = cuitt[1].Trim();
             }
             else
             {
