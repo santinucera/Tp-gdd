@@ -30,8 +30,8 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (selectorRubros.SelectedItem == null)
-                MessageBox.Show("Debe elegir un rubro", "Error");
+            if (selectorRubros.SelectedItem == null || String.IsNullOrWhiteSpace(txtCuit.Text) || String.IsNullOrWhiteSpace(txtDia.Text) || String.IsNullOrWhiteSpace(txtDireccion.Text) || String.IsNullOrWhiteSpace(txtNombre.Text))
+                MessageBox.Show("Debe ingresar todos los campos", "Error");
             else
             {
                 try
@@ -58,7 +58,8 @@ namespace PagoAgilFrba.AbmEmpresa
             txtNombre.Text = empresaConRubro.GetString(1);
             txtDireccion.Text = empresaConRubro.GetString(2);
             txtCuit.Text = empresaConRubro.GetString(3);
-            selectorRubros.SelectedItem = empresaConRubro.GetString(5);
+            txtDia.Text = empresaConRubro.GetInt32(5).ToString();
+            selectorRubros.SelectedItem = empresaConRubro.GetString(6);
 
             empresaConRubro.Close();
         }
@@ -88,6 +89,7 @@ namespace PagoAgilFrba.AbmEmpresa
             cmd.Parameters.AddWithValue("@cuit", txtCuit.Text.Trim());
             cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
             cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+            cmd.Parameters.AddWithValue("@dia", txtDia.Text);
             cmd.Parameters.AddWithValue("@descripcionRubro", selectorRubros.SelectedItem.ToString());
 
             cmd.ExecuteReader().Close();
@@ -99,6 +101,7 @@ namespace PagoAgilFrba.AbmEmpresa
             txtDireccion.Text = "";
             txtCuit.Text = "";
             selectorRubros.SelectedItem = null;
+            txtDia.Text = "";
         }
     }
 }

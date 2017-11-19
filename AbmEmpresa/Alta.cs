@@ -30,7 +30,7 @@ namespace PagoAgilFrba.AbmEmpresa
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (selectorRubros.SelectedItem == null || String.IsNullOrWhiteSpace(txtCuit.Text) || String.IsNullOrWhiteSpace(txtDireccion.Text) || String.IsNullOrWhiteSpace(txtNombre.Text))
+            if (selectorRubros.SelectedItem == null || String.IsNullOrWhiteSpace(txtCuit.Text) || String.IsNullOrWhiteSpace(txtDia.Text) || String.IsNullOrWhiteSpace(txtDireccion.Text) || String.IsNullOrWhiteSpace(txtNombre.Text))
             {
                 MessageBox.Show("Debe completar  todos los campos","Error");
             }
@@ -73,6 +73,7 @@ namespace PagoAgilFrba.AbmEmpresa
             cmd.Parameters.AddWithValue("@cuit", txtCuit.Text.Trim());
             cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
             cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+            cmd.Parameters.AddWithValue("@dia", txtDia.Text);
             cmd.Parameters.AddWithValue("@descripcionRubro", selectorRubros.SelectedItem.ToString());
 
             cmd.ExecuteReader().Close();
@@ -84,6 +85,17 @@ namespace PagoAgilFrba.AbmEmpresa
             txtDireccion.Text = "";
             txtCuit.Text = "";
             selectorRubros.SelectedItem = null;
+            txtDia.Text = "";
+        }
+
+        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void selectorRubros_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

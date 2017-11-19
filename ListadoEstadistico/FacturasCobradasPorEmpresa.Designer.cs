@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.dgvEmpresas = new System.Windows.Forms.DataGridView();
+            this.btnCerrar = new System.Windows.Forms.Button();
             this.porcentajeFacturasCobradas = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Empresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnCerrar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpresas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,16 +46,6 @@
             this.dgvEmpresas.Size = new System.Drawing.Size(250, 254);
             this.dgvEmpresas.TabIndex = 0;
             // 
-            // porcentajeFacturasCobradas
-            // 
-            this.porcentajeFacturasCobradas.HeaderText = "Porcentaje de factura cobradas";
-            this.porcentajeFacturasCobradas.Name = "porcentajeFacturasCobradas";
-            // 
-            // Empresa
-            // 
-            this.Empresa.HeaderText = "Empresa";
-            this.Empresa.Name = "Empresa";
-            // 
             // btnCerrar
             // 
             this.btnCerrar.Location = new System.Drawing.Point(13, 285);
@@ -65,6 +55,18 @@
             this.btnCerrar.Text = "Cerrar";
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
+            // porcentajeFacturasCobradas
+            // 
+            this.porcentajeFacturasCobradas.HeaderText = "Porcentaje de factura cobradas";
+            this.porcentajeFacturasCobradas.Name = "porcentajeFacturasCobradas";
+            this.porcentajeFacturasCobradas.ReadOnly = true;
+            // 
+            // Empresa
+            // 
+            this.Empresa.HeaderText = "Empresa";
+            this.Empresa.Name = "Empresa";
+            this.Empresa.ReadOnly = true;
             // 
             // FacturasCobradasPorEmpresa
             // 
@@ -84,8 +86,8 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvEmpresas;
+        private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.DataGridViewTextBoxColumn porcentajeFacturasCobradas;
         private System.Windows.Forms.DataGridViewTextBoxColumn Empresa;
-        private System.Windows.Forms.Button btnCerrar;
     }
 }

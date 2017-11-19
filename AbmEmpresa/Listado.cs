@@ -36,7 +36,7 @@ namespace PagoAgilFrba.AbmEmpresa
                 else
                     bajaMod = "Habilitar";
                
-                dgvSucursales.Rows.Add(reader.GetString(1).Trim(), reader.GetString(2).Trim(), reader.GetString(3).Trim(), reader.GetString(5).Trim(), reader.GetBoolean(4), "Modificar", bajaMod);
+                dgvSucursales.Rows.Add(reader.GetString(1).Trim(), reader.GetString(2).Trim(), reader.GetString(3).Trim(),reader.GetInt32(5).ToString(), reader.GetString(6).Trim(), reader.GetBoolean(4), "Modificar", bajaMod);
             }
 
             reader.Close();
@@ -69,12 +69,12 @@ namespace PagoAgilFrba.AbmEmpresa
 
             String cuit = dgvSucursales.Rows[rowIndex].Cells[2].Value.ToString();
 
-            if (columnIndex == 5)       //si modifica
+            if (columnIndex == 6)       //si modifica
             {
                 this.Close();
                 new Modificacion(cuit).Show();
             }
-            else if (columnIndex == 6)      //si da de baja
+            else if (columnIndex == 7)      //si da de baja
             {
                 this.Close();
                 new Baja(cuit).Show();

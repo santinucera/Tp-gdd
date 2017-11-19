@@ -70,7 +70,8 @@ namespace PagoAgilFrba.AbmEmpresa
             lblNombre.Text = empresaConRubro.GetString(1);
             lblDireccion.Text = empresaConRubro.GetString(2);
             lblCuit.Text = empresaConRubro.GetString(3);
-            lblRubro.Text = empresaConRubro.GetString(5);
+            lblDia.Text = empresaConRubro.GetInt32(5).ToString();
+            lblRubro.Text = empresaConRubro.GetString(6);
             this.estaHabilitada = empresaConRubro.GetBoolean(4);
 
             if (!this.estaHabilitada)  //si ya esta habilitada

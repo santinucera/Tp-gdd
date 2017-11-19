@@ -370,13 +370,13 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
-CREATE PROCEDURE CONGESTION.sp_guardarEmpresa(@cuit NVARCHAR(50),@direccion NVARCHAR(255), @nombre NVARCHAR(255), @descripcionRubro VARCHAR(255))
+CREATE PROCEDURE CONGESTION.sp_guardarEmpresa(@cuit NVARCHAR(50),@direccion NVARCHAR(255), @nombre NVARCHAR(255),@dia int ,@descripcionRubro VARCHAR(255))
 AS
 	BEGIN TRANSACTION tr	--abro transaccion, asi guarda una empresa, y su vinculo con el rubro
 
 	BEGIN TRY
-		INSERT INTO CONGESTION.Empresa (empr_cuit,empr_direccion,empr_nombre) 
-			VALUES (@cuit,@direccion,@nombre)	--tiene un trigger que lanza una excepcion
+		INSERT INTO CONGESTION.Empresa (empr_cuit,empr_direccion,empr_nombre,empr_dia_rendicion) 
+			VALUES (@cuit,@direccion,@nombre,@dia)	--tiene un trigger que lanza una excepcion
 
 		INSERT INTO CONGESTION.Empresa_Rubro (er_empresa,er_rubro) 
 			VALUES ((SELECT TOP 1 empr_id
@@ -467,7 +467,7 @@ GO
 
 CREATE VIEW CONGESTION.listado_empresas
 AS
-	SELECT e.empr_id, e.empr_nombre, e.empr_direccion, e.empr_cuit, e.empr_habilitado, r.rub_descripcion
+	SELECT e.empr_id, e.empr_nombre, e.empr_direccion, e.empr_cuit, e.empr_habilitado,e.empr_dia_rendicion, r.rub_descripcion
 	FROM CONGESTION.Empresa e	JOIN CONGESTION.Empresa_Rubro er on (e.empr_id = er.er_empresa)
 								JOIN CONGESTION.Rubro r on (er.er_rubro = r.rub_id)
 GO

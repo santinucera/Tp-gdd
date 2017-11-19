@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.dgvClientes = new System.Windows.Forms.DataGridView();
+            this.btnCerrar = new System.Windows.Forms.Button();
             this.Cliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Monto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnCerrar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,16 +46,6 @@
             this.dgvClientes.Size = new System.Drawing.Size(260, 203);
             this.dgvClientes.TabIndex = 0;
             // 
-            // Cliente
-            // 
-            this.Cliente.HeaderText = "Cliente";
-            this.Cliente.Name = "Cliente";
-            // 
-            // Monto
-            // 
-            this.Monto.HeaderText = "Monto";
-            this.Monto.Name = "Monto";
-            // 
             // btnCerrar
             // 
             this.btnCerrar.Location = new System.Drawing.Point(12, 243);
@@ -65,6 +55,18 @@
             this.btnCerrar.Text = "Cerrar";
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
+            // Cliente
+            // 
+            this.Cliente.HeaderText = "Cliente";
+            this.Cliente.Name = "Cliente";
+            this.Cliente.ReadOnly = true;
+            // 
+            // Monto
+            // 
+            this.Monto.HeaderText = "Monto";
+            this.Monto.Name = "Monto";
+            this.Monto.ReadOnly = true;
             // 
             // ClientesMasPagos
             // 
@@ -84,8 +86,8 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvClientes;
+        private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn Monto;
-        private System.Windows.Forms.Button btnCerrar;
     }
 }

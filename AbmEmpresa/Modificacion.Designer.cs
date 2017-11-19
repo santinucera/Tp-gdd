@@ -40,6 +40,8 @@
             this.selectorRubros = new System.Windows.Forms.ComboBox();
             this.volver = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtDia = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // txtCuit
@@ -101,7 +103,7 @@
             // 
             // btnIngresar
             // 
-            this.btnIngresar.Location = new System.Drawing.Point(40, 198);
+            this.btnIngresar.Location = new System.Drawing.Point(40, 230);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(207, 23);
             this.btnIngresar.TabIndex = 3;
@@ -112,7 +114,7 @@
             // rubro
             // 
             this.rubro.AutoSize = true;
-            this.rubro.Location = new System.Drawing.Point(58, 161);
+            this.rubro.Location = new System.Drawing.Point(58, 193);
             this.rubro.Name = "rubro";
             this.rubro.Size = new System.Drawing.Size(36, 13);
             this.rubro.TabIndex = 11;
@@ -122,14 +124,14 @@
             // 
             this.selectorRubros.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectorRubros.FormattingEnabled = true;
-            this.selectorRubros.Location = new System.Drawing.Point(147, 161);
+            this.selectorRubros.Location = new System.Drawing.Point(147, 193);
             this.selectorRubros.Name = "selectorRubros";
             this.selectorRubros.Size = new System.Drawing.Size(100, 21);
             this.selectorRubros.TabIndex = 12;
             // 
             // volver
             // 
-            this.volver.Location = new System.Drawing.Point(51, 235);
+            this.volver.Location = new System.Drawing.Point(51, 267);
             this.volver.Name = "volver";
             this.volver.Size = new System.Drawing.Size(75, 23);
             this.volver.TabIndex = 13;
@@ -139,7 +141,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(147, 235);
+            this.button1.Location = new System.Drawing.Point(147, 267);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 14;
@@ -147,11 +149,30 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(58, 164);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 13);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Dia rendicion";
+            // 
+            // txtDia
+            // 
+            this.txtDia.Location = new System.Drawing.Point(147, 161);
+            this.txtDia.Mask = "99";
+            this.txtDia.Name = "txtDia";
+            this.txtDia.Size = new System.Drawing.Size(100, 20);
+            this.txtDia.TabIndex = 16;
+            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 270);
+            this.ClientSize = new System.Drawing.Size(284, 324);
+            this.Controls.Add(this.txtDia);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.volver);
             this.Controls.Add(this.selectorRubros);
@@ -187,5 +208,7 @@
         private System.Windows.Forms.ComboBox selectorRubros;
         private System.Windows.Forms.Button volver;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.MaskedTextBox txtDia;
     }
 }

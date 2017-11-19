@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.dgvClientes = new System.Windows.Forms.DataGridView();
+            this.btnCerrar = new System.Windows.Forms.Button();
             this.Cliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.porcentajePagado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnCerrar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,18 +43,9 @@
             this.porcentajePagado});
             this.dgvClientes.Location = new System.Drawing.Point(12, 12);
             this.dgvClientes.Name = "dgvClientes";
+            this.dgvClientes.ReadOnly = true;
             this.dgvClientes.Size = new System.Drawing.Size(246, 212);
             this.dgvClientes.TabIndex = 0;
-            // 
-            // Cliente
-            // 
-            this.Cliente.HeaderText = "Cliente";
-            this.Cliente.Name = "Cliente";
-            // 
-            // porcentajePagado
-            // 
-            this.porcentajePagado.HeaderText = "Porcentaje pagado";
-            this.porcentajePagado.Name = "porcentajePagado";
             // 
             // btnCerrar
             // 
@@ -65,6 +56,18 @@
             this.btnCerrar.Text = "Cerrar";
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
+            // Cliente
+            // 
+            this.Cliente.HeaderText = "Cliente";
+            this.Cliente.Name = "Cliente";
+            this.Cliente.ReadOnly = true;
+            // 
+            // porcentajePagado
+            // 
+            this.porcentajePagado.HeaderText = "Porcentaje pagado";
+            this.porcentajePagado.Name = "porcentajePagado";
+            this.porcentajePagado.ReadOnly = true;
             // 
             // ClientesCumplidores
             // 
@@ -84,8 +87,8 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvClientes;
+        private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn porcentajePagado;
-        private System.Windows.Forms.Button btnCerrar;
     }
 }

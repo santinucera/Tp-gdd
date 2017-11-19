@@ -21,8 +21,6 @@ namespace PagoAgilFrba.RegistroPago
 
             this.parent = parent;
 
-            this.cargarHeader();
-            this.cargarListaFacturasPendientes();
         }
 
         private void guardar_Click(object sender, EventArgs e)
@@ -53,10 +51,10 @@ namespace PagoAgilFrba.RegistroPago
 
         private void cargarListaFacturasPendientes()
         {
-            String select = "SELECT fact_num, fact_empresa, fact_fecha_venc, fact_total FROM CONGESTION.Factura ";
-            String where = "WHERE fact_cliente = '" + Cliente.getId() + "'";
+            String consulta = "SELECT fact_num, fact_empresa, fact_fecha_venc, fact_total FROM CONGESTION.Factura "
+                            +"WHERE fact_cliente = " + Cliente.getId().ToString() ;
 
-            SqlDataReader dr = ClaseConexion.ResolverConsulta(select + where);
+            SqlDataReader dr = ClaseConexion.ResolverConsulta(consulta);
         
             while(dr.Read())
                 if (dr.GetDateTime(2) > Registro.fechaCobro)
@@ -84,6 +82,13 @@ namespace PagoAgilFrba.RegistroPago
             btnAgregar.Enabled = false;
 
             this.habilitarBotonGuardar();
+        }
+
+        private void AgregarFactura_Load(object sender, EventArgs e)
+        {
+            this.cargarHeader();
+            this.cargarListaFacturasPendientes();
+            btnAgregar.Enabled = true;
         }
     }
 }

@@ -122,7 +122,6 @@ namespace PagoAgilFrba.Rendicion
                     fila[0] = Convert.ToInt32(row.Cells[0].Value);
                     fila[1] = Convert.ToInt32(row.Cells[1].Value);
                     tabla.Rows.Add(fila);
-                    MessageBox.Show("dsa");
                     hayAlgunoSeleccionado = true;
                 }                
             }

@@ -258,6 +258,7 @@
             this.Name = "AgregarFactura";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pago de facturas";
+            this.Load += new System.EventHandler(this.AgregarFactura_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
