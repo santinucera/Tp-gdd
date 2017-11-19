@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace PagoAgilFrba.AbmFactura
 {
@@ -142,7 +143,9 @@ namespace PagoAgilFrba.AbmFactura
             txtCliente.Text = "";
             txtNumero.Text = "";
             selectorEmpresa.Text = "";
-            calendar.Value = DateTime.Now;
+
+            String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
+            calendar.Value = DateTime.ParseExact(fechaArchivo, "yyyy-dd-MM", null);
         }
 
         private void button2_Click(object sender, EventArgs e)
