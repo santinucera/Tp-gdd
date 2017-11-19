@@ -47,19 +47,26 @@ namespace PagoAgilFrba.Rendicion
 
         private void btnObtener_Click(object sender, EventArgs e)
         {
-            if (selectorEmpresa.SelectedItem != null)
+            try
             {
-                String[] stringSeparators = new String[] {","};
-                String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators,StringSplitOptions.RemoveEmptyEntries);
+                if (selectorEmpresa.SelectedItem != null)
+                {
+                    String[] stringSeparators = new String[] { "," };
+                    String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
 
-                
-                
-                cuitEmpresa = cuit[1].Trim();
-                cargarFacturas(this.leerFacturas());
+
+
+                    cuitEmpresa = cuit[1].Trim();
+                    cargarFacturas(this.leerFacturas());
+                }
+                else
+                {
+                    MessageBox.Show("Debe seleccionar una empresa");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Debe seleccionar una empresa");
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 

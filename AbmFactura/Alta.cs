@@ -69,7 +69,7 @@ namespace PagoAgilFrba.AbmFactura
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtCliente.Text) && String.IsNullOrWhiteSpace(txtNumero.Text) && String.IsNullOrWhiteSpace(selectorEmpresa.Text))
+            if (String.IsNullOrWhiteSpace(txtCliente.Text) && String.IsNullOrWhiteSpace(txtNumero.Text) && String.IsNullOrWhiteSpace(selectorEmpresa.Text) || selectorEmpresa.Text == "")
             {
                 MessageBox.Show("Debe completar todos los campos", "Error");
             }
@@ -84,7 +84,6 @@ namespace PagoAgilFrba.AbmFactura
                     try
                     {
                         this.guardarFactura();
-                        MessageBox.Show("Factura guardada correctamente", "Ok");
                         this.Close();
                         new Menu().Show();
                     }
@@ -131,6 +130,8 @@ namespace PagoAgilFrba.AbmFactura
                 cmd.Parameters.AddWithValue("@listaFacturas", tabla);
 
                 cmd.ExecuteReader().Close();
+
+                MessageBox.Show("Factura guardada correctamente", "Ok");
             }
             catch (Exception ex)
             {

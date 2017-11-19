@@ -13,8 +13,6 @@ namespace PagoAgilFrba
     class ClaseConexion
     {
         
-        
-
         static string server = ConfigurationManager.AppSettings["server"].ToString();
         static string user = ConfigurationManager.AppSettings["user"].ToString();
         static string password = ConfigurationManager.AppSettings["password"].ToString();
@@ -73,7 +71,6 @@ namespace PagoAgilFrba
             SqlConnection con = new SqlConnection();
             con.ConnectionString = "SERVER=" + server + "\\SQLSERVER2012;DATABASE=GD2C2017;UID=" + user + ";PASSWORD=" + password + ";";
             return con;
-
         }
     }
 }

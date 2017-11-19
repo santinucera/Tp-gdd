@@ -96,7 +96,6 @@ namespace PagoAgilFrba.AbmFactura
                 try
                 {
                     this.guardarFactura();
-                    MessageBox.Show("Factura guardada correctamente", "Ok");
                     this.Close();
                     new Listado().Show();
                 }
