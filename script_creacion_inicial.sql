@@ -1,6 +1,8 @@
 use GD2C2017
-
 GO
+CREATE SCHEMA CONGESTION
+GO
+
 create table CONGESTION.Funcionalidad(
 	func_id int identity PRIMARY KEY,
 	func_descripcion char(100) NULL
@@ -211,11 +213,6 @@ INSERT INTO CONGESTION.Factura_Registro(freg_factura,freg_registro)
 	SELECT DISTINCT Nro_Factura,Pago_nro
 	FROM gd_esquema.Maestra
 	WHERE Pago_nro is not null
-
-INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad)
-	SELECT DISTINCT Nro_Factura,ItemFactura_Monto,ItemFactura_Cantidad
-	FROM gd_esquema.Maestra
-
 
 INSERT INTO CONGESTION.Rol (rol_descripcion) VALUES ('Administrador');
 INSERT INTO CONGESTION.Rol (rol_descripcion) VALUES ('Cobrador');
