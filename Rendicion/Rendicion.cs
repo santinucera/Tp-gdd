@@ -115,52 +115,16 @@ namespace PagoAgilFrba.Rendicion
 
         private void btnRendir_Click(object sender, EventArgs e)
         {
-            SqlDataReader reader;
-            SqlCommand cmd = new SqlCommand("CONGESTION.sp_RendirFacturas", ClaseConexion.conexion);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@comision", txtComision.Text);
-            cmd.Parameters.AddWithValue("@cuit", cuitEmpresa);
-
-            DataTable tabla = new DataTable();
-            tabla.Columns.Add("numero", typeof(int));
-            tabla.Columns.Add("total", typeof(int));
-
-            DataRow fila;
-            Boolean hayAlgunoSeleccionado=false;
-
-            foreach(DataGridViewRow row in dgvFacturas.Rows){
-                if(Convert.ToBoolean(row.Cells[5].Value)){
-                    fila = tabla.NewRow();
-                    fila[0] = Convert.ToInt32(row.Cells[0].Value);
-                    fila[1] = Convert.ToInt32(row.Cells[1].Value);
-                    tabla.Rows.Add(fila);
-                    hayAlgunoSeleccionado = true;
-                }                
-            }
-
-            cmd.Parameters.AddWithValue("@listaFacturas", tabla);
-
-            if (hayAlgunoSeleccionado)
+            try
             {
-
-                try
-                {
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-
-                    this.Hide();
-                    MenuFuncionalidades form = new MenuFuncionalidades();
-                    form.Show();
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error");
-                }
-
+                this.rendir();
+                this.Hide();
+                MenuFuncionalidades form = new MenuFuncionalidades();
+                form.Show();
             }
-            else
+            catch (SqlException ex)
             {
-                MessageBox.Show("Debe seleccionar alguna factura");
+                MessageBox.Show(ex.Message, "Error");
             }
             
         }
@@ -172,6 +136,56 @@ namespace PagoAgilFrba.Rendicion
                 dgvFacturas.Rows.Clear();
                 selectorEmpresa.SelectedIndex = 0;
                 txtComision.Text = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void rendir()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("CONGESTION.sp_RendirFacturas", ClaseConexion.conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@comision", txtComision.Text);
+                cmd.Parameters.AddWithValue("@cuit", cuitEmpresa);
+
+                DataTable tabla = new DataTable();
+                tabla.Columns.Add("numero", typeof(int));
+                tabla.Columns.Add("total", typeof(int));
+
+                DataRow fila;
+                Boolean hayAlgunoSeleccionado = false;
+
+                foreach (DataGridViewRow row in dgvFacturas.Rows)
+                {
+                    if (Convert.ToBoolean(row.Cells[5].Value))
+                    {
+                        fila = tabla.NewRow();
+                        fila[0] = Convert.ToInt32(row.Cells[0].Value);
+                        fila[1] = Convert.ToInt32(row.Cells[1].Value);
+                        tabla.Rows.Add(fila);
+                        hayAlgunoSeleccionado = true;
+                    }
+                }
+
+                cmd.Parameters.AddWithValue("@listaFacturas", tabla);
+
+                if (hayAlgunoSeleccionado)
+                {
+                    cmd.ExecuteReader().Close();
+
+                    MessageBox.Show("Facturas rendidas correctamente", "Ok");
+
+                }
+                else
+                {
+                    MessageBox.Show("Debe seleccionar alguna factura");
+                }
+
+
             }
             catch (Exception ex)
             {

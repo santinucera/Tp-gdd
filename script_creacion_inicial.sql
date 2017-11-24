@@ -401,7 +401,7 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
-CREATE PROCEDURE CONGESTION.sp_modificarEmpresa(@cuitViejo NVARCHAR(50), @cuit NVARCHAR(50),@direccion NVARCHAR(255), @nombre NVARCHAR(255), @descripcionRubro VARCHAR(255))
+CREATE PROCEDURE CONGESTION.sp_modificarEmpresa(@cuitViejo NVARCHAR(50), @cuit NVARCHAR(50),@direccion NVARCHAR(255), @nombre NVARCHAR(255), @descripcionRubro VARCHAR(255),@dia int)
 AS
 	BEGIN TRANSACTION tr	--abro transaccion, asi modifica una empresa, y su vinculo con el rubro
 
@@ -413,7 +413,7 @@ AS
 		END
 
 		UPDATE CONGESTION.Empresa
-			SET empr_cuit = @cuit, empr_direccion = @direccion, empr_nombre = @nombre
+			SET empr_cuit = @cuit, empr_direccion = @direccion, empr_nombre = @nombre, empr_dia_rendicion = @dia
 			WHERE (empr_cuit = @cuitViejo)	
 
 		UPDATE CONGESTION.Empresa_Rubro
