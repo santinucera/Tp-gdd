@@ -40,7 +40,7 @@ namespace PagoAgilFrba.AbmFactura
 
         private SqlDataReader leerItems()
         {
-            return ClaseConexion.ResolverConsulta("select isnull(item_concepto,''),item_monto,item_cantidad from CONGESTION.Item_Factura where item_fact = " + numero.ToString());
+            return ClaseConexion.ResolverConsulta("select isnull(item_concepto,''),item_monto,item_cantidad from CONGESTION.Item_Factura where item_id = " + id.ToString());
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -87,7 +87,7 @@ namespace PagoAgilFrba.AbmFactura
             cmd.Parameters.AddWithValue("@monto", monto);
             cmd.Parameters.AddWithValue("@cantidad", cant);
             cmd.Parameters.AddWithValue("@concepto", txtConcepto.Text);
-
+            cmd.Parameters.AddWithValue("@id", id);
             cmd.ExecuteReader().Close();
         }
     }

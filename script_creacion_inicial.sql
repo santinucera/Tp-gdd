@@ -717,6 +717,8 @@ AS
 	INSERT INTO CONGESTION.Item_Factura(item_fact,item_monto,item_cantidad,item_concepto) 
 		VALUES (@numero,@monto,@cantidad,@concepto)
 		
+	UPDATE CONGESTION.Factura set fact_total = (select sum(item_cantidad*item_monto) from Item_Factura where item_fact=@numero) where fact_num = @numero
+
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRANSACTION tr
@@ -729,7 +731,7 @@ AS
 	COMMIT TRANSACTION tr
 GO
 
-CREATE PROCEDURE CONGESTION.sp_modificarItem(@numero int,@monto numeric(18,2),@cantidad numeric(18,0), @concepto char(50))
+CREATE PROCEDURE CONGESTION.sp_modificarItem(@numero int,@monto numeric(18,2),@cantidad numeric(18,0), @concepto char(50),@id int)
 AS
 	BEGIN TRANSACTION tr	
 
@@ -737,7 +739,9 @@ AS
 
 	EXEC CONGESTION.sp_ValidarModificacionFactura @numero 
 
-	UPDATE CONGESTION.Item_Factura SET item_monto = @monto, item_cantidad= @cantidad, item_concepto = @concepto where item_fact = @numero
+	UPDATE CONGESTION.Item_Factura SET item_monto = @monto, item_cantidad= @cantidad, item_concepto = @concepto where item_id = @id
+
+	UPDATE CONGESTION.Factura set fact_total = (select sum(item_cantidad*item_monto) from Item_Factura where item_fact=@numero) where fact_num = @numero
 
 	END TRY
 	BEGIN CATCH
@@ -760,6 +764,8 @@ AS
 	EXEC CONGESTION.sp_ValidarModificacionFactura @numero
 
 	DELETE FROM CONGESTION.Item_Factura where item_id = @id
+
+	UPDATE CONGESTION.Factura set fact_total = (select sum(item_cantidad*item_monto) from Item_Factura where item_fact=@numero) where fact_num = @numero
 		
 	END TRY
 	BEGIN CATCH
@@ -876,6 +882,7 @@ GO
 CREATE FUNCTION CONGESTION.FN_CALCULAR_PORCENTAJE_FACT_PAGADAS(@clie_id int,@periodo char(4), @trimestre int)
 RETURNS DECIMAL(5,2)
 AS
+
 BEGIN
 DECLARE @porcentaje DECIMAL(5,2)
  IF NOT EXISTS(SELECT * FROM CONGESTION.Factura WHERE fact_cliente = @clie_id
