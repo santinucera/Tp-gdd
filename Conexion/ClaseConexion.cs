@@ -32,11 +32,6 @@ namespace PagoAgilFrba
                 MessageBox.Show("No se pudo establecer la conexion a la base de datos." + e.Message);
             }
         }
-
-        public static void Desconectar()
-        {
-            conexion.Close();
-        }
        
         public static SqlDataReader ResolverConsulta(String query)
         {

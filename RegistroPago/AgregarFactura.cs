@@ -51,16 +51,18 @@ namespace PagoAgilFrba.RegistroPago
 
         private void cargarListaFacturasPendientes()
         {
+
             String consulta = "SELECT fact_num, fact_empresa, fact_fecha_venc, fact_total FROM CONGESTION.Factura "
-                            +"WHERE fact_cliente = " + Cliente.getId().ToString() ;
+                            +"WHERE fact_cliente = " + Cliente.getId().ToString().Trim() ;
 
-            SqlDataReader dr = ClaseConexion.ResolverConsulta(consulta);
-        
-            while(dr.Read())
-                if (dr.GetDateTime(2) > Registro.fechaCobro)
-                    listaFacturas.Items.Add(new CobroPendiente(dr.GetInt32(0),dr.GetInt32(1),dr.GetDateTime(2),dr.GetDecimal(3)));
+            
+            //SqlDataReader dr = ClaseConexion.ResolverConsulta(consulta);
 
-            dr.Close();
+            //while (dr.Read())
+            //    if (dr.GetDateTime(2).CompareTo(Registro.fechaCobro) > 0)
+            //        listaFacturas.Items.Add(new CobroPendiente(dr.GetInt32(0), dr.GetInt32(1), dr.GetDateTime(2), dr.GetDecimal(3)));
+
+            //dr.Close();
         }
 
         private void habilitarBotonGuardar()
@@ -71,7 +73,8 @@ namespace PagoAgilFrba.RegistroPago
 
         private void listaFacturas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.btnAgregar.Enabled = true;
+            if(listaFacturas.Items.Count > 0)
+                this.btnAgregar.Enabled = true;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
