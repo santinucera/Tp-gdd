@@ -64,7 +64,7 @@ namespace PagoAgilFrba
         public static SqlConnection getConnection()
         {
             SqlConnection con = new SqlConnection();
-            con.ConnectionString = "SERVER=" + server + "\\SQLSERVER2012;DATABASE=GD2C2017;UID=" + user + ";PASSWORD=" + password + ";";
+            con.ConnectionString = "SERVER=" + server + "\\SQLSERVER2012;DATABASE=GD2C2017;UID=" + user + ";PASSWORD=" + password + ";" + "MultipleActiveResultSets=True";
             return con;
         }
     }
