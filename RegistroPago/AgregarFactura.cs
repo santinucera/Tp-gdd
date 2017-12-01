@@ -20,7 +20,6 @@ namespace PagoAgilFrba.RegistroPago
             InitializeComponent();
 
             this.parent = parent;
-            this.cargarListaFacturasPendientes();
         }
 
         private void guardar_Click(object sender, EventArgs e)
@@ -58,19 +57,36 @@ namespace PagoAgilFrba.RegistroPago
 
             SqlDataReader dr = ClaseConexion.ResolverConsulta(consulta);
 
-            //dr.Read();
-            //listaFacturas.Items.Add(new CobroPendiente(dr.GetInt32(0), dr.GetInt32(1), dr.GetDateTime(2), dr.GetDecimal(3)));
-            //dr.Close();
-
             while (dr.Read())
             {
-                if (dr.GetDateTime(2).CompareTo(Registro.fechaCobro) <= 0)
+                if (this.validarEntradaDelReader(dr))
                 {
                     listaFacturas.Items.Add(new CobroPendiente(dr.GetInt32(0), dr.GetInt32(1), dr.GetDateTime(2), dr.GetDecimal(3)));
                 }
             }
 
             dr.Close();
+        }
+
+        private Boolean validarEntradaDelReader(SqlDataReader dr)
+        {
+            Boolean fechaCorrecta = dr.GetDateTime(2).CompareTo(Registro.fechaCobro) <= 0;
+            Boolean importeCorrecto = dr.GetDecimal(3) > 0;
+
+            return fechaCorrecta && importeCorrecto && this.facturaImpagaDe(dr);
+        }
+
+        private Boolean facturaImpagaDe(SqlDataReader dr)
+        {
+            SqlDataReader drAux = ClaseConexion.ResolverConsulta("SELECT COUNT(*) FROM CONGESTION.Factura_Registro WHERE freg_factura = "+ dr.GetInt32(0));
+
+            drAux.Read();
+
+            int resultado = drAux.GetInt32(0);
+
+            drAux.Close();
+
+            return !Convert.ToBoolean(resultado);
         }
 
         private void habilitarBotonGuardar()
