@@ -54,7 +54,7 @@ namespace PagoAgilFrba.AbmFactura
                                                     +"(SELECT clie_nombre from CONGESTION.Cliente WHERE clie_id = fact_cliente),"
                                                     +"(SELECT empr_nombre from CONGESTION.Empresa WHERE empr_id = fact_empresa),"
                                                     + "fact_fecha_alta,fact_fecha_venc,"
-                                                    + "isnull((SELECT freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num),0)"
+                                                    + "isnull((SELECT distinct freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num),0)"
                                                     + ",isnull(fact_rendicion,0),"
                                                     + "(SELECT clie_apellido from CONGESTION.Cliente WHERE clie_id = fact_cliente)"
                                                     +" from CONGESTION.Factura ");
@@ -128,10 +128,8 @@ namespace PagoAgilFrba.AbmFactura
                 cuit= "";
             }
 
-            MessageBox.Show(txtNumero.Text);
-
             String consulta = "select DISTINCT fact_num, fact_total,clie_nombre ,empr_nombre,fact_fecha_alta,fact_fecha_venc,"
-                                + "isnull((SELECT freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num),0)"
+                                + "isnull((SELECT DISTINCT freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num),0)"
                                 + ",isnull(fact_rendicion,0),clie_apellido"
                                 + " from CONGESTION.Factura join CONGESTION.Cliente on (clie_id = fact_cliente)"
                                 + "join CONGESTION.Empresa on (empr_id = fact_empresa)"
