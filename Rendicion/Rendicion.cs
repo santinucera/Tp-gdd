@@ -107,8 +107,16 @@ namespace PagoAgilFrba.Rendicion
             {
                 if (columnIndex == 6)
                 {
-                    dgvFacturas.Rows[rowIndex].Cells[5].Value = true;
-                    dgvFacturas.Rows[rowIndex].Cells[6].Value= "Deseleccionar";
+                    if ((Boolean)dgvFacturas.Rows[rowIndex].Cells[5].Value)
+                    {
+                        dgvFacturas.Rows[rowIndex].Cells[5].Value = false;
+                        dgvFacturas.Rows[rowIndex].Cells[6].Value = "Seleccionar";
+                    }
+                    else
+                    {
+                        dgvFacturas.Rows[rowIndex].Cells[5].Value = true;
+                        dgvFacturas.Rows[rowIndex].Cells[6].Value = "Deseleccionar";
+                    }
                 }
             }
         }
