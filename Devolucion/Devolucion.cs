@@ -44,7 +44,7 @@ namespace PagoAgilFrba.Devolucion
                                                 +"reg_fecha_cobro from CONGESTION.Factura "
                                                 +"join CONGESTION.Factura_Registro on (fact_num = freg_factura) "
                                                 +"join CONGESTION.Registro on (freg_registro = reg_id)"
-                                                +"where freg_devolucion is null");
+                                                +"where freg_devolucion is null and fact_rendicion is null");
         }
 
         private void dgvFacturas_CellContentClick(object sender, DataGridViewCellEventArgs e)
