@@ -50,7 +50,10 @@ namespace PagoAgilFrba.AbmFactura
         private void Alta_Load(object sender, EventArgs e)
         {
             cargarEmpresas(this.leerEmpresas());
-            calendar.MinDate= DateTime.Now;
+            String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
+            DateTime dt = DateTime.ParseExact(fechaArchivo, "dd-MM-yyyy", null);
+
+            calendar.MinDate = dt;
         }
 
         private void cargarEmpresas(SqlDataReader reader)
@@ -69,7 +72,7 @@ namespace PagoAgilFrba.AbmFactura
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtCliente.Text) && String.IsNullOrWhiteSpace(txtNumero.Text) && String.IsNullOrWhiteSpace(selectorEmpresa.Text) || selectorEmpresa.Text == "")
+            if (String.IsNullOrWhiteSpace(txtCliente.Text) || String.IsNullOrWhiteSpace(txtNumero.Text) || String.IsNullOrWhiteSpace(selectorEmpresa.Text) || selectorEmpresa.Text == "")
             {
                 MessageBox.Show("Debe completar todos los campos", "Error");
             }
@@ -103,6 +106,8 @@ namespace PagoAgilFrba.AbmFactura
                 String[] stringSeparators = new String[] { "," };
                 String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
                 int dni = Int32.Parse(txtCliente.Text);
+                String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
+                DateTime dt = DateTime.ParseExact(fechaArchivo, "dd-MM-yyyy", null);
 
                 SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarFactura", ClaseConexion.conexion);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -110,6 +115,7 @@ namespace PagoAgilFrba.AbmFactura
                 cmd.Parameters.AddWithValue("@dni", dni.ToString());
                 cmd.Parameters.AddWithValue("@cuit", cuit[1].Trim());
                 cmd.Parameters.AddWithValue("@fechaVen", calendar.Value);
+                cmd.Parameters.AddWithValue("@fechaAlta",dt);
 
                 DataTable tabla = new DataTable();
                 tabla.Columns.Add("monto", typeof(int));

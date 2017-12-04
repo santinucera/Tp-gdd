@@ -36,6 +36,7 @@ namespace PagoAgilFrba.AbmFactura
         {
             cargarEmpresas(leerEmpresas());
             cargarFacturas(leerFacturas());
+            dtpVencimiento.MinDate = dtmAlta.Value;
         }
 
         private void cargarFacturas(SqlDataReader reader)
@@ -80,6 +81,8 @@ namespace PagoAgilFrba.AbmFactura
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             cargarFacturas(leerFacturas());
+            txtCliente.Text = "";
+            comboBox1.Text = "";
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)

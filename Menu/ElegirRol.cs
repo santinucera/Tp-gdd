@@ -86,7 +86,7 @@ namespace PagoAgilFrba.Menu
             String select = "SELECT suc_nombre FROM CONGESTION.Sucursal";
             String joinSucUser = " JOIN CONGESTION.Usuario_Sucursal on (usuc_sucursal = suc_id)";
             String joinUser = " JOIN CONGESTION.Usuario on (usuc_usuario = usua_id)";
-            String where = " WHERE usua_username = '" + Program.username + "'";
+            String where = " WHERE usua_username = '" + Program.username + "' and suc_habilitado=1";
 
             SqlDataReader dr = ClaseConexion.ResolverConsulta(select + joinSucUser + joinUser + where);
 

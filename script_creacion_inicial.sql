@@ -148,7 +148,7 @@ INSERT INTO CONGESTION.Sucursal(suc_nombre, suc_direccion, suc_codPostal)
 INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_mail, clie_codPostal, clie_fecNac)
 	SELECT DISTINCT [Cliente-Nombre], [Cliente-Apellido], [Cliente-Dni], [Cliente_Direccion], [Cliente_Mail], Cliente_Codigo_Postal, [Cliente-Fecha_Nac]
 	FROM gd_esquema.Maestra
-	
+
 INSERT INTO CONGESTION.Rubro (rub_id,rub_descripcion)
 	SELECT DISTINCT Empresa_Rubro,Rubro_Descripcion
 	FROM gd_esquema.Maestra
@@ -608,7 +608,7 @@ AS
 		set @porcentaje = (@comision * 100.00)/@total
 		
 		INSERT INTO CONGESTION.Rendicion(rend_numero,rend_comision,rend_cantidad_facturas,rend_fecha,rend_total,rend_porcentaje_comision) 
-			VALUES (@rendNumero,@comision,@CantidadDeFacturas,GETDATE(),@total,@porcentaje)
+			VALUES (@rendNumero,@comision,@CantidadDeFacturas,GETDATE(),@total-@porcentaje,@porcentaje)
 
 		OPEN cursorFacturas
 		FETCH cursorFacturas INTO @numeroFactura
@@ -655,7 +655,7 @@ AS
 GO
 
 
-CREATE PROCEDURE CONGESTION.sp_guardarFactura(@listaFacturas listaItemsFactura readonly,@numero int,@cuit NVARCHAR(50),@dni numeric(18,0),@fechaVen datetime)
+CREATE PROCEDURE CONGESTION.sp_guardarFactura(@listaFacturas listaItemsFactura readonly,@numero int,@cuit NVARCHAR(50),@dni numeric(18,0),@fechaVen datetime,@fechaAlta datetime)
 AS
 	BEGIN TRANSACTION tr	
 
@@ -682,7 +682,7 @@ AS
 		SELECT @empresa = empr_id FROM CONGESTION.Empresa where empr_cuit = @cuit
 		
 		INSERT INTO CONGESTION.Factura(fact_num,fact_cliente,fact_empresa,fact_fecha_alta,fact_fecha_venc,fact_total) 
-		VALUES (@numero,@cliente,@empresa,GETDATE(),@fechaVen,@total)
+		VALUES (@numero,@cliente,@empresa,@fechaAlta,@fechaVen,@total)
 
 
 

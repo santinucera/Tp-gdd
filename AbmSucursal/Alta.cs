@@ -34,6 +34,10 @@ namespace PagoAgilFrba.AbmSucursal
             {
                 MessageBox.Show("Debe completar todos los campos", "Error");
             }
+            else if(DateTime.Compare()){
+            
+            }
+
             else
             {
                 try

@@ -42,7 +42,7 @@ namespace PagoAgilFrba.Rendicion
 
             DateTime dt = DateTime.ParseExact(fechaArchivo, "dd-MM-yyyy", null);
 
-            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_cuit from CONGESTION.Empresa where " + dt.Day + " = empr_dia_rendicion ");
+            return ClaseConexion.ResolverConsulta("select empr_nombre,empr_cuit from CONGESTION.Empresa where " + dt.Day + " = empr_dia_rendicion and empr_habilitado=1 ");
         }
 
         private void btnObtener_Click(object sender, EventArgs e)

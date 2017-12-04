@@ -106,6 +106,7 @@
             // txtMonto
             // 
             this.txtMonto.Location = new System.Drawing.Point(147, 137);
+            this.txtMonto.Mask = "999999";
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(100, 20);
             this.txtMonto.TabIndex = 22;
