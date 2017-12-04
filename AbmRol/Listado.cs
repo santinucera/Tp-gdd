@@ -32,7 +32,17 @@ namespace PagoAgilFrba.AbmRol
         {
             while (reader.Read())
             {
-                dgvRoles.Rows.Add(reader.GetString(0).Trim(), reader.GetBoolean(1), "Modificar","Baja");
+                string baja;
+                if (reader.GetBoolean(1))
+                {
+                    baja= "Baja";
+                }
+                else
+                {
+                    baja = "Habilitar";
+                }
+
+                dgvRoles.Rows.Add(reader.GetString(0).Trim(), reader.GetBoolean(1), "Modificar",baja);
             }
             
             reader.Close();
@@ -46,7 +56,7 @@ namespace PagoAgilFrba.AbmRol
             if (dgvRoles.RowCount > 1)  //comprueba que haya roles para mostrar y carga columna por columna
             {
 
-                String descripcion = dgvRoles.Rows[rowIndex].Cells[0].Value.ToString(); 
+                String descripcion = dgvRoles.Rows[rowIndex].Cells[0].Value.ToString();
                 DataGridViewCheckBoxCell cB = dgvRoles.Rows[rowIndex].Cells["Habilitado"] as DataGridViewCheckBoxCell;
                 bool habilitacion = !Convert.ToBoolean(cB.Value);
 
@@ -58,7 +68,7 @@ namespace PagoAgilFrba.AbmRol
                 }
                 else if (columnIndex == 3)
                 {
-                    AbmRol.Baja form = new Baja(descripcion);
+                    AbmRol.Baja form = new Baja(descripcion,!habilitacion);
                     form.Show();
                     this.Hide();
                 }

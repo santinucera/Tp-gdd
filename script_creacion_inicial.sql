@@ -539,6 +539,46 @@ SELECT @IdRol = rol_id FROM CONGESTION.Rol WHERE rol_descripcion = @nombreRol
  GO
 
 
+CREATE TRIGGER CONGESTION.SacarRolesAUsaurios
+ON CONGESTION.Rol
+AFTER UPDATE
+AS 
+BEGIN    
+	DECLARE @anterior BIT
+	DECLARE @actual BIT
+	DECLARE @idRol int 
+
+	Declare c1 cursor for select rol_id,rol_habilitado from Deleted
+	Declare c2 cursor for select rol_habilitado from Inserted
+
+	OPEN c1
+	OPEN c2
+	FETCH c1 INTO @idRol,@anterior
+	FETCH c2 INTO @actual	
+		
+	WHILE(@@FETCH_STATUS = 0)
+	BEGIN
+		if @anterior=1 and @actual=0
+		begin
+			delete from CONGESTION.Rol_Usuario where ru_rol = @idRol
+		end
+
+		FETCH c1 INTO @idRol,@anterior
+		FETCH c2 INTO @actual	
+			
+	END
+
+	CLOSE c1
+	close c2
+	DEALLOCATE c1
+	deallocate c2
+
+	
+END 
+GO
+
+
+
  CREATE TYPE [CONGESTION].listaFacturas AS TABLE(
 	[numero] int,
 	[total] int

@@ -13,11 +13,14 @@ namespace PagoAgilFrba.AbmRol
 {
     public partial class Baja : Form
     {
-        public Baja(string nombre)
+        public Baja(string nombre,Boolean habilitado)
         {
+            estaHabilitado = habilitado;
             InitializeComponent();
             labelNombre.Text = nombre;
         }
+
+        private Boolean estaHabilitado;
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -39,6 +42,16 @@ namespace PagoAgilFrba.AbmRol
         private void Baja_Load(object sender, EventArgs e)
         {
             cargarFunciones(this.leerFunciones());
+
+            if (estaHabilitado)
+            {
+                btnBaja.Text = "Dar baja";
+            }
+            else
+            {
+                btnBaja.Text = "Habilitar";
+            }
+
         }
 
         private SqlDataReader leerFunciones()
@@ -67,12 +80,26 @@ namespace PagoAgilFrba.AbmRol
         {
             //a traves del numRegs verifica que se haya cambiado una fila en la bd cuando quiere deshabilitar ese rol
 
-            int numRegs = ClaseConexion.ResolverNonQuery("UPDATE CONGESTION.Rol SET rol_habilitado = 'FALSE' WHERE rol_descripcion = '"
-                + labelNombre.Text + "'");
+            string consulta;
+
+            if (estaHabilitado)
+            {
+                consulta= "UPDATE CONGESTION.Rol SET rol_habilitado = 0 WHERE rol_descripcion = '"
+                + labelNombre.Text + "'";
+            }
+            else
+            {
+                consulta= "UPDATE CONGESTION.Rol SET rol_habilitado = 1 WHERE rol_descripcion = '"
+                + labelNombre.Text + "'";
+            }
+
+
+
+            int numRegs = ClaseConexion.ResolverNonQuery(consulta);
 
             if (numRegs == 0)
             {
-                MessageBox.Show("No se pudo dar de baja");
+                MessageBox.Show("No se pudo modificar estado");
             }
             else
             {
