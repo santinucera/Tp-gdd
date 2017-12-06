@@ -80,7 +80,9 @@ namespace PagoAgilFrba.AbmFactura
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            dtpVencimiento.MinDate = dtmAlta.Value;
             cargarFacturas(leerFacturas());
+            dtpVencimiento.MinDate = dtmAlta.Value.AddDays(1);
             txtCliente.Text = "";
             comboBox1.Text = "";
         }
