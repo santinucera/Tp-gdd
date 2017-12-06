@@ -50,10 +50,11 @@ namespace PagoAgilFrba.AbmFactura
         private void Alta_Load(object sender, EventArgs e)
         {
             cargarEmpresas(this.leerEmpresas());
+
             String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
             DateTime dt = DateTime.ParseExact(fechaArchivo, "dd-MM-yyyy", null);
 
-            calendar.MinDate = dt;
+            calendar.MinDate = dt.AddDays(1);
         }
 
         private void cargarEmpresas(SqlDataReader reader)
@@ -76,6 +77,7 @@ namespace PagoAgilFrba.AbmFactura
             {
                 MessageBox.Show("Debe completar todos los campos", "Error");
             }
+
             else
             {
                 if(!listaItems.Any())
@@ -101,48 +103,48 @@ namespace PagoAgilFrba.AbmFactura
 
         private void guardarFactura()
         {
-            try
-            {
-                String[] stringSeparators = new String[] { "," };
-                String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-                int dni = Int32.Parse(txtCliente.Text);
-                String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
-                DateTime dt = DateTime.ParseExact(fechaArchivo, "dd-MM-yyyy", null);
-
-                SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarFactura", ClaseConexion.conexion);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@numero", txtNumero.Text);
-                cmd.Parameters.AddWithValue("@dni", dni.ToString());
-                cmd.Parameters.AddWithValue("@cuit", cuit[1].Trim());
-                cmd.Parameters.AddWithValue("@fechaVen", calendar.Value);
-                cmd.Parameters.AddWithValue("@fechaAlta",dt);
-
-                DataTable tabla = new DataTable();
-                tabla.Columns.Add("monto", typeof(int));
-                tabla.Columns.Add("cantidad", typeof(int));
-                tabla.Columns.Add("concepto", typeof(String));
-
-                DataRow fila;
-
-                foreach (Item item in listaItems)
+            
+                try
                 {
-                    fila = tabla.NewRow();
-                    fila[0] = item.monto;
-                    fila[1] = item.cantidad;
-                    fila[2] = item.concepto;
-                    tabla.Rows.Add(fila);
+                    String[] stringSeparators = new String[] { "," };
+                    String[] cuit = selectorEmpresa.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+                    int dni = Int32.Parse(txtCliente.Text);
+                    DateTime fechaSistema = DateTime.ParseExact(ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd(), "dd-MM-yyyy", null);
+
+                    SqlCommand cmd = new SqlCommand("CONGESTION.sp_guardarFactura", ClaseConexion.conexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@numero", txtNumero.Text);
+                    cmd.Parameters.AddWithValue("@dni", dni.ToString());
+                    cmd.Parameters.AddWithValue("@cuit", cuit[1].Trim());
+                    cmd.Parameters.AddWithValue("@fechaVen", calendar.Value);
+                    cmd.Parameters.AddWithValue("@fechaAlta", fechaSistema);
+
+                    DataTable tabla = new DataTable();
+                    tabla.Columns.Add("monto", typeof(int));
+                    tabla.Columns.Add("cantidad", typeof(int));
+                    tabla.Columns.Add("concepto", typeof(String));
+
+                    DataRow fila;
+
+                    foreach (Item item in listaItems)
+                    {
+                        fila = tabla.NewRow();
+                        fila[0] = item.monto;
+                        fila[1] = item.cantidad;
+                        fila[2] = item.concepto;
+                        tabla.Rows.Add(fila);
+                    }
+
+                    cmd.Parameters.AddWithValue("@listaFacturas", tabla);
+
+                    cmd.ExecuteReader().Close();
+
+                    MessageBox.Show("Factura guardada correctamente", "Ok");
                 }
-
-                cmd.Parameters.AddWithValue("@listaFacturas", tabla);
-
-                cmd.ExecuteReader().Close();
-
-                MessageBox.Show("Factura guardada correctamente", "Ok");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -150,9 +152,6 @@ namespace PagoAgilFrba.AbmFactura
             txtCliente.Text = "";
             txtNumero.Text = "";
             selectorEmpresa.Text = "";
-
-            String fechaArchivo = ConfigurationManager.AppSettings["current_date"].ToString().TrimEnd();
-            calendar.Value = DateTime.ParseExact(fechaArchivo, "dd-MM-yyyy", null);
         }
 
         private void button2_Click(object sender, EventArgs e)
