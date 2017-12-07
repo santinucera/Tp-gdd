@@ -36,7 +36,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblApellido = new System.Windows.Forms.Label();
-            this.btnGuardar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
@@ -130,18 +129,6 @@
             this.lblApellido.Size = new System.Drawing.Size(16, 17);
             this.lblApellido.TabIndex = 11;
             this.lblApellido.Text = "_";
-            // 
-            // btnGuardar
-            // 
-            this.btnGuardar.Enabled = false;
-            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardar.Location = new System.Drawing.Point(141, 337);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(265, 38);
-            this.btnGuardar.TabIndex = 12;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.guardar_Click);
             // 
             // btnVolver
             // 
@@ -252,7 +239,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnVolver);
-            this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "AgregarFactura";
@@ -280,7 +266,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblApellido;
-        private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label6;

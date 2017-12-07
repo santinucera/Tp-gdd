@@ -43,7 +43,7 @@ namespace PagoAgilFrba.AbmEmpresa
                 }
                 catch (SqlException ex)
                 {
-                    MessageBox.Show(ex.Message, "Error");
+                    MessageBox.Show("Existe empresa con mismo CUIT", "Error");
                 }
             }
         }

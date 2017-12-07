@@ -30,6 +30,7 @@ namespace PagoAgilFrba.RegistroPago
 
         private void volver_Click(object sender, EventArgs e)
         {
+            this.parent.refrescarListaCobrosPendientes();
             this.Close();
         }
 
@@ -52,8 +53,9 @@ namespace PagoAgilFrba.RegistroPago
         {
 
             String consulta = "SELECT fact_num, fact_empresa, fact_fecha_venc, fact_total FROM CONGESTION.Factura "
-                            +"WHERE fact_cliente = " + Cliente.getId().ToString().Trim() ;
-
+                + "join CONGESTION.Empresa on (empr_id = fact_empresa) "
+                + "WHERE fact_cliente = " + Cliente.getId().ToString().Trim()
+                + " and empr_habilitado=1";
 
             SqlDataReader dr = ClaseConexion.ResolverConsulta(consulta);
 
@@ -72,8 +74,8 @@ namespace PagoAgilFrba.RegistroPago
         {
             Boolean fechaCorrecta = dr.GetDateTime(2).CompareTo(Registro.fechaCobro) <= 0;
             Boolean importeCorrecto = dr.GetDecimal(3) > 0;
-
-            return fechaCorrecta && importeCorrecto && this.facturaImpagaDe(dr);
+            Boolean noFueAgregada = !Registro.cobrosPendientes.Any(reg => reg.getFactura() == dr.GetInt32(1));
+            return fechaCorrecta && importeCorrecto && this.facturaImpagaDe(dr) && noFueAgregada;
         }
 
         private Boolean facturaImpagaDe(SqlDataReader dr)
@@ -117,8 +119,8 @@ namespace PagoAgilFrba.RegistroPago
 
         private void habilitarBotonGuardar()
         {
-            if (Registro.cobrosPendientes.Count() > 0)
-                this.btnGuardar.Enabled = true;
+            
+                
         }
 
         private void listaFacturas_SelectedIndexChanged(object sender, EventArgs e)

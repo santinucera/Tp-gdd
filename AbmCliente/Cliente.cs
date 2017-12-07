@@ -32,7 +32,7 @@ namespace PagoAgilFrba.AbmCliente
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtNombre.Text == "" || txtTelefono.Text == "" || txtMail.Text == "" || txtCodigoPostal.Text == "")
+            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtNombre.Text == "" || txtMail.Text == "" || txtCodigoPostal.Text == "")
             {
                 MessageBox.Show("Completar campos");
                 return;
@@ -56,6 +56,11 @@ namespace PagoAgilFrba.AbmCliente
             int nro2 = leer2.GetInt32(leer2.GetOrdinal("NRO"));
             leer2.Close();
             
+            if(nro2!=0 && dni.ToString() != txtDni.Text)
+            {
+                MessageBox.Show("DNI ya existente");
+                return;
+            }
             
 
             try
@@ -185,7 +190,7 @@ namespace PagoAgilFrba.AbmCliente
 
         private void btnDarAlta_Click(object sender, EventArgs e)
         {
-            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtNombre.Text == "" || txtTelefono.Text == "" || txtMail.Text == "" || txtCodigoPostal.Text == "")
+            if (txtApellido.Text == "" || txtDireccion.Text == "" || txtDni.Text == "" || txtNombre.Text == "" || txtMail.Text == "" || txtCodigoPostal.Text == "")
             {
                 MessageBox.Show("Completar campos");
                 return;

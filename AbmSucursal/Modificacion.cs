@@ -46,7 +46,7 @@ namespace PagoAgilFrba.AbmSucursal
                 }
                 catch (SqlException ex)
                 {
-                    MessageBox.Show(ex.Message, "Error");
+                    MessageBox.Show("Existe sucursal con mismo codigo postal", "Error");
                 }
             }
         }
