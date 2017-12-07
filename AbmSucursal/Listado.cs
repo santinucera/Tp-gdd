@@ -61,25 +61,21 @@ namespace PagoAgilFrba.AbmSucursal
             int columnIndex = dgvSucursales.CurrentCell.ColumnIndex;
             int rowIndex = dgvSucursales.CurrentCell.RowIndex;
 
-            if (dgvSucursales.RowCount > 1)
-            {
-                String codigo = dgvSucursales.Rows[rowIndex].Cells[2].Value.ToString();
-                String direccion = dgvSucursales.Rows[rowIndex].Cells[1].Value.ToString();
-                String nombre = dgvSucursales.Rows[rowIndex].Cells[0].Value.ToString();
+            String codigo = dgvSucursales.Rows[rowIndex].Cells[2].Value.ToString();
+            String direccion = dgvSucursales.Rows[rowIndex].Cells[1].Value.ToString();
+            String nombre = dgvSucursales.Rows[rowIndex].Cells[0].Value.ToString();
                 
-                if(columnIndex == 4){//columna modificar
-                    AbmSucursal.Modificacion form = new Modificacion(codigo,direccion,nombre);
-                    form.Show();
-                    this.Hide();
-                }
-                else if (columnIndex == 5){//columna baja
-                    
-                    Boolean baja= (Boolean)dgvSucursales.Rows[rowIndex].Cells[3].Value;
-
-                    AbmSucursal.Baja form = new Baja(codigo, direccion, nombre,baja);
-                    form.Show();
-                    this.Hide();
-                }
+            if(columnIndex == 4){//columna modificar
+                AbmSucursal.Modificacion form = new Modificacion(codigo,direccion,nombre);
+                form.Show();
+                this.Hide();
+            }
+            else if (columnIndex == 5){//columna baja
+                Boolean baja= (Boolean)dgvSucursales.Rows[rowIndex].Cells[3].Value;
+                AbmSucursal.Baja form = new Baja(codigo, direccion, nombre,baja);
+                form.Show();
+                this.Hide();
+            
             }
         }
 

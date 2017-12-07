@@ -55,26 +55,23 @@ namespace PagoAgilFrba.AbmRol
         {
             int columnIndex = dgvRoles.CurrentCell.ColumnIndex;
             int rowIndex = dgvRoles.CurrentCell.RowIndex;
-            if (dgvRoles.RowCount > 1)  //comprueba que haya roles para mostrar y carga columna por columna
+            String descripcion = dgvRoles.Rows[rowIndex].Cells[0].Value.ToString();
+            DataGridViewCheckBoxCell cB = dgvRoles.Rows[rowIndex].Cells["Habilitado"] as DataGridViewCheckBoxCell;
+            bool habilitacion = !Convert.ToBoolean(cB.Value);
+
+            if (columnIndex == 2)
             {
-
-                String descripcion = dgvRoles.Rows[rowIndex].Cells[0].Value.ToString();
-                DataGridViewCheckBoxCell cB = dgvRoles.Rows[rowIndex].Cells["Habilitado"] as DataGridViewCheckBoxCell;
-                bool habilitacion = !Convert.ToBoolean(cB.Value);
-
-                if (columnIndex == 2)
-                {
-                    AbmRol.Modificacion form = new Modificacion(descripcion,habilitacion);
-                    form.Show();
-                    this.Hide();
-                }
-                else if (columnIndex == 3)
-                {
-                    AbmRol.Baja form = new Baja(descripcion,!habilitacion);
-                    form.Show();
-                    this.Hide();
-                }
+                AbmRol.Modificacion form = new Modificacion(descripcion,habilitacion);
+                form.Show();
+                this.Hide();
             }
+            else if (columnIndex == 3)
+            {
+                AbmRol.Baja form = new Baja(descripcion,!habilitacion);
+                form.Show();
+                this.Hide();
+            }
+
         }
 
         private void btnVolver_Click(object sender, EventArgs e)

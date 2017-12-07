@@ -54,7 +54,7 @@ namespace PagoAgilFrba.AbmFactura
                                                     +"(SELECT clie_nombre from CONGESTION.Cliente WHERE clie_id = fact_cliente),"
                                                     +"(SELECT empr_nombre from CONGESTION.Empresa WHERE empr_id = fact_empresa),"
                                                     + "fact_fecha_alta,fact_fecha_venc,"
-                                                    + "isnull((SELECT distinct freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num),0)"
+                                                    + "isnull((SELECT distinct freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num and freg_devolucion is null ),0)"
                                                     + ",isnull(fact_rendicion,0),"
                                                     + "(SELECT clie_apellido from CONGESTION.Cliente WHERE clie_id = fact_cliente)"
                                                     +" from CONGESTION.Factura ");
@@ -79,30 +79,28 @@ namespace PagoAgilFrba.AbmFactura
             int columnIndex = dgvFacturas.CurrentCell.ColumnIndex;
             int rowIndex = dgvFacturas.CurrentCell.RowIndex;
 
-            if (dgvFacturas.RowCount > 1)
-            {
-                int numero = (int)dgvFacturas.Rows[rowIndex].Cells[0].Value;
-                Boolean estaPagaORendida = (Boolean)dgvFacturas.Rows[rowIndex].Cells[7].Value || (Boolean)dgvFacturas.Rows[rowIndex].Cells[8].Value;
+            int numero = (int)dgvFacturas.Rows[rowIndex].Cells[0].Value;
+            Boolean estaPagaORendida = (Boolean)dgvFacturas.Rows[rowIndex].Cells[7].Value || (Boolean)dgvFacturas.Rows[rowIndex].Cells[8].Value;
                 
-                if (columnIndex == 6)
-                {//columna items
-                    AbmFactura.Items form= new Items(numero);
-                    form.Show();
-                    this.Hide();
-                }
-                else if (columnIndex == 9 && !estaPagaORendida)
-                {//columna baja
-                    AbmFactura.Modificacion form = new Modificacion(numero);
-                    form.Show();
-                    this.Hide();
-                }
-                else if (columnIndex == 10 && !estaPagaORendida)
-                {//columna baja
-                    AbmFactura.Baja form = new Baja(numero);
-                    form.Show();
-                    this.Hide();
-                }
+            if (columnIndex == 6)
+            {//columna items
+                AbmFactura.Items form= new Items(numero);
+                form.Show();
+                this.Hide();
             }
+            else if (columnIndex == 9 && !estaPagaORendida)
+            {//columna baja
+                AbmFactura.Modificacion form = new Modificacion(numero);
+                form.Show();
+                this.Hide();
+            }
+            else if (columnIndex == 10 && !estaPagaORendida)
+            {//columna baja
+                AbmFactura.Baja form = new Baja(numero);
+                form.Show();
+                this.Hide();
+            }
+            
         }
 
         private void btnLimpiar_Click_1(object sender, EventArgs e)

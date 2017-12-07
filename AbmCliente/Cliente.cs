@@ -208,5 +208,10 @@ namespace PagoAgilFrba.AbmCliente
                 MessageBox.Show("Ingresar todos los datos. Error: "+ ex.Message);
             }
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

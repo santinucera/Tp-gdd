@@ -52,29 +52,27 @@ namespace PagoAgilFrba.Devolucion
             int columnIndex = dgvFacturas.CurrentCell.ColumnIndex;
             int rowIndex = dgvFacturas.CurrentCell.RowIndex;
 
-            if (dgvFacturas.RowCount > 1)
+            if (columnIndex == 7)
             {
-                if (columnIndex == 7)
+                if (!(Boolean)dgvFacturas.Rows[rowIndex].Cells[6].Value)
                 {
-                    if (!(Boolean)dgvFacturas.Rows[rowIndex].Cells[6].Value)
+                    foreach (DataGridViewRow row in dgvFacturas.Rows)
                     {
-                       foreach (DataGridViewRow row in dgvFacturas.Rows)
+                        if (Convert.ToBoolean(row.Cells[6].Value))
                         {
-                            if (Convert.ToBoolean(row.Cells[6].Value))
-                            {
-                                row.Cells[6].Value = false;
-                                row.Cells[7].Value = "Seleccionar";
-                            }
+                            row.Cells[6].Value = false;
+                            row.Cells[7].Value = "Seleccionar";
                         }
-
-                       dgvFacturas.Rows[rowIndex].Cells[6].Value = true;
-                       dgvFacturas.Rows[rowIndex].Cells[7].Value = "Deseleccionar";
-
                     }
 
-                    
+                    dgvFacturas.Rows[rowIndex].Cells[6].Value = true;
+                    dgvFacturas.Rows[rowIndex].Cells[7].Value = "Deseleccionar";
+
                 }
+
+                    
             }
+            
         }
 
         private void btnRendir_Click(object sender, EventArgs e)
