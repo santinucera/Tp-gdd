@@ -32,13 +32,13 @@
             this.txtNombreFiltro = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvRoles = new System.Windows.Forms.DataGridView();
-            this.btnLimpiar = new System.Windows.Forms.Button();
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.btnVolver = new System.Windows.Forms.Button();
             this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Habilitado = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Baja = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoles)).BeginInit();
             this.SuspendLayout();
@@ -72,6 +72,8 @@
             // 
             // dgvRoles
             // 
+            this.dgvRoles.AllowUserToAddRows = false;
+            this.dgvRoles.AllowUserToOrderColumns = true;
             this.dgvRoles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRoles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Descripción,
@@ -83,6 +85,27 @@
             this.dgvRoles.Size = new System.Drawing.Size(460, 150);
             this.dgvRoles.TabIndex = 1;
             this.dgvRoles.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRoles_CellContentClick);
+            // 
+            // Descripción
+            // 
+            this.Descripción.HeaderText = "Descripción";
+            this.Descripción.Name = "Descripción";
+            // 
+            // Habilitado
+            // 
+            this.Habilitado.HeaderText = "Habilitado";
+            this.Habilitado.Name = "Habilitado";
+            this.Habilitado.ReadOnly = true;
+            // 
+            // Modificar
+            // 
+            this.Modificar.HeaderText = "Modificar";
+            this.Modificar.Name = "Modificar";
+            // 
+            // Baja
+            // 
+            this.Baja.HeaderText = "Baja";
+            this.Baja.Name = "Baja";
             // 
             // btnLimpiar
             // 
@@ -113,27 +136,6 @@
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
-            // 
-            // Descripción
-            // 
-            this.Descripción.HeaderText = "Descripción";
-            this.Descripción.Name = "Descripción";
-            // 
-            // Habilitado
-            // 
-            this.Habilitado.HeaderText = "Habilitado";
-            this.Habilitado.Name = "Habilitado";
-            this.Habilitado.ReadOnly = true;
-            // 
-            // Modificar
-            // 
-            this.Modificar.HeaderText = "Modificar";
-            this.Modificar.Name = "Modificar";
-            // 
-            // Baja
-            // 
-            this.Baja.HeaderText = "Baja";
-            this.Baja.Name = "Baja";
             // 
             // Listado
             // 

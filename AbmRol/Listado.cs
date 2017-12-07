@@ -21,6 +21,8 @@ namespace PagoAgilFrba.AbmRol
         private void Listado_Load(object sender, EventArgs e)
         {
             cargarRoles(this.leerRoles());
+
+           
         }
 
         private SqlDataReader leerRoles()
@@ -44,7 +46,7 @@ namespace PagoAgilFrba.AbmRol
 
                 dgvRoles.Rows.Add(reader.GetString(0).Trim(), reader.GetBoolean(1), "Modificar",baja);
             }
-            
+            dgvRoles.Rows.Remove(dgvRoles.Rows[2]);
             reader.Close();
 
         }

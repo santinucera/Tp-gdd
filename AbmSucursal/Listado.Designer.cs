@@ -30,6 +30,12 @@
         {
             this.volver = new System.Windows.Forms.Button();
             this.dgvSucursales = new System.Windows.Forms.DataGridView();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CodigoPostal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Habilitada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.BajaOModificacion = new System.Windows.Forms.DataGridViewButtonColumn();
             this.button4 = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.txtDireccion = new System.Windows.Forms.TextBox();
@@ -39,12 +45,6 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CodigoPostal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Habilitada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.BajaOModificacion = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSucursales)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,6 +60,7 @@
             // 
             // dgvSucursales
             // 
+            this.dgvSucursales.AllowUserToAddRows = false;
             this.dgvSucursales.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dgvSucursales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSucursales.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -74,6 +75,40 @@
             this.dgvSucursales.Size = new System.Drawing.Size(648, 149);
             this.dgvSucursales.TabIndex = 55;
             this.dgvSucursales.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSucursales_CellContentClick);
+            // 
+            // Nombre
+            // 
+            this.Nombre.HeaderText = "Nombre";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            // 
+            // Direccion
+            // 
+            this.Direccion.HeaderText = "Direccion";
+            this.Direccion.Name = "Direccion";
+            this.Direccion.ReadOnly = true;
+            // 
+            // CodigoPostal
+            // 
+            this.CodigoPostal.HeaderText = "CodigoPostal";
+            this.CodigoPostal.Name = "CodigoPostal";
+            this.CodigoPostal.ReadOnly = true;
+            // 
+            // Habilitada
+            // 
+            this.Habilitada.HeaderText = "Habilitada";
+            this.Habilitada.Name = "Habilitada";
+            this.Habilitada.ReadOnly = true;
+            // 
+            // Modificar
+            // 
+            this.Modificar.HeaderText = "Modificar";
+            this.Modificar.Name = "Modificar";
+            // 
+            // BajaOModificacion
+            // 
+            this.BajaOModificacion.HeaderText = "BajaOModificacion";
+            this.BajaOModificacion.Name = "BajaOModificacion";
             // 
             // button4
             // 
@@ -151,40 +186,6 @@
             this.label4.Size = new System.Drawing.Size(216, 13);
             this.label4.TabIndex = 44;
             this.label4.Text = "Ingrese los campos por los que quiera filtrar :";
-            // 
-            // Nombre
-            // 
-            this.Nombre.HeaderText = "Nombre";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            // 
-            // Direccion
-            // 
-            this.Direccion.HeaderText = "Direccion";
-            this.Direccion.Name = "Direccion";
-            this.Direccion.ReadOnly = true;
-            // 
-            // CodigoPostal
-            // 
-            this.CodigoPostal.HeaderText = "CodigoPostal";
-            this.CodigoPostal.Name = "CodigoPostal";
-            this.CodigoPostal.ReadOnly = true;
-            // 
-            // Habilitada
-            // 
-            this.Habilitada.HeaderText = "Habilitada";
-            this.Habilitada.Name = "Habilitada";
-            this.Habilitada.ReadOnly = true;
-            // 
-            // Modificar
-            // 
-            this.Modificar.HeaderText = "Modificar";
-            this.Modificar.Name = "Modificar";
-            // 
-            // BajaOModificacion
-            // 
-            this.BajaOModificacion.HeaderText = "BajaOModificacion";
-            this.BajaOModificacion.Name = "BajaOModificacion";
             // 
             // Listado
             // 

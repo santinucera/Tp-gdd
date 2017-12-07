@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoAgilFrba.ListadoEstadistico
 {
@@ -21,8 +22,11 @@ namespace PagoAgilFrba.ListadoEstadistico
         {
             this.cargarTrimestre();
             this.cargarListado();
+            cargarAnios(this.leerAnios());
+            selectorAnios.SelectedIndex = -1;
             selectorTrimestre.SelectedIndex = -1;
             selectorListado.SelectedItem = -1;
+
         }
 
         private void cargarTrimestre()
@@ -62,7 +66,7 @@ namespace PagoAgilFrba.ListadoEstadistico
 
         private bool chequear()
         {
-            return (mtxtPeriodo.Text.Equals("") || selectorTrimestre.SelectedIndex == -1 || selectorListado.SelectedIndex == -1);
+            return (selectorTrimestre.SelectedIndex == -1 || selectorListado.SelectedIndex == -1);
         }
 
         private void revisarSeleccion()
@@ -70,19 +74,19 @@ namespace PagoAgilFrba.ListadoEstadistico
             switch (selectorListado.SelectedItem.ToString()) 
             {
                 case "Clientes con mas pagos": 
-                    ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(selectorAnios.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                      form.Show();
                      break;
                 case "Clientes mas cumplidores":
-                    ListadoEstadistico.ClientesCumplidores form1 = new ListadoEstadistico.ClientesCumplidores(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                     ListadoEstadistico.ClientesCumplidores form1 = new ListadoEstadistico.ClientesCumplidores(selectorAnios.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                     form1.Show();
                     break;
                 case "Mayores porcentajes de facturas cobradas por empresa":
-                    ListadoEstadistico.FacturasCobradasPorEmpresa form2 = new ListadoEstadistico.FacturasCobradasPorEmpresa(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    ListadoEstadistico.FacturasCobradasPorEmpresa form2 = new ListadoEstadistico.FacturasCobradasPorEmpresa(selectorAnios.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                     form2.Show();
                     break;
                 case "Empresas con mayor monto rendido":
-                    ListadoEstadistico.EmpresasConMayorMontoRendido form3 = new ListadoEstadistico.EmpresasConMayorMontoRendido(mtxtPeriodo.Text, this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    ListadoEstadistico.EmpresasConMayorMontoRendido form3 = new ListadoEstadistico.EmpresasConMayorMontoRendido(selectorAnios.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                     form3.Show();
                     break;
                 default: break;
@@ -108,6 +112,21 @@ namespace PagoAgilFrba.ListadoEstadistico
             Menu.MenuFuncionalidades form = new Menu.MenuFuncionalidades();
             form.Show();
             this.Hide();
+        }
+
+        private void cargarAnios(SqlDataReader reader)
+        {
+            while (reader.Read())
+            {
+               
+                selectorAnios.Items.Add(reader.GetInt32(0));
+            }
+            reader.Close();
+        }
+
+        private SqlDataReader leerAnios()
+        {
+            return ClaseConexion.ResolverConsulta("SELECT distinct(YEAR(fact_fecha_alta)) FROM CONGESTION.Factura");
         }
     }
 }

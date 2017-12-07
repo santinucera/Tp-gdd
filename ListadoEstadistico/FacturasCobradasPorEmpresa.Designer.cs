@@ -58,13 +58,13 @@
             // 
             // porcentajeFacturasCobradas
             // 
-            this.porcentajeFacturasCobradas.HeaderText = "Porcentaje de factura cobradas";
+            this.porcentajeFacturasCobradas.HeaderText = "Empresa";
             this.porcentajeFacturasCobradas.Name = "porcentajeFacturasCobradas";
             this.porcentajeFacturasCobradas.ReadOnly = true;
             // 
             // Empresa
             // 
-            this.Empresa.HeaderText = "Empresa";
+            this.Empresa.HeaderText = "Porcentaje de factura cobradas";
             this.Empresa.Name = "Empresa";
             this.Empresa.ReadOnly = true;
             // 

@@ -35,7 +35,7 @@
             this.selectorListado = new System.Windows.Forms.ComboBox();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnConsultar = new System.Windows.Forms.Button();
-            this.mtxtPeriodo = new System.Windows.Forms.MaskedTextBox();
+            this.selectorAnios = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -60,6 +60,7 @@
             // 
             // selectorTrimestre
             // 
+            this.selectorTrimestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectorTrimestre.FormattingEnabled = true;
             this.selectorTrimestre.Location = new System.Drawing.Point(231, 99);
             this.selectorTrimestre.Name = "selectorTrimestre";
@@ -105,20 +106,21 @@
             this.btnConsultar.UseVisualStyleBackColor = true;
             this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
-            // mtxtPeriodo
+            // selectorAnios
             // 
-            this.mtxtPeriodo.Location = new System.Drawing.Point(231, 45);
-            this.mtxtPeriodo.Mask = "9999";
-            this.mtxtPeriodo.Name = "mtxtPeriodo";
-            this.mtxtPeriodo.Size = new System.Drawing.Size(44, 20);
-            this.mtxtPeriodo.TabIndex = 8;
+            this.selectorAnios.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.selectorAnios.FormattingEnabled = true;
+            this.selectorAnios.Location = new System.Drawing.Point(231, 45);
+            this.selectorAnios.Name = "selectorAnios";
+            this.selectorAnios.Size = new System.Drawing.Size(81, 21);
+            this.selectorAnios.TabIndex = 9;
             // 
             // Listados
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 301);
-            this.Controls.Add(this.mtxtPeriodo);
+            this.Controls.Add(this.selectorAnios);
             this.Controls.Add(this.btnConsultar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.selectorListado);
@@ -143,6 +145,6 @@
         private System.Windows.Forms.ComboBox selectorListado;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnConsultar;
-        private System.Windows.Forms.MaskedTextBox mtxtPeriodo;
+        private System.Windows.Forms.ComboBox selectorAnios;
     }
 }
