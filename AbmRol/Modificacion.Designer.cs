@@ -35,10 +35,10 @@
             this.selectorFuncionalidades = new System.Windows.Forms.ComboBox();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.dgvFuncionalidades = new System.Windows.Forms.DataGridView();
-            this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnHabilitar = new System.Windows.Forms.Button();
+            this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFuncionalidades)).BeginInit();
             this.SuspendLayout();
             // 
@@ -110,17 +110,6 @@
             this.dgvFuncionalidades.TabIndex = 7;
             this.dgvFuncionalidades.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFuncionalidades_CellContentClick);
             // 
-            // Descripción
-            // 
-            this.Descripción.HeaderText = "Descripción";
-            this.Descripción.Name = "Descripción";
-            this.Descripción.Width = 200;
-            // 
-            // Eliminar
-            // 
-            this.Eliminar.HeaderText = "Eliminar";
-            this.Eliminar.Name = "Eliminar";
-            // 
             // btnVolver
             // 
             this.btnVolver.Location = new System.Drawing.Point(16, 347);
@@ -140,6 +129,18 @@
             this.btnHabilitar.Text = "Habilitar";
             this.btnHabilitar.UseVisualStyleBackColor = true;
             this.btnHabilitar.Click += new System.EventHandler(this.btnHabilitar_Click);
+            // 
+            // Descripción
+            // 
+            this.Descripción.HeaderText = "Descripción";
+            this.Descripción.Name = "Descripción";
+            this.Descripción.ReadOnly = true;
+            this.Descripción.Width = 200;
+            // 
+            // Eliminar
+            // 
+            this.Eliminar.HeaderText = "Eliminar";
+            this.Eliminar.Name = "Eliminar";
             // 
             // Modificacion
             // 
@@ -174,8 +175,8 @@
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.DataGridView dgvFuncionalidades;
         private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.Button btnHabilitar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripción;
         private System.Windows.Forms.DataGridViewButtonColumn Eliminar;
-        private System.Windows.Forms.Button btnHabilitar;
     }
 }

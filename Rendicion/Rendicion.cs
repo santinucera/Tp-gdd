@@ -127,9 +127,7 @@ namespace PagoAgilFrba.Rendicion
             try
             {
                 this.rendir();
-                this.Hide();
-                MenuFuncionalidades form = new MenuFuncionalidades();
-                form.Show();
+                
             }
             catch (SqlException ex)
             {
@@ -140,20 +138,20 @@ namespace PagoAgilFrba.Rendicion
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            try
+            txtComision.Text = "";
+            foreach (DataGridViewRow row in dgvFacturas.Rows)
             {
-                dgvFacturas.Rows.Clear();
-                selectorEmpresa.SelectedIndex = 0;
-                txtComision.Text = "";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
+                if (Convert.ToBoolean(row.Cells[5].Value))
+                {
+                    row.Cells[5].Value = false;
+                    row.Cells[6].Value = "Seleccionar";
+                }
             }
         }
 
         private void rendir()
         {
+            int monto = 0;
             try
             {
                 SqlCommand cmd = new SqlCommand("CONGESTION.sp_RendirFacturas", ClaseConexion.conexion);
@@ -177,21 +175,33 @@ namespace PagoAgilFrba.Rendicion
                         fila[1] = Convert.ToInt32(row.Cells[1].Value);
                         tabla.Rows.Add(fila);
                         hayAlgunoSeleccionado = true;
+                        monto = monto +Convert.ToInt32(row.Cells[1].Value);
                     }
                 }
 
                 cmd.Parameters.AddWithValue("@listaFacturas", tabla);
 
-                if (hayAlgunoSeleccionado)
+                if (!hayAlgunoSeleccionado)
                 {
-                    cmd.ExecuteReader().Close();
+                    MessageBox.Show("Debe seleccionar alguna factura");
+                    
 
-                    MessageBox.Show("Facturas rendidas correctamente", "Ok");
-
+                }
+                else if (String.IsNullOrWhiteSpace(txtComision.Text))
+                {
+                    MessageBox.Show("Debe ingresar comision");
+                }
+                else if(monto < Int32.Parse(txtComision.Text))
+                {
+                    MessageBox.Show("La comision no puede ser mayor al total");
                 }
                 else
                 {
-                    MessageBox.Show("Debe seleccionar alguna factura");
+                    cmd.ExecuteReader().Close();
+                    MessageBox.Show("Facturas rendidas correctamente", "Ok");
+                    this.Hide();
+                    Rendicion form = new Rendicion();
+                    form.Show();
                 }
 
 
