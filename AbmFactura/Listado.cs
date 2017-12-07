@@ -34,6 +34,7 @@ namespace PagoAgilFrba.AbmFactura
         {
             cargarFacturas(this.leerFacturas());
             cargarEmpresas(this.leerEmpresas());
+            dgvFacturas.AllowUserToAddRows = false;
         }
 
         private void cargarFacturas(SqlDataReader reader)

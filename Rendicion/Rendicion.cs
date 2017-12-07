@@ -26,6 +26,7 @@ namespace PagoAgilFrba.Rendicion
         {
             this.Text = "Rendiciones";
             cargarEmpresas(this.leerEmpresas());
+            dgvFacturas.AllowUserToAddRows = false;
         }
 
         private void cargarEmpresas(SqlDataReader reader)
@@ -88,7 +89,7 @@ namespace PagoAgilFrba.Rendicion
             return ClaseConexion.ResolverConsulta("select DISTINCT fact_num, fact_total,(SELECT clie_nombre from CONGESTION.Cliente WHERE clie_id = fact_cliente),"
                                                     + "fact_fecha_alta,fact_fecha_venc,(SELECT clie_apellido from CONGESTION.Cliente WHERE clie_id = fact_cliente) "
                                                     +"from CONGESTION.Factura JOIN CONGESTION.Empresa on (fact_empresa = empr_id)"
-                                                    + "where empr_cuit = '" + cuitEmpresa + "' and (SELECT freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num) is null "
+                                                    + "where empr_cuit = '" + cuitEmpresa + "' and (SELECT freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num and freg_devolucion is null) is not null "
                                                     + "and fact_rendicion is null");
         }
 
@@ -104,22 +105,20 @@ namespace PagoAgilFrba.Rendicion
             int columnIndex = dgvFacturas.CurrentCell.ColumnIndex;
             int rowIndex = dgvFacturas.CurrentCell.RowIndex;
 
-            if (dgvFacturas.RowCount > 1)
+            if (columnIndex == 6)
             {
-                if (columnIndex == 6)
+                if ((Boolean)dgvFacturas.Rows[rowIndex].Cells[5].Value)
                 {
-                    if ((Boolean)dgvFacturas.Rows[rowIndex].Cells[5].Value)
-                    {
-                        dgvFacturas.Rows[rowIndex].Cells[5].Value = false;
-                        dgvFacturas.Rows[rowIndex].Cells[6].Value = "Seleccionar";
-                    }
-                    else
-                    {
-                        dgvFacturas.Rows[rowIndex].Cells[5].Value = true;
-                        dgvFacturas.Rows[rowIndex].Cells[6].Value = "Deseleccionar";
-                    }
+                    dgvFacturas.Rows[rowIndex].Cells[5].Value = false;
+                    dgvFacturas.Rows[rowIndex].Cells[6].Value = "Seleccionar";
+                }
+                else
+                {
+                    dgvFacturas.Rows[rowIndex].Cells[5].Value = true;
+                    dgvFacturas.Rows[rowIndex].Cells[6].Value = "Deseleccionar";
                 }
             }
+            
         }
 
         private void btnRendir_Click(object sender, EventArgs e)
