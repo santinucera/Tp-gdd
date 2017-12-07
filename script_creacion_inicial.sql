@@ -927,7 +927,7 @@ BEGIN
 DECLARE @porcentaje DECIMAL(5,2)
  IF NOT EXISTS(SELECT * FROM CONGESTION.Factura WHERE fact_cliente = @clie_id
   AND YEAR(fact_fecha_alta) = @periodo AND (MONTH(fact_fecha_alta) = @trimestre*3 OR MONTH(fact_fecha_alta) = @trimestre*3-1 OR MONTH(fact_fecha_alta) = @trimestre*3-2))
-	RETURN 100.00
+	RETURN 0.00
  ELSE
  BEGIN
 	SET @porcentaje =(SELECT count(*) FROM CONGESTION.viewClientesCumplidores  WHERE @clie_id=clie_id
@@ -939,6 +939,7 @@ DECLARE @porcentaje DECIMAL(5,2)
  RETURN @porcentaje	
 END
 GO
+
 
 --FUNCION PARA CALCULAR PORCENTAJE DE FACTURAS COBRADAS POR EMPRESA
 CREATE FUNCTION CONGESTION.FN_CALCULAR_PORCENTAJE_FACT_COBRADAS_XEMPRESA(@empr_id int, @periodo char(4), @trimestre int)
