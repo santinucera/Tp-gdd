@@ -81,7 +81,7 @@
             this.btnRendir.Name = "btnRendir";
             this.btnRendir.Size = new System.Drawing.Size(101, 41);
             this.btnRendir.TabIndex = 77;
-            this.btnRendir.Text = "Rendir";
+            this.btnRendir.Text = "Devolver";
             this.btnRendir.UseVisualStyleBackColor = true;
             this.btnRendir.Click += new System.EventHandler(this.btnRendir_Click);
             // 

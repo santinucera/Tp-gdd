@@ -56,15 +56,20 @@ namespace PagoAgilFrba.Devolucion
             {
                 if (columnIndex == 7)
                 {
-                    if ((Boolean)dgvFacturas.Rows[rowIndex].Cells[6].Value)
+                    if (!(Boolean)dgvFacturas.Rows[rowIndex].Cells[6].Value)
                     {
-                        dgvFacturas.Rows[rowIndex].Cells[6].Value = false;
-                        dgvFacturas.Rows[rowIndex].Cells[7].Value = "Seleccionar";
-                    }
-                    else
-                    {
-                        dgvFacturas.Rows[rowIndex].Cells[6].Value = true;
-                        dgvFacturas.Rows[rowIndex].Cells[7].Value = "Deseleccionar";
+                       foreach (DataGridViewRow row in dgvFacturas.Rows)
+                        {
+                            if (Convert.ToBoolean(row.Cells[6].Value))
+                            {
+                                row.Cells[6].Value = false;
+                                row.Cells[7].Value = "Seleccionar";
+                            }
+                        }
+
+                       dgvFacturas.Rows[rowIndex].Cells[6].Value = true;
+                       dgvFacturas.Rows[rowIndex].Cells[7].Value = "Deseleccionar";
+
                     }
 
                     
@@ -126,6 +131,14 @@ namespace PagoAgilFrba.Devolucion
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             this.txtMotivo.Text = "";
+            foreach (DataGridViewRow row in dgvFacturas.Rows)
+            {
+                if (Convert.ToBoolean(row.Cells[6].Value))
+                {
+                    row.Cells[6].Value = false;
+                    row.Cells[7].Value = "Seleccionar";
+                }
+            }
         }
     }
 }
