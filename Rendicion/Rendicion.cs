@@ -170,8 +170,8 @@ namespace PagoAgilFrba.Rendicion
                     if (Convert.ToBoolean(row.Cells[5].Value))
                     {
                         fila = tabla.NewRow();
-                        fila[0] = Convert.ToInt32(row.Cells[0].Value);
-                        fila[1] = Convert.ToInt32(row.Cells[1].Value);
+                        fila[0] = row.Cells[0].Value;
+                        fila[1] = row.Cells[1].Value;
                         tabla.Rows.Add(fila);
                         hayAlgunoSeleccionado = true;
                         monto = monto +Convert.ToInt32(row.Cells[1].Value);
@@ -179,6 +179,7 @@ namespace PagoAgilFrba.Rendicion
                 }
 
                 cmd.Parameters.AddWithValue("@listaFacturas", tabla);
+                
 
                 if (!hayAlgunoSeleccionado)
                 {

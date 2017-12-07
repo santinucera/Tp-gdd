@@ -71,7 +71,7 @@ create table CONGESTION.Cliente(
 	clie_id int identity PRIMARY KEY,
 	clie_nombre nvarchar(255) NOT NULL,
 	clie_apellido nvarchar(255) NOT NULL,
-	clie_dni numeric(18,0) NOT NULL,
+	clie_dni numeric(18,0) unique NOT NULL,
 	clie_direccion nvarchar(255) NULL,
 	clie_telefono char(30) NULL,
 	clie_mail nvarchar(255) NULL,
@@ -608,7 +608,7 @@ AS
 		set @porcentaje = (@comision * 100.00)/@total
 		
 		INSERT INTO CONGESTION.Rendicion(rend_numero,rend_comision,rend_cantidad_facturas,rend_fecha,rend_total,rend_porcentaje_comision) 
-			VALUES (@rendNumero,@comision,@CantidadDeFacturas,GETDATE(),@total-@porcentaje,@porcentaje)
+			VALUES (@rendNumero,@comision,@CantidadDeFacturas,GETDATE(),@total-@comision,@porcentaje)
 
 		OPEN cursorFacturas
 		FETCH cursorFacturas INTO @numeroFactura
