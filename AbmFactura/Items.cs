@@ -14,10 +14,12 @@ namespace PagoAgilFrba.AbmFactura
     public partial class Items : Form
     {
         private int numero;
-        public Items(int numero)
+        private Boolean estaPagaORendida;
+        public Items(int numero, Boolean estaPagaORendida)
         {
             InitializeComponent();
             this.numero = numero;
+            this.estaPagaORendida = estaPagaORendida;
         }
 
         private void Items_Load(object sender, EventArgs e)
@@ -33,6 +35,12 @@ namespace PagoAgilFrba.AbmFactura
             int rowIndex = dgvItems.CurrentCell.RowIndex;
             int item = (int)dgvItems.Rows[rowIndex].Cells[0].Value;
             int cantRows = dgvItems.RowCount;
+
+            if (estaPagaORendida)
+            {
+                MessageBox.Show("No se puede modificar o eliminar factura que fue paga alguna vez o rendida");
+                return;
+            }
 
             if (columnIndex == 5)
                 {//columna items
@@ -77,6 +85,11 @@ namespace PagoAgilFrba.AbmFactura
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (estaPagaORendida)
+            {
+                MessageBox.Show("No se puede modificar o eliminar factura que fue paga alguna vez o rendida");
+                return;
+            }
             new AgregarItem(numero).Show();
             this.Hide();
         }

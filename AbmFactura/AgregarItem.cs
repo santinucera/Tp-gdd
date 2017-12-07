@@ -33,7 +33,7 @@ namespace PagoAgilFrba.AbmFactura
                     this.guardarItem();
                     MessageBox.Show("Item guardado correctamente", "Ok");
                     this.Close();
-                    new Items(numero).Show();
+                    new Items(numero,false).Show();
                 }
                 catch (SqlException ex)
                 {
@@ -60,7 +60,7 @@ namespace PagoAgilFrba.AbmFactura
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
-            new Items(numero).Show();
+            new Items(numero,false).Show();
         }
     }
 }

@@ -83,20 +83,27 @@ namespace PagoAgilFrba.AbmFactura
 
             int numero = (int)dgvFacturas.Rows[rowIndex].Cells[0].Value;
             Boolean estaPagaORendida = (Boolean)dgvFacturas.Rows[rowIndex].Cells[7].Value || (Boolean)dgvFacturas.Rows[rowIndex].Cells[8].Value || (Boolean)dgvFacturas.Rows[rowIndex].Cells[11].Value;
-                
+            
+            
+
             if (columnIndex == 6)
             {//columna items
-                AbmFactura.Items form= new Items(numero);
+                AbmFactura.Items form= new Items(numero,estaPagaORendida);
                 form.Show();
                 this.Hide();
             }
-            else if (columnIndex == 9 && !estaPagaORendida)
+            else if (estaPagaORendida)
+            {
+                MessageBox.Show("No se puede modificar o eliminar factura que fue paga alguna vez o rendida");
+                return;
+            }
+            else if (columnIndex == 9)
             {//columna baja
                 AbmFactura.Modificacion form = new Modificacion(numero);
                 form.Show();
                 this.Hide();
             }
-            else if (columnIndex == 10 && !estaPagaORendida)
+            else if (columnIndex == 10 )
             {//columna baja
                 AbmFactura.Baja form = new Baja(numero);
                 form.Show();
