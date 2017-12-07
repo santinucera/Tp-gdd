@@ -20,6 +20,7 @@ namespace PagoAgilFrba.Menu
 
         private void ElegirRol_Load(object sender, EventArgs e)
         {
+            this.Text = "Elegir Rol";
             this.cargarRoles();
             this.cargarSelectorSucursales();
         }

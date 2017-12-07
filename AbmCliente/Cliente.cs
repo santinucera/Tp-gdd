@@ -23,6 +23,7 @@ namespace PagoAgilFrba.AbmCliente
 
         private void Cliente_Load(object sender, EventArgs e)
         {
+            this.Text = "ABM Cliente";
             this.ActualizarGrid();
             chkHabilitado.Enabled = false;
             btnGuardar.Enabled = false;

@@ -24,6 +24,7 @@ namespace PagoAgilFrba.Rendicion
 
         private void Rendicion_Load(object sender, EventArgs e)
         {
+            this.Text = "Rendiciones";
             cargarEmpresas(this.leerEmpresas());
         }
 
