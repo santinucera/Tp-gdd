@@ -74,19 +74,19 @@ namespace PagoAgilFrba.ListadoEstadistico
             switch (selectorListado.SelectedItem.ToString()) 
             {
                 case "Clientes con mas pagos": 
-                    ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(selectorAnios.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    ListadoEstadistico.ClientesMasPagos form = new ListadoEstadistico.ClientesMasPagos(selectorAnios.SelectedItem.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                      form.Show();
                      break;
                 case "Clientes mas cumplidores":
-                     ListadoEstadistico.ClientesCumplidores form1 = new ListadoEstadistico.ClientesCumplidores(selectorAnios.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                     ListadoEstadistico.ClientesCumplidores form1 = new ListadoEstadistico.ClientesCumplidores(selectorAnios.SelectedItem.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                     form1.Show();
                     break;
                 case "Mayores porcentajes de facturas cobradas por empresa":
-                    ListadoEstadistico.FacturasCobradasPorEmpresa form2 = new ListadoEstadistico.FacturasCobradasPorEmpresa(selectorAnios.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    ListadoEstadistico.FacturasCobradasPorEmpresa form2 = new ListadoEstadistico.FacturasCobradasPorEmpresa(selectorAnios.SelectedItem.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                     form2.Show();
                     break;
                 case "Empresas con mayor monto rendido":
-                    ListadoEstadistico.EmpresasConMayorMontoRendido form3 = new ListadoEstadistico.EmpresasConMayorMontoRendido(selectorAnios.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
+                    ListadoEstadistico.EmpresasConMayorMontoRendido form3 = new ListadoEstadistico.EmpresasConMayorMontoRendido(selectorAnios.SelectedItem.ToString(), this.parsearInt(selectorTrimestre.SelectedItem.ToString()));
                     form3.Show();
                     break;
                 default: break;
