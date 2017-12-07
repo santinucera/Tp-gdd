@@ -78,8 +78,34 @@ namespace PagoAgilFrba.RegistroPago
 
         private Boolean facturaImpagaDe(SqlDataReader dr)
         {
-            SqlDataReader drAux = ClaseConexion.ResolverConsulta("SELECT COUNT(*) FROM CONGESTION.Factura_Registro WHERE freg_factura = "+ dr.GetInt32(0));
+            return (this.facturaNuncaPagadaDe(dr) || this.facturaDevueltaDe(dr));
+        }
 
+        private Boolean facturaDevueltaDe(SqlDataReader dr)
+        {
+            SqlDataReader drAux = ClaseConexion.ResolverConsulta("SELECT TOP 1 * FROM CONGESTION.Factura_Registro WHERE freg_factura = " + dr.GetInt32(0) + " ORDER BY freg_registro DESC");
+                        //obtengo la ultima operacion, tanto de pago como devolucion, para verificar
+            try
+            {
+                drAux.Read();
+
+                int factura = drAux.GetInt32(0);
+                int devolucion = drAux.GetInt32(2);     //esta es la que puede no ser casteada por el NULL
+
+                drAux.Close();
+
+                return true;
+            }
+            catch (Exception e)  //aca viene si no hay devolucion
+            {
+                return false;
+            }
+        }
+
+        private Boolean facturaNuncaPagadaDe(SqlDataReader dr)
+        {
+            SqlDataReader drAux = ClaseConexion.ResolverConsulta("SELECT COUNT(*) FROM CONGESTION.Factura_Registro WHERE freg_factura = " + dr.GetInt32(0));
+            
             drAux.Read();
 
             int resultado = drAux.GetInt32(0);

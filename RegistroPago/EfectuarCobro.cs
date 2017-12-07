@@ -105,6 +105,7 @@ namespace PagoAgilFrba.RegistroPago
                 cmd.ExecuteReader().Close();
                 MessageBox.Show("Registro efectuado correctamente", "OK");
 
+                Registro.cobrosPendientes.Clear();
                 this.Close();
                 new PagoAgilFrba.RegistroPago.SeleccionCliente().Show();
             }

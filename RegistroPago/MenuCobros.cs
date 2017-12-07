@@ -29,6 +29,7 @@ namespace PagoAgilFrba.RegistroPago
         {
             this.Close();
             Registro.cobrosPendientes.Clear();
+            listaCobros.Items.Clear();
 
             new PagoAgilFrba.RegistroPago.SeleccionCliente().Show();
         }
