@@ -37,6 +37,19 @@ namespace PagoAgilFrba.AbmCliente
                 return;
             }
 
+            string query = "SELECT count(clie_mail) as NRO FROM CONGESTION.cliente WHERE clie_mail = '" + txtMail.Text + "'";
+            SqlDataReader leer = ClaseConexion.ResolverConsulta(query);
+            leer.Read();
+            int nro = leer.GetInt32(leer.GetOrdinal("NRO"));
+            leer.Close();
+
+            // Verificacion. Si el mail ya existe, lo informa; caso contrario modifica
+            if (nro != 0)
+            {
+                MessageBox.Show("Mail ya existente");
+                return;
+            }
+
             try
             {
                 chkHabilitado.Enabled = false;
