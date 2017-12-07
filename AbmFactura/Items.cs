@@ -24,6 +24,7 @@ namespace PagoAgilFrba.AbmFactura
         {
             label1.Text = "Items de la Factura numero: "+numero.ToString();
             cargarItems(this.leerItems());
+            dgvItems.AllowUserToAddRows = false;
         }
 
         private void dgvItems_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -31,14 +32,22 @@ namespace PagoAgilFrba.AbmFactura
             int columnIndex = dgvItems.CurrentCell.ColumnIndex;
             int rowIndex = dgvItems.CurrentCell.RowIndex;
             int item = (int)dgvItems.Rows[rowIndex].Cells[0].Value;
+            int cantRows = dgvItems.RowCount;
 
-            if (dgvItems.RowCount > 1)
-            {
-                if (columnIndex == 5)
+            if (columnIndex == 5)
                 {//columna items
-                    AbmFactura.ItemBaja form = new ItemBaja(numero,item);
-                    form.Show();
-                    this.Hide();
+                    if(cantRows > 1)
+                    {
+                        AbmFactura.ItemBaja form = new ItemBaja(numero,item);
+                        form.Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No puede quedar factura sin items");
+                    }
+
+                    
                 }
                 else if (columnIndex == 4)
                 {//columna baja
@@ -46,7 +55,7 @@ namespace PagoAgilFrba.AbmFactura
                     form.Show();
                     this.Hide();
                 }
-            }
+         
         }
 
         private void cargarItems(SqlDataReader reader)

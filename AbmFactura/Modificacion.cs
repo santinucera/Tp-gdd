@@ -92,7 +92,7 @@ namespace PagoAgilFrba.AbmFactura
             String[] stringSeparators = new String[] { "," };
             String[] cuit = comboBox1.SelectedItem.ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
 
-            if (String.IsNullOrWhiteSpace(txtCliente.Text) && String.IsNullOrWhiteSpace(comboBox1.Text))
+            if (String.IsNullOrWhiteSpace(txtCliente.Text) || String.IsNullOrWhiteSpace(comboBox1.Text))
             {
                 MessageBox.Show("Debe completar todos los campos", "Error");
             }
@@ -126,6 +126,7 @@ namespace PagoAgilFrba.AbmFactura
             cmd.Parameters.AddWithValue("@fechaVen", dtpVencimiento.Value);
 
             cmd.ExecuteReader().Close();
+            
         }
     }
 }

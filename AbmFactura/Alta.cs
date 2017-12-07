@@ -25,14 +25,22 @@ namespace PagoAgilFrba.AbmFactura
         {
             try
             {
-                Item nuevoItem = new Item(txtConcepto.Text, Decimal.Parse(txtMonto.Text), Int32.Parse(txtCantidad.Text));
-                listaItems.Add(nuevoItem);
-                txtMonto.Text = "";
-                txtConcepto.Text = "";
-                txtCantidad.Text = "";
-                listBox1.Items.Add("Item"+listaItems.Count);
-                listBox1.Items.Add("Concepto: " + nuevoItem.concepto + ",Monto: " + nuevoItem.monto.ToString() + ",Cantidad: " + nuevoItem.cantidad.ToString());
-                listBox1.Items.Add(" ");
+                if (String.IsNullOrWhiteSpace(txtMonto.Text) || String.IsNullOrWhiteSpace(txtCantidad.Text))
+                {
+                    MessageBox.Show("Debe ingresar todos los campos del item");
+                }
+                else
+                {
+                    Item nuevoItem = new Item(txtConcepto.Text, Decimal.Parse(txtMonto.Text), Int32.Parse(txtCantidad.Text));
+                    listaItems.Add(nuevoItem);
+                    txtMonto.Text = "";
+                    txtConcepto.Text = "";
+                    txtCantidad.Text = "";
+                    listBox1.Items.Add("Item" + listaItems.Count);
+                    listBox1.Items.Add("Concepto: " + nuevoItem.concepto + ",Monto: " + nuevoItem.monto.ToString() + ",Cantidad: " + nuevoItem.cantidad.ToString());
+                    listBox1.Items.Add(" ");
+                }
+                
             }
             catch (Exception ex)
             {
@@ -152,6 +160,8 @@ namespace PagoAgilFrba.AbmFactura
             txtCliente.Text = "";
             txtNumero.Text = "";
             selectorEmpresa.Text = "";
+            listaItems.Clear();
+            listBox1.Items.Clear();
         }
 
         private void button2_Click(object sender, EventArgs e)

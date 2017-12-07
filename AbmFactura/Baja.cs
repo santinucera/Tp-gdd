@@ -72,18 +72,11 @@ namespace PagoAgilFrba.AbmFactura
         {
             while (reader.Read())
             {
-                try
-                {
-                    lblTotal.Text = reader.GetInt32(0).ToString();
-                    lblCliente.Text = reader.GetDecimal(1).ToString();
-                    lblEmpresa.Text = reader.GetString(2).Trim();
-                    lblAlta.Text = reader.GetDateTime(3).ToString();
-                    lblBaja.Text = reader.GetDateTime(4).ToString();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
+                lblTotal.Text = reader.GetDecimal(0).ToString();
+                lblCliente.Text = reader.GetDecimal(1).ToString();
+                lblEmpresa.Text = reader.GetString(2).Trim();
+                lblAlta.Text = reader.GetDateTime(3).ToString();
+                lblBaja.Text = reader.GetDateTime(4).ToString();
             }
 
             reader.Close();
@@ -96,7 +89,7 @@ namespace PagoAgilFrba.AbmFactura
                                                     + "(SELECT clie_dni from CONGESTION.Cliente WHERE clie_id = fact_cliente),"
                                                     + "(SELECT empr_nombre from CONGESTION.Empresa WHERE empr_id = fact_empresa),"
                                                     + "fact_fecha_alta,fact_fecha_venc"
-                                                    + " from CONGESTION.Factura WHERE fact_num = "+numero.ToString());
+                                                    + " from CONGESTION.Factura WHERE fact_num = "+numero.ToString().Trim());
         }
 
         private void button1_Click(object sender, EventArgs e)

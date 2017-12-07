@@ -58,7 +58,7 @@ namespace PagoAgilFrba.AbmFactura
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtCantidad.Text) || String.IsNullOrWhiteSpace(txtConcepto.Text) || String.IsNullOrWhiteSpace(txtMonto.Text))
+            if (String.IsNullOrWhiteSpace(txtCantidad.Text) || String.IsNullOrWhiteSpace(txtMonto.Text))
             {
                 MessageBox.Show("Debe completar todos los campos", "Error");
             }

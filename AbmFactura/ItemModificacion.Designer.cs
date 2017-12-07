@@ -114,6 +114,7 @@
             // txtCantidad
             // 
             this.txtCantidad.Location = new System.Drawing.Point(147, 93);
+            this.txtCantidad.Mask = "99999";
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(100, 20);
             this.txtCantidad.TabIndex = 22;
