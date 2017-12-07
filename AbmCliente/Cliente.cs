@@ -15,6 +15,7 @@ namespace PagoAgilFrba.AbmCliente
     {
         //id de la fila seleccionada en el datagridview
         int id;
+        int dni;
 
         public Cliente()
         {
@@ -37,7 +38,7 @@ namespace PagoAgilFrba.AbmCliente
                 return;
             }
 
-            string query = "SELECT count(clie_mail) as NRO FROM CONGESTION.cliente WHERE clie_mail = '" + txtMail.Text + "'";
+            string query = "SELECT count(clie_mail) as NRO FROM CONGESTION.cliente WHERE clie_mail = '" + txtMail.Text + "' and clie_dni <> "+dni.ToString();
             SqlDataReader leer = ClaseConexion.ResolverConsulta(query);
             leer.Read();
             int nro = leer.GetInt32(leer.GetOrdinal("NRO"));
@@ -49,6 +50,13 @@ namespace PagoAgilFrba.AbmCliente
                 MessageBox.Show("Mail ya existente");
                 return;
             }
+            string query2 = "SELECT count(clie_dni) as NRO FROM CONGESTION.cliente where clie_dni = " + txtDni.Text;
+            SqlDataReader leer2 = ClaseConexion.ResolverConsulta(query2);
+            leer2.Read();
+            int nro2 = leer2.GetInt32(leer2.GetOrdinal("NRO"));
+            leer2.Close();
+            
+            
 
             try
             {
@@ -84,6 +92,9 @@ namespace PagoAgilFrba.AbmCliente
             txtTelefono.Text = dataGridView1.CurrentRow.Cells[5].Value.ToString();
             txtMail.Text = dataGridView1.CurrentRow.Cells[6].Value.ToString();
             txtCodigoPostal.Text = dataGridView1.CurrentRow.Cells[7].Value.ToString();
+            chkHabilitado.Checked = (Boolean)dataGridView1.CurrentRow.Cells[9].Value;
+            dtpFechaNacimiento.Value = (DateTime)dataGridView1.CurrentRow.Cells[8].Value;
+            dni = Int32.Parse(txtDni.Text);
         }
 
         private void txtDni_KeyPress(object sender, KeyPressEventArgs e)
@@ -188,19 +199,31 @@ namespace PagoAgilFrba.AbmCliente
                 int nro = leer.GetInt32(leer.GetOrdinal("NRO"));
                 leer.Close();
 
+
+                string query2 = "SELECT count(clie_dni) as NRO FROM CONGESTION.cliente WHERE clie_dni = '" + txtDni.Text + "'";
+                SqlDataReader leer2 = ClaseConexion.ResolverConsulta(query2);
+                leer2.Read();
+                int nro2 = leer2.GetInt32(leer2.GetOrdinal("NRO"));
+                leer2.Close();
+
+
                 // Verificacion. Si el mail ya existe, lo informa; caso contrario da el alta
-                if (nro == 0)
+                if (nro != 0)
+                {
+                    MessageBox.Show("Mail ya existente");
+                }
+                else if(nro2!=0)
+                {
+                    MessageBox.Show("DNI ya existente");
+                }
+                else
                 {
                     string consulta = "INSERT INTO CONGESTION.Cliente (clie_nombre, clie_apellido, clie_dni, clie_direccion, clie_telefono, clie_mail, clie_codPostal, clie_fecNac, clie_habilitado) VALUES ('" + txtNombre.Text + "', '" + txtApellido.Text + "', '" + txtDni.Text + "', '" + txtDireccion.Text + "', '" + txtTelefono.Text + "', '" + txtMail.Text + "', '" + txtCodigoPostal.Text + "', '" + dtpFechaNacimiento.Value + "', 1)";
                     ClaseConexion.ResolverNonQuery(consulta);
                     this.ActualizarGrid();
                     this.LimpiarCampos();
                     MessageBox.Show("Operacion realizada correctamente");
-                }
-                else
-                {
-                    MessageBox.Show("Mail ya existente");
-                    return;
+                    
                 }
             }
             catch (Exception ex)

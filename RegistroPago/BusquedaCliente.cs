@@ -37,9 +37,9 @@ namespace PagoAgilFrba.RegistroPago
 
                 String apellido = " clie_apellido LIKE '%" + txtApellido.Text + "%' and";
                 String nombre = " clie_nombre LIKE '%" + txtNombre.Text + "%' and";
-                String dni = " clie_dni LIKE '%" + txtDni.Text.Trim() + "%'";
-
-                this.cargarListaCon(ClaseConexion.ResolverConsulta(selectFromClientes + apellido + nombre + dni));
+                String dni = " clie_dni LIKE '%" + txtDni.Text.Trim() + "%' and ";
+                String habilitado = " clie_habilitado = 1";
+                this.cargarListaCon(ClaseConexion.ResolverConsulta(selectFromClientes + apellido + nombre + dni+habilitado));
             }
         }
 

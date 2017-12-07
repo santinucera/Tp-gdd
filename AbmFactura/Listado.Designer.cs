@@ -50,6 +50,7 @@
             this.selectorEmpresa = new System.Windows.Forms.ComboBox();
             this.txtNumero = new System.Windows.Forms.TextBox();
             this.txtCliente = new System.Windows.Forms.TextBox();
+            this.AlgunaVezPaga = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFacturas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,7 +79,8 @@
             this.Paga,
             this.Rendicion,
             this.Modificar,
-            this.Baja});
+            this.Baja,
+            this.AlgunaVezPaga});
             this.dgvFacturas.Location = new System.Drawing.Point(12, 175);
             this.dgvFacturas.Name = "dgvFacturas";
             this.dgvFacturas.Size = new System.Drawing.Size(890, 185);
@@ -241,6 +243,12 @@
             this.txtCliente.Size = new System.Drawing.Size(100, 20);
             this.txtCliente.TabIndex = 70;
             // 
+            // AlgunaVezPaga
+            // 
+            this.AlgunaVezPaga.HeaderText = "AlgunaVezPaga";
+            this.AlgunaVezPaga.Name = "AlgunaVezPaga";
+            this.AlgunaVezPaga.Visible = false;
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,5 +298,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn Baja;
         private System.Windows.Forms.TextBox txtNumero;
         private System.Windows.Forms.TextBox txtCliente;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AlgunaVezPaga;
     }
 }

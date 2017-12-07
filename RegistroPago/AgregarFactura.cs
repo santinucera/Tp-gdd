@@ -129,12 +129,22 @@ namespace PagoAgilFrba.RegistroPago
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            Registro.cobrosPendientes.Add(listaFacturas.SelectedItem as CobroPendiente);
-            listaFacturas.Items.Remove(listaFacturas.SelectedItem);
+            
 
-            btnAgregar.Enabled = false;
+            if (listaFacturas.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un item");
+            }
+            else
+            {
+                Registro.cobrosPendientes.Add(listaFacturas.SelectedItem as CobroPendiente);
+                listaFacturas.Items.Remove(listaFacturas.SelectedItem);
 
-            this.habilitarBotonGuardar();
+                btnAgregar.Enabled = false;
+
+                this.habilitarBotonGuardar();
+            }
+
         }
 
         private void AgregarFactura_Load(object sender, EventArgs e)

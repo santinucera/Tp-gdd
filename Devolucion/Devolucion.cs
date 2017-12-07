@@ -22,6 +22,7 @@ namespace PagoAgilFrba.Devolucion
         private void Devolucion_Load(object sender, EventArgs e)
         {
             cargarFacturas(this.leerFacturas());
+            dgvFacturas.AllowUserToAddRows = false;
         }
 
         private void cargarFacturas(SqlDataReader reader)

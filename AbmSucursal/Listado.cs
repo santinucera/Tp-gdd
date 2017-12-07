@@ -21,6 +21,7 @@ namespace PagoAgilFrba.AbmSucursal
         private void Listado_Load(object sender, EventArgs e)
         {
             cargarSucursales(this.leerSucursales());
+            dgvSucursales.AllowUserToAddRows = false;
         }
 
         private void cargarSucursales(SqlDataReader reader)

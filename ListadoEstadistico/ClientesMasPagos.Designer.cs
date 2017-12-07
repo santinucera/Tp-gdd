@@ -64,7 +64,7 @@
             // 
             // Monto
             // 
-            this.Monto.HeaderText = "Monto";
+            this.Monto.HeaderText = "Cantidad de Pagos";
             this.Monto.Name = "Monto";
             this.Monto.ReadOnly = true;
             // 

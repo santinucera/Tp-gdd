@@ -42,7 +42,7 @@ namespace PagoAgilFrba.AbmFactura
             while (reader.Read())
             {
                 dgvFacturas.Rows.Add(reader.GetInt32(0), reader.GetDecimal(1), reader.GetString(2).Trim() + " " + reader.GetString(8).Trim(),
-                    reader.GetString(3).Trim() , reader.GetDateTime(4), reader.GetDateTime(5), "Items", reader.GetInt32(6) != 0, reader.GetInt32(7) != 0, "Modificar","Baja");
+                    reader.GetString(3).Trim(), reader.GetDateTime(4), reader.GetDateTime(5), "Items", reader.GetInt32(6) != 0, reader.GetInt32(7) != 0, "Modificar", "Baja", reader.GetInt32(9) != 0);
             }
 
             reader.Close();
@@ -57,7 +57,8 @@ namespace PagoAgilFrba.AbmFactura
                                                     + "fact_fecha_alta,fact_fecha_venc,"
                                                     + "isnull((SELECT distinct freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num and freg_devolucion is null ),0)"
                                                     + ",isnull(fact_rendicion,0),"
-                                                    + "(SELECT clie_apellido from CONGESTION.Cliente WHERE clie_id = fact_cliente)"
+                                                    + "(SELECT clie_apellido from CONGESTION.Cliente WHERE clie_id = fact_cliente),"
+                                                    + "isnull((SELECT distinct freg_factura from CONGESTION.Factura_Registro WHERE freg_factura = fact_num),0)"
                                                     +" from CONGESTION.Factura ");
         }
 
@@ -81,7 +82,7 @@ namespace PagoAgilFrba.AbmFactura
             int rowIndex = dgvFacturas.CurrentCell.RowIndex;
 
             int numero = (int)dgvFacturas.Rows[rowIndex].Cells[0].Value;
-            Boolean estaPagaORendida = (Boolean)dgvFacturas.Rows[rowIndex].Cells[7].Value || (Boolean)dgvFacturas.Rows[rowIndex].Cells[8].Value;
+            Boolean estaPagaORendida = (Boolean)dgvFacturas.Rows[rowIndex].Cells[7].Value || (Boolean)dgvFacturas.Rows[rowIndex].Cells[8].Value || (Boolean)dgvFacturas.Rows[rowIndex].Cells[11].Value;
                 
             if (columnIndex == 6)
             {//columna items
