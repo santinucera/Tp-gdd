@@ -176,14 +176,14 @@
             this.listaCobros.FormattingEnabled = true;
             this.listaCobros.Location = new System.Drawing.Point(333, 12);
             this.listaCobros.Name = "listaCobros";
-            this.listaCobros.Size = new System.Drawing.Size(372, 290);
+            this.listaCobros.Size = new System.Drawing.Size(422, 290);
             this.listaCobros.TabIndex = 17;
             // 
             // MenuCobros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 317);
+            this.ClientSize = new System.Drawing.Size(767, 317);
             this.Controls.Add(this.listaCobros);
             this.Controls.Add(this.btnCobro);
             this.Controls.Add(this.panel3);
