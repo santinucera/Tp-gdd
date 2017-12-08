@@ -586,16 +586,15 @@ GO
  GO
 
  GO
-CREATE PROCEDURE CONGESTION.sp_RendirFacturas(@listaFacturas listaFacturas readonly,@comision int,@cuit NVARCHAR(50))
+CREATE PROCEDURE CONGESTION.sp_RendirFacturas(@listaFacturas listaFacturas readonly,@comision int,@cuit NVARCHAR(50),@total numeric(18,2))
 AS
 	BEGIN TRANSACTION tr	
 
 	BEGIN TRY
 
 		DECLARE @CantidadDeFacturas int
-		DECLARE @total int
 		DECLARE @numeroFactura int
-		DECLARE @rendicion int
+		DECLARE @rendicion numeric(18,2)
 		DECLARE @rendNumero int
 		DECLARE @porcentaje numeric(18,2)
 		
@@ -603,12 +602,11 @@ AS
 		SELECT numero FROM @listaFacturas
 
 		SELECT @CantidadDeFacturas =  count(*) FROM @listaFacturas
-		SELECT @total =  sum(total) FROM @listaFacturas
 		SELECT @rendNumero =  (SELECT TOP 1 rend_numero from CONGESTION.Rendicion order by rend_numero DESC) +1
 		set @porcentaje = (@comision * 100.00)/@total
 		
 		INSERT INTO CONGESTION.Rendicion(rend_numero,rend_comision,rend_cantidad_facturas,rend_fecha,rend_total,rend_porcentaje_comision) 
-			VALUES (@rendNumero,@comision,@CantidadDeFacturas,GETDATE(),@total-@comision,@porcentaje)
+			VALUES (@rendNumero,@comision,@CantidadDeFacturas,GETDATE(),@total,@porcentaje)
 
 		OPEN cursorFacturas
 		FETCH cursorFacturas INTO @numeroFactura

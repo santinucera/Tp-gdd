@@ -170,6 +170,7 @@
             // 
             // listaMedios
             // 
+            this.listaMedios.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.listaMedios.FormattingEnabled = true;
             this.listaMedios.Location = new System.Drawing.Point(165, 218);
             this.listaMedios.Name = "listaMedios";

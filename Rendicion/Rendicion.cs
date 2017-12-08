@@ -150,7 +150,7 @@ namespace PagoAgilFrba.Rendicion
 
         private void rendir()
         {
-            int monto = 0;
+            decimal monto = 0;
             try
             {
                 SqlCommand cmd = new SqlCommand("CONGESTION.sp_RendirFacturas", ClaseConexion.conexion);
@@ -160,7 +160,7 @@ namespace PagoAgilFrba.Rendicion
 
                 DataTable tabla = new DataTable();
                 tabla.Columns.Add("numero", typeof(int));
-                tabla.Columns.Add("total", typeof(int));
+                tabla.Columns.Add("total", typeof(decimal));
 
                 DataRow fila;
                 Boolean hayAlgunoSeleccionado = false;
@@ -171,21 +171,19 @@ namespace PagoAgilFrba.Rendicion
                     {
                         fila = tabla.NewRow();
                         fila[0] = row.Cells[0].Value;
-                        fila[1] = row.Cells[1].Value;
+                        fila[1] = Convert.ToDecimal(row.Cells[1].Value);
                         tabla.Rows.Add(fila);
                         hayAlgunoSeleccionado = true;
-                        monto = monto +Convert.ToInt32(row.Cells[1].Value);
+                        monto = monto +Convert.ToDecimal(row.Cells[1].Value);
                     }
                 }
-
                 cmd.Parameters.AddWithValue("@listaFacturas", tabla);
+                cmd.Parameters.AddWithValue("@total", monto);
                 
 
                 if (!hayAlgunoSeleccionado)
                 {
                     MessageBox.Show("Debe seleccionar alguna factura");
-                    
-
                 }
                 else if (String.IsNullOrWhiteSpace(txtComision.Text))
                 {
