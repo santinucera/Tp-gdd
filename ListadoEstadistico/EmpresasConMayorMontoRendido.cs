@@ -44,10 +44,11 @@ namespace PagoAgilFrba.ListadoEstadistico
 
         private SqlDataReader leerEmpresas()
         {      
-            return ClaseConexion.ResolverConsulta("SELECT TOP 5 empr_nombre, sum(rend_total) FROM CONGESTION.viewEmpresasConMayorMontoRendido"
-                + " WHERE YEAR(rend_fecha) = " + periodo + "AND (MONTH(rend_fecha) = " + (trimestre * 3).ToString()
-                    + " OR MONTH(rend_fecha) = " + (trimestre * 3 - 1).ToString() + " OR MONTH(rend_fecha) = " + (trimestre * 3 - 2).ToString()
-                    + ") GROUP BY empr_nombre ORDER BY 2 DESC");
+            return ClaseConexion.ResolverConsulta("SELECT TOP 5 empr_nombre, (sum(rend_total) - sum(rend_comision))" 
+                                                   +" FROM CONGESTION.viewEmpresasConMayorMontoRendido"
+                                                   +" WHERE YEAR(rend_fecha) = " + periodo + "AND (MONTH(rend_fecha) = " + (trimestre * 3).ToString()
+                                                   +" OR MONTH(rend_fecha) = " + (trimestre * 3 - 1).ToString() + " OR MONTH(rend_fecha) = " + (trimestre * 3 - 2).ToString()
+                                                   + ") GROUP BY empr_nombre ORDER BY 2 DESC");
         }
 
     }

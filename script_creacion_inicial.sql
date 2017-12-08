@@ -480,7 +480,7 @@ GO
  -- VIEW empresas con mayor monto rendido
 CREATE VIEW CONGESTION.viewEmpresasConMayorMontoRendido
  AS
- SELECT  empr_nombre,rend_total,rend_fecha
+ SELECT  empr_nombre,rend_total,rend_fecha,rend_comision
  FROM CONGESTION.Empresa JOIN CONGESTION.Factura ON empr_id = fact_empresa JOIN CONGESTION.Rendicion ON fact_rendicion = rend_numero
  GO
 
