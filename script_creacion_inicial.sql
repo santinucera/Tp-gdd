@@ -484,6 +484,13 @@ CREATE VIEW CONGESTION.viewEmpresasConMayorMontoRendido
  FROM CONGESTION.Empresa JOIN CONGESTION.Factura ON empr_id = fact_empresa JOIN CONGESTION.Rendicion ON fact_rendicion = rend_numero
  GO
 
+-- VIEW otra vista
+CREATE VIEW CONGESTION.viewAuxiliar
+AS
+SELECT DISTINCT empr_nombre,rend_total,rend_fecha,rend_comision
+FROM CONGESTION.viewEmpresasConMayorMontoRendido
+GO
+
 -- VIEW facturas x empresa
 CREATE VIEW CONGESTION.viewFacturasPorEmpresa
 AS
